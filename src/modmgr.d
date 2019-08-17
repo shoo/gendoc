@@ -45,6 +45,8 @@ struct PackageInfo
 	///
 	string        name;
 	///
+	string        packageVersion;
+	///
 	FileInfo      packageD;
 	///
 	FileInfo[]    modules;
@@ -304,6 +306,12 @@ private:
 	PackageInfo[] _rootPackages;
 	string[]      _excludePaths;
 	
+	void addRootPackage(string pkgName, string pkgVer = "*") @safe
+		in (!_rootPackages.canFind!(a => a.name == pkgName))
+	{
+		_rootPackages ~= PackageInfo(pkgName, pkgVer);
+	}
+	
 	void addModule(R)(R path, FileInfo fInfo) @safe
 	{
 		import std.path;
@@ -376,9 +384,11 @@ private:
 	
 public:
 	///
-	void addSources(string dubPkgName, string root, string[] files, string[] options) @safe
+	void addSources(string dubPkgName, string pkgVer, string root, string[] files, string[] options) @safe
+		in (!hasPackage(dubPkgName))
 	{
 		import std.file, std.path, std.string, std.array, std.range;
+		addRootPackage(dubPkgName, pkgVer);
 		auto absRoot     = root.absolutePath.buildNormalizedPath;
 		auto absRootPath = absRoot.replace("\\", "/");
 		foreach (f; files)
@@ -419,7 +429,21 @@ public:
 			}
 		}
 	}
-
+	
+	///
+	bool hasPackage(string dubPkgName) const @safe
+	{
+		return _rootPackages.canFind!(a => a.name == dubPkgName);
+	}
+	
+	///
+	ref inout(PackageInfo) getPackageInfo(string dubPkgName) inout @safe
+		in (hasPackage(dubPkgName))
+	{
+		import std.array;
+		return _rootPackages.find!(a => a.name == dubPkgName).front;
+	}
+	
 	@system unittest
 	{
 		import std.path;
@@ -497,6 +521,11 @@ public:
 		}
 		lines.put("_=\n");
 		
+		if (_rootPackages.length > 0)
+		{
+			lines.formattedWrite!"PROJECT_NAME=%s\n_=\n\n"(_rootPackages[0].name);
+			lines.formattedWrite!"PROJECT_VERSION=%s\n_=\n\n"(_rootPackages[0].packageVersion);
+		}
 		return lines.data;
 	}
 	

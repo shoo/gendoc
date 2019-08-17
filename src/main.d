@@ -88,7 +88,12 @@ int main(string[] args)
 		
 		void addPkg(PackageConfig pkgcfg)
 		{
-			modmgr.addSources(pkgcfg.name, pkgcfg.path, pkgcfg.files, pkgcfg.options);
+			modmgr.addSources(
+				pkgcfg.name,
+				pkgcfg.packageVersion,
+				pkgcfg.path,
+				pkgcfg.files,
+				pkgcfg.options);
 			foreach (subpkg; pkgcfg.subPackages)
 				addPkg(subpkg);
 		}

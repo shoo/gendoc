@@ -17,6 +17,8 @@ struct PackageConfig
 	///
 	string[] options;
 	///
+	string   packageVersion;
+	///
 	PackageConfig[] subPackages;
 	
 	/***************************************************************************
@@ -65,6 +67,9 @@ struct PackageConfig
 		path    = lists[3][0][2..$];
 		options = lists[0..7].join;
 		files   = lists[7];
+		packageVersion = pkg
+			? pkg.version_.toString()
+			: dub.project.rootPackage.version_.toString();
 		
 		foreach (spkg; dub.project.rootPackage.subPackages)
 		{
