@@ -191,6 +191,7 @@ int main(string[] args)
 			auto f = e.fileInfo;
 			generator.options = f.options;
 			generator.rootDir = f.rootDir;
+			generator.targetDir = cfg.gendocData.target.absolutePath.buildNormalizedPath;
 			generator.generate(f.dst, f.src);
 		}
 	}
