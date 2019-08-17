@@ -54,3 +54,7 @@ gendoc -h
 |-v|         --varbose | bool     | Display varbose messages.                                | false                       |
 |-q|           --quiet | bool     | Non-display messages.                                    | false                       |
 |-h|            --help | bool     | This help information.                                   | false                       |
+
+
+# License
+gendoc is licensed by [Boost Software License 1.0](LICENSE)
