@@ -60,13 +60,13 @@ struct PackageConfig
 		
 		auto lists = dub.project.listBuildSettings(settings,
 			["dflags", "versions", "debug-versions",
-			"import-paths", "string-import-paths", "import-files", "options",
+			"import-paths", "string-import-paths", "options",
 			"source-files"],
 			ListBuildSettingsFormat.commandLineNul).map!(a => a.split("\0")).array;
 		name    = pkg ? pkg.name : dub.project.rootPackage.name;
 		path    = lists[3][0][2..$];
-		options = lists[0..7].join;
-		files   = lists[7];
+		options = lists[0..6].join;
+		files   = lists[6];
 		packageVersion = pkg
 			? pkg.version_.toString()
 			: dub.project.rootPackage.version_.toString();
@@ -99,7 +99,7 @@ struct PackageConfig
 		string compiler)
 	{
 		import std.algorithm, std.string, std.array, std.path;
-		setLogLevel(LogLevel.warn);
+		setLogLevel(LogLevel.error);
 		auto absDir = dir.absolutePath.buildNormalizedPath;
 		auto dub = new Dub(absDir);
 		auto tmppkg = dub.packageManager.getOrLoadPackage(NativePath(absDir), NativePath.init, true);
@@ -170,7 +170,7 @@ struct GendocConfig
 	///
 	void setup(string root, string configFile, string[] optDdocs, string[] optSourceDocs, string optTarget)
 	{
-		import std.algorithm, std.array, std.path;
+		import std.algorithm, std.array, std.path, std.file;
 		loadConfig(configFile.length > 0 ? root.buildPath(configFile) : null);
 		
 		if (optDdocs.length > 0)
@@ -183,9 +183,9 @@ struct GendocConfig
 			optTarget = optTarget.isAbsolute ? optTarget : root.buildPath(optTarget);
 		
 		// default settings
-		if (ddocs.length == 0)
+		if (ddocs.length == 0 && root.buildPath("ddoc").exists)
 			ddocs = [root.buildPath("ddoc")];
-		if (sourceDocs.length == 0)
+		if (sourceDocs.length == 0 && root.buildPath("source_docs").exists)
 			sourceDocs = [root.buildPath("source_docs")];
 		if (target.length == 0)
 			target = root.buildPath("docs");
