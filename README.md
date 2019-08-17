@@ -1,5 +1,7 @@
 # gendoc
 
+[![GitHub tag](https://img.shields.io/github/tag/shoo/gendoc.svg?maxAge=86400)](#) [![CI Status](https://travis-ci.com/shoo/gendoc.svg)](https://travis-ci.com/shoo/gendoc)
+
 gendoc is a tool for generating documents using the built-in document generation feature of D language compilers.
 
 This is forked from [dxml/gendocs.d](https://github.com/jmdavis/dxml/blob/master/gendocs.d), and file search and specification of compilation options based on dub package information are added.
