@@ -453,9 +453,10 @@ public:
 		auto fdir   = filepath.dirName.baseName;
 		auto fname  = filepath.relativePath(dir);
 		
-		modmgr.addSources("root", dir, [filepath], null);
+		modmgr.addSources("root", "v1.2.3", dir, [filepath], null);
 		assert(modmgr._rootPackages.length == 1);
 		assert(modmgr._rootPackages[0].name == "root");
+		assert(modmgr._rootPackages[0].packageVersion == "v1.2.3");
 		assert(modmgr._rootPackages[0].modules.length == 0);
 		assert(modmgr._rootPackages[0].packages.length == 1);
 		assert(modmgr._rootPackages[0].packages[0].name == fdir);
