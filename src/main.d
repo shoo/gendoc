@@ -114,7 +114,7 @@ int main(string[] args)
 			{
 				if (cfg.varbose)
 				{
-					writef("Generate %s\n    from %s\n    with args: %s\n    ...",
+					writef("Generate %s\n    from %s\n    with args:\n%-(        %-s\n%)\n    ...",
 						generator.targetDir.buildPath(dst),
 						generator.rootDir.buildPath(src),
 						args);
@@ -189,18 +189,10 @@ int main(string[] args)
 			if (e.isPackage)
 				continue;
 			auto f = e.fileInfo;
+			generator.options = f.options;
 			generator.rootDir = f.rootDir;
 			generator.generate(f.dst, f.src);
 		}
-		
-		
-		
-		/+
-		auto ddocFiles = getDdocFiles(ddocDir);
-		processSourceDocsDir(compiler, sourceDocsDir, docsDir, ddocFiles, flgMarkdown);
-		foreach (sourceDir; sourceDirs)
-			processSourceDir(compiler, sourceDir, docsDir, &isExclude, ddocFiles, flgMarkdown);
-		+/
 	}
 	catch(Exception e)
 	{
