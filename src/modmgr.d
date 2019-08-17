@@ -134,18 +134,20 @@ void sort(ref PackageAndModuleData[] datas) @safe
 /***************************************************************
  * 
  */
-void putModuleMenuPkg(R)(ref R lines, PackageInfo data, size_t depth = 0) @safe
+void putModuleMenuPkg(R)(ref R lines, PackageInfo data, size_t depth = 0, bool isDubPkg = false) @safe
 {
 	import std.array : replicate;
 	import std.format : formattedWrite;
 	
 	auto outerIndent = "    ".replicate(depth);
 	
-	lines.formattedWrite!"%s$(MENU_PKG %s,\n"(outerIndent, data.name);
+	lines.formattedWrite!"%s$(%s %s,\n"(outerIndent,
+		isDubPkg ? "MENU_DUBPKG" : "MENU_PKG",
+		data.name);
 	if (data.hasPackageD)
 	{
 		auto innerIndent = "    ".replicate(depth + 1);
-		lines.formattedWrite!"%s$(A %s, $(SPAN, package))\n"(innerIndent, data.packageD.dst);
+		lines.formattedWrite!"%s$(MENU_MODULE %s, package)\n"(innerIndent, data.packageD.dst);
 	}
 	
 	lines.putModuleMenuPkgChildren(data, depth + 1);
@@ -167,7 +169,7 @@ void putModuleMenuMod(R)(ref R lines, FileInfo data, size_t depth = 0) @safe
 	
 	auto innerIndent = "    ".replicate(depth);
 	
-	lines.formattedWrite!"%s$(A %s, $(SPAN, %s))\n"(innerIndent, data.dst, data.modName);
+	lines.formattedWrite!"%s$(MENU_MODULE %s, %s)\n"(innerIndent, data.dst, data.modName);
 }
 
 /// ditto
@@ -195,15 +197,24 @@ void putModuleMenu(R)(ref R lines, PackageAndModuleData[] datas, size_t depth = 
 /*******************************************************************************
  * 
  */
-void putModuleIndexPkg(R)(ref R lines, PackageInfo pkg, size_t depth = 0) @safe
+void putModuleIndexPkg(R)(ref R lines, PackageInfo pkg, size_t depth = 0, bool isDubPkg = false) @safe
 {
-	import std.format: formattedWrite;
+	import std.array : replicate;
+	import std.format : formattedWrite;
+	
+	auto outerIndent = "    ".replicate(depth);
+	
+	lines.formattedWrite!"%s$(%s %s,\n"(outerIndent,
+		isDubPkg ? "INDEX_DUBPKG" : "INDEX_PKG",
+		pkg.name);
 	
 	if(pkg.hasPackageD)
-		lines.formattedWrite!"    $(A %s, $(SPANC module_index, %s))$(DDOC_BLANKLINE)\n"(
+		lines.formattedWrite!"    $(INDEX_MODULE %s, %s)\n"(
 			pkg.packageD.dst, pkg.packageD.fullModuleName);
 	
 	lines.putModuleIndexPkgChildren(pkg, depth + 1);
+	
+	lines.formattedWrite!"%s)\n"(outerIndent);
 }
 
 /// ditto
@@ -216,7 +227,7 @@ void putModuleIndexPkgChildren(R)(ref R lines, PackageInfo pkg, size_t depth = 0
 void putModuleIndexMod(R)(ref R lines, FileInfo file, size_t depth = 0) @safe
 {
 	import std.format: formattedWrite;
-	lines.formattedWrite!"    $(A %s, $(SPANC module_index, %s))$(DDOC_BLANKLINE)\n"(
+	lines.formattedWrite!"    $(INDEX_MODULE %s, %s)\n"(
 		file.dst, file.fullModuleName);
 }
 
@@ -487,39 +498,19 @@ public:
 	}
 	
 	///
-	string getModuleListDdoc(bool enableDubPackageInfo = true) @safe
+	string getModuleListDdoc() @safe
 	{
 		import std.array, std.format;
 		auto lines = appender!string;
 		lines.put("MODULE_MENU=\n");
-		if (enableDubPackageInfo)
-		{
-			foreach (pkg; _rootPackages)
-				lines.putModuleMenuPkg(pkg, 1);
-		}
-		else
-		{
-			foreach (pkg; _rootPackages)
-				lines.putModuleMenuPkgChildren(pkg, 1);
-		}
-		lines.put("_=\n");
-
-		lines.put("\n");
-		lines.put("MENU_PKG=$(LIC expand-container open, $(AC expand-toggle, #, $(SPAN, $1))$(ITEMIZE $+))\n");
+		foreach (pkg; _rootPackages)
+			lines.putModuleMenuPkg(pkg, 1, true);
 		lines.put("_=\n");
 
 		lines.put("\n");
 		lines.put("MODULE_INDEX=\n");
-		if (enableDubPackageInfo)
-		{
-			foreach (pkg; _rootPackages)
-				lines.putModuleIndexPkg(pkg, 1);
-		}
-		else
-		{
-			foreach (pkg; _rootPackages)
-				lines.putModuleIndexPkgChildren(pkg, 1);
-		}
+		foreach (pkg; _rootPackages)
+			lines.putModuleIndexPkg(pkg, 1, true);
 		lines.put("_=\n");
 		
 		if (_rootPackages.length > 0)
