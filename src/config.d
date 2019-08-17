@@ -64,9 +64,10 @@ struct PackageConfig
 			"source-files"],
 			ListBuildSettingsFormat.commandLineNul).map!(a => a.split("\0")).array;
 		name    = pkg ? pkg.name : dub.project.rootPackage.name;
-		path    = lists[3][0][2..$];
-		options = lists[0..6].join;
-		files   = lists[6];
+		// -oq, -od が付与されているゴミが紛れ込む場合がある。dubのバグか？回避する。
+		path    = lists[3].filter!(a => a.startsWith("-I") && a[2..$].exists).front[2..$];
+		options = lists[0].reduce!((a, b) => a.canFind(b) ? a : a ~ [b])(lists[1..6].join);
+		files   = lists[6].filter!(a => a.exists).array;
 		packageVersion = pkg
 			? pkg.version_.toString()
 			: dub.project.rootPackage.version_.toString();
@@ -96,12 +97,14 @@ struct PackageConfig
 		string archType,
 		string buildType,
 		string configName,
-		string compiler)
+		ref string compiler)
 	{
 		import std.algorithm, std.string, std.array, std.path;
 		setLogLevel(LogLevel.error);
 		auto absDir = dir.absolutePath.buildNormalizedPath;
 		auto dub = new Dub(absDir);
+		if (compiler.length == 0)
+			compiler = dub.defaultCompiler;
 		auto tmppkg = dub.packageManager.getOrLoadPackage(NativePath(absDir), NativePath.init, true);
 		dub.loadPackage();
 		loadPackage(dub, null,
@@ -210,7 +213,7 @@ struct Config
 {
 	import std.getopt;
 	///
-	string compiler = "dmd";
+	string compiler;
 	///
 	PackageConfig packageData;
 	///
