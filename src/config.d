@@ -129,7 +129,16 @@ struct GendocConfig
 	///
 	string[] excludePaths;
 	///
-	string[] excludePatterns;
+	string[] excludePatterns = [
+		"(?:(?<=/)|^)\\.[^/]+$",
+		"(?:(?<=[^/]+/)|^)_[^/]+$",
+		"(?:(?<=[^/]+/)|^)internal(?:\\.d)?$"];
+	///
+	string[] excludePackages;
+	///
+	string[] excludePackagePatterns = [
+		"(?:(?<=[^:]+/)|^)_[^/]+$",
+		":docs?$"];
 	
 	///
 	void loadConfig(string path)

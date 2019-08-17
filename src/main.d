@@ -86,14 +86,23 @@ int main(string[] args)
 		}
 		modmgr.target = cfg.gendocData.target;
 		
+		auto excludePackagePatterns = cfg.gendocData.excludePackagePatterns.map!(a => regex(a)).array;
+		bool _isExcludePackage(string pkgName)
+		{
+			return cfg.gendocData.excludePackages.any!(p => pkgName == p)
+				|| excludePackagePatterns.any!(r => pkgName.match(r));
+		}
 		void addPkg(PackageConfig pkgcfg)
 		{
-			modmgr.addSources(
-				pkgcfg.name,
-				pkgcfg.packageVersion,
-				pkgcfg.path,
-				pkgcfg.files,
-				pkgcfg.options);
+			if (!_isExcludePackage(pkgcfg.name))
+			{
+				modmgr.addSources(
+					pkgcfg.name,
+					pkgcfg.packageVersion,
+					pkgcfg.path,
+					pkgcfg.files,
+					pkgcfg.options);
+			}
 			foreach (subpkg; pkgcfg.subPackages)
 				addPkg(subpkg);
 		}
