@@ -20,10 +20,16 @@ To use gendoc, move current directory to the dub project and enter the following
 gendoc
 ```
 
-Or, Can be run using dub package manager:
+Or, can be run using dub package manager:
 
 ```sh
 dub run gendoc
+```
+
+In addition, to import template document styles using gendoc's dub package:
+
+```sh
+dub build gendoc -c=init
 ```
 
 When you want to know the detail of usage, you can use the help command to display help messages:
