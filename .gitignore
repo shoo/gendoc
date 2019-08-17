@@ -1,0 +1,16 @@
+.*
+docs/
+*.json
+*.html
+*.so
+*.dylib
+*.dll
+*.a
+*.lib
+gendoc-test-*
+/gendoc
+*.exe
+*.o
+*.obj
+*.lst
+.dub

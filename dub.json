@@ -1,0 +1,17 @@
+{
+	"authors": ["SHOO"],
+	"copyright": "Copyright © 2019, SHOO",
+	"description": "Document generator using Ddoc D language standard feature for dub package.",
+	"license": "BSL-1.0",
+	"name": "gendoc",
+	"targetType": "executable",
+	"dependencies": {
+		"dub": "~>1.16.0"
+	},
+	"subConfigurations": {
+		"dub": "library"
+	},
+	"importPaths": [
+		"."
+	]
+}
