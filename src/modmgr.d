@@ -227,7 +227,10 @@ void putModuleIndexPkgChildren(R)(ref R lines, PackageInfo pkg, size_t depth = 0
 void putModuleIndexMod(R)(ref R lines, FileInfo file, size_t depth = 0) @safe
 {
 	import std.format: formattedWrite;
-	lines.formattedWrite!"    $(INDEX_MODULE %s, %s)\n"(
+	import std.array : replicate;
+	auto innerIndent = "    ".replicate(depth);
+	
+	lines.formattedWrite!"%s$(INDEX_MODULE %s, %s)\n"(innerIndent,
 		file.dst, file.fullModuleName);
 }
 
@@ -416,7 +419,7 @@ public:
 			if (absSrc.baseName.stripExtension == "package")
 			{
 				auto modPath    = relSrcPath.dirName;
-				fInfo.dst       = modPath.replace("/", "_").setExtension(".html");
+				fInfo.dst       = dubPkgName.replace(":", "-") ~ "--" ~ modPath.replace("/", ".") ~ ".html";
 				fInfo.modName   = modPath.baseName;
 				assert(fInfo.modName.length <= modPath.length);
 				fInfo.pkgName   = modPath[0..$-fInfo.modName.length].chomp("/").replace("/", ".");
@@ -424,7 +427,7 @@ public:
 			else
 			{
 				auto modPath    = relSrcPath;
-				fInfo.dst       = modPath.stripExtension.replace("/", "_").setExtension(".html");
+				fInfo.dst       = dubPkgName.replace(":", "-") ~ "--" ~ modPath.stripExtension.replace("/", ".") ~ ".html";
 				fInfo.modName   = modPath.baseName.stripExtension;
 				assert(modPath.baseName.length <= modPath.length);
 				fInfo.pkgName   = modPath[0..$-modPath.baseName.length].chomp("/").replace("/", ".");
