@@ -40,7 +40,7 @@ When you want to know the detail of usage, you can use the help command to displ
 gendoc -h
 ```
 
-|  | options           | Type     | desctiption                                              | default                     |
+|  | Options           | Type     | Desctiption                                              | Default                     |
 |-:|------------------:|:---------|:---------------------------------------------------------|:----------------------------|
 |-a|            --arch | string   | Archtecture of dub project.                              | x86_64                      |
 |-b|           --build | string   | Build type of dub project.                               | debug                       |
@@ -55,6 +55,51 @@ gendoc -h
 |-q|           --quiet | bool     | Non-display messages.                                    | false                       |
 |-h|            --help | bool     | This help information.                                   | false                       |
 
+# gendoc.json
+You can change the gendoc settings by adding gendoc.json to the dub package.
+
+Example:
+
+```json
+{
+    // Same to --gendocDdocs option. (Run-time arguments are preferred.)
+    // Specify a directory path where the relative path from the root of dub package.
+    // The directory where the `*.ddoc` files to be specified in the compilation
+    // argument when generating HTML are stored.
+    "ddocs": [ "ddocs" ],
+    // Same to --gendocSourceDocs option. (Run-time arguments are preferred.)
+    // Specify a directories path where the relative path from the root of dub package.
+    // `*.dd` files are compiled and other files are simply copied.
+    "sourceDocs": [ "source_docs" ],
+    // Same to --gendocTarget option. (Run-time arguments are preferred.)
+    // Specify a directory path where the relative path from the root of dub package.
+    // The resulting HTML is generated in this directory.
+    "ddocs": "docs",
+    // Specify names there exactly match the path.
+    // For the path, specify the relative path from the first one of the
+    // importPaths of dub settings.
+    // Matched files are excluded from document generation.
+    "excludePaths": ["src/_internal", "src/ut.d"],
+    // Specify regex patterns there match the path.
+    // For the path, specify the relative path from the first one of the
+    // importPaths of dub settings.
+    // Matched files are excluded from document generation.
+    "excludePatterns": [
+        "(?:(?<=/)|^)\\.[^/]+$",
+        "(?:(?<=[^/]+/)|^)_[^/]+$",
+        "(?:(?<=[^/]+/)|^)internal(?:\\.d)?$"
+    ],
+    // Specify a name that exactly matches the full dub package name.
+    // Matched packages are excluded from document generation.
+    "excludePackages": ["gendoc:example", "gendoc:test"],
+    // Specify regex patterns there match the full dub package name.
+    // Matched packages are excluded from document generation.
+    "excludePackagePatterns": [
+        "(?:(?<=[^:]+/)|^)_[^/]+$",
+        ":docs?$"
+    ]
+}
+```
 
 # License
 gendoc is licensed by [Boost Software License 1.0](LICENSE)
