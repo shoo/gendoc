@@ -105,6 +105,8 @@ struct PackageConfig
 		auto dub = new Dub(absDir);
 		if (compiler.length == 0)
 			compiler = dub.defaultCompiler;
+		if (archType.length == 0)
+			archType = dub.defaultArchitecture;
 		auto tmppkg = dub.packageManager.getOrLoadPackage(NativePath(absDir), NativePath.init, true);
 		dub.loadPackage();
 		loadPackage(dub, null,
@@ -232,10 +234,10 @@ struct Config
 		string configFile;
 		Config tmp;
 		bool saveConfig;
-		string archType = "x86_64";
+		string archType;
 		string buildType = "debug";
 		string configName;
-		string root     = ".";
+		string root = ".";
 		
 		string   gendocConfig;
 		string[] ddocs;
