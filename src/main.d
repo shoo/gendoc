@@ -195,9 +195,17 @@ int main(string[] args)
 		// d sources
 		foreach (e; modmgr.entries)
 		{
+			FileInfo f = void;
 			if (e.isPackage)
-				continue;
-			auto f = e.fileInfo;
+			{
+				if (!e.packageInfo.hasPackageD)
+					continue;
+				f = e.packageInfo.packageD;
+			}
+			else
+			{
+				f = e.fileInfo;
+			}
 			generator.options = f.options;
 			generator.rootDir = f.rootDir;
 			generator.targetDir = cfg.gendocData.target.absolutePath.buildNormalizedPath;
