@@ -62,38 +62,44 @@ Example:
 
 ```json
 {
-    // Same to --gendocDdocs option. (Run-time arguments are preferred.)
-    // Specify a directory path where the relative path from the root of dub package.
-    // The directory where the `*.ddoc` files to be specified in the compilation
-    // argument when generating HTML are stored.
+    "//": "Same to --gendocDdocs option. (Run-time arguments are preferred.)",
+    "//": "Specify a directory path where the relative path from the root of dub package.",
+    "//": "The directory where the `*.ddoc` files to be specified in the compilation",
+    "//": "argument when generating HTML are stored.",
     "ddocs": [ "ddocs" ],
-    // Same to --gendocSourceDocs option. (Run-time arguments are preferred.)
-    // Specify a directories path where the relative path from the root of dub package.
-    // `*.dd` files are compiled and other files are simply copied.
+    
+    "//": "Same to --gendocSourceDocs option. (Run-time arguments are preferred.)",
+    "//": "Specify a directories path where the relative path from the root of dub package.",
+    "//": "`*.dd` files are compiled and other files are simply copied.",
     "sourceDocs": [ "source_docs" ],
-    // Same to --gendocTarget option. (Run-time arguments are preferred.)
-    // Specify a directory path where the relative path from the root of dub package.
-    // The resulting HTML is generated in this directory.
+    
+    "//": "Same to --gendocTarget option. (Run-time arguments are preferred.)",
+    "//": "Specify a directory path where the relative path from the root of dub package.",
+    "//": "The resulting HTML is generated in this directory.",
     "ddocs": "docs",
-    // Specify names there exactly match the path.
-    // For the path, specify the relative path from the first one of the
-    // importPaths of dub settings.
-    // Matched files are excluded from document generation.
+    
+    "//": "Specify names there exactly match the path.",
+    "//": "For the path, specify the relative path from the first one of the",
+    "//": "importPaths of dub settings.",
+    "//": "Matched files are excluded from document generation.",
     "excludePaths": ["src/_internal", "src/ut.d"],
-    // Specify regex patterns there match the path.
-    // For the path, specify the relative path from the first one of the
-    // importPaths of dub settings.
-    // Matched files are excluded from document generation.
+    
+    "//": "Specify regex patterns there match the path.",
+    "//": "For the path, specify the relative path from the first one of the",
+    "//": "importPaths of dub settings.",
+    "//": "Matched files are excluded from document generation.",
     "excludePatterns": [
         "(?:(?<=/)|^)\\.[^/]+$",
         "(?:(?<=[^/]+/)|^)_[^/]+$",
         "(?:(?<=[^/]+/)|^)internal(?:\\.d)?$"
     ],
-    // Specify a name that exactly matches the full dub package name.
-    // Matched packages are excluded from document generation.
+    
+    "//": "Specify a name that exactly matches the full dub package name.",
+    "//": "Matched packages are excluded from document generation.",
     "excludePackages": ["gendoc:example", "gendoc:test"],
-    // Specify regex patterns there match the full dub package name.
-    // Matched packages are excluded from document generation.
+    
+    "//": "Specify regex patterns there match the full dub package name.",
+    "//": "Matched packages are excluded from document generation.",
     "excludePackagePatterns": [
         "(?:(?<=[^:]+/)|^)_[^/]+$",
         ":docs?$"
