@@ -114,22 +114,25 @@ int main(string[] args)
 		
 		if (!cfg.quiet)
 		{
-			generator.preGenerateCallback = (string src, string dst, string[] args)
+			generator.preGenerateCallback = (string pkgName, ModInfo[] modInfo, string[] args)
 			{
 				if (cfg.varbose)
 				{
-					writef("Generate %s\n    from %s\n    with args:\n%-(        %-s\n%)\n    ...",
-						generator.targetDir.buildPath(dst),
-						generator.rootDir.buildPath(src),
-						args);
+					writef("Generate %s ------------------\n", pkgName);
+					foreach (m; modInfo)
+					{
+						writef("  |from: %s\n", generator.rootDir.buildPath(m.src));
+						writef("  |  to: %s\n", generator.targetDir.buildPath(m.dst));
+					}
+					writef("    with args:\n%-(        %-s\n%)\n    ...", args);
 				}
 				else
 				{
-					writef("Generate %s ...", dst);
+					writef("Generate %s ...", pkgName);
 				}
 			};
 			
-			generator.postGenerateCallback = (string src, string dst, int status, string resMsg)
+			generator.postGenerateCallback = (string pkgName, ModInfo[] modInfo, int status, string resMsg)
 			{
 				if (status == 0)
 				{
@@ -153,9 +156,9 @@ int main(string[] args)
 			{
 				if (cfg.varbose)
 				{
-					writefln("Copy     %s\n    from %s\n    ... done.",
-						generator.targetDir.buildPath(dst),
-						generator.rootDir.buildPath(src));
+					writefln("Copyfrom %s\n      to %s\n    ... done.",
+						generator.targetDir.buildPath(src),
+						generator.rootDir.buildPath(dst));
 				}
 				else
 				{
@@ -172,39 +175,40 @@ int main(string[] args)
 		}
 		generator.ddocFiles ~= moduleListDdocFile;
 		
+		// d sources
+		//foreach (e; modmgr.entries)
+		//{
+		//	FileInfo f = void;
+		//	if (e.isPackage)
+		//	{
+		//		if (!e.packageInfo.hasPackageD)
+		//			continue;
+		//		f = e.packageInfo.packageD;
+		//	}
+		//	else
+		//	{
+		//		f = e.fileInfo;
+		//	}
+		//	generator.options = f.options;
+		//	generator.rootDir = f.rootDir;
+		//	generator.targetDir = cfg.gendocData.target.absolutePath.buildNormalizedPath;
+		//	generator.generate(f.dst, f.src);
+		//}
+		generator.targetDir = cfg.gendocData.target.absolutePath.buildNormalizedPath;
+		foreach (pkg; modmgr.dubPackages)
+			generator.generate(pkg, cfg.singleFile);
+		
 		// set source_doc (*.dd|*.js|*.css|*.*)
-		generator.options = cfg.packageData.options;
 		foreach (sdocs; cfg.gendocData.sourceDocs)
 		{
 			auto absSrcDir = sdocs.absolutePath.buildNormalizedPath;
 			generator.rootDir   = absSrcDir;
-			generator.targetDir = cfg.gendocData.target.absolutePath.buildNormalizedPath;
 			foreach (de; absSrcDir.dirEntries(SpanMode.depth))
 			{
 				if (de.isDir)
 					continue;
-				generator.generate(relativePath(de.name, absSrcDir), de.name);
+				generator.generate(relativePath(de.name, absSrcDir), de.name, cfg.packageData.options);
 			}
-		}
-		
-		// d sources
-		foreach (e; modmgr.entries)
-		{
-			FileInfo f = void;
-			if (e.isPackage)
-			{
-				if (!e.packageInfo.hasPackageD)
-					continue;
-				f = e.packageInfo.packageD;
-			}
-			else
-			{
-				f = e.fileInfo;
-			}
-			generator.options = f.options;
-			generator.rootDir = f.rootDir;
-			generator.targetDir = cfg.gendocData.target.absolutePath.buildNormalizedPath;
-			generator.generate(f.dst, f.src);
 		}
 	}
 	catch(Exception e)

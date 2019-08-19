@@ -222,6 +222,8 @@ struct Config
 	///
 	GendocConfig gendocData;
 	///
+	bool singleFile;
+	///
 	bool quiet;
 	///
 	bool varbose;
@@ -257,6 +259,7 @@ struct Config
 			"gendocTarget",     "Target directory of generated documents.",               &target,
 			"gendocConfig",     "Configuration file of gendoc.",                          &configFile,
 			"root",             "Path to operate in instead of the current working dir.", &root,
+			"singleFile",       "Single file generation mode.",                           &singleFile,
 			"v|varbose",        "Display varbose messages.",                              &varbose,
 			"q|quiet",          "Non-display messages.",                                  &quiet
 		);
