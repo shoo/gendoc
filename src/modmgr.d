@@ -315,10 +315,12 @@ public:
 struct ModuleManager
 {
 private:
+	string[]      _excludePaths;
 	Regex!char[]  _excludePatterns;
+	string[]      _excludePackages;
+	Regex!char[]  _excludePackagePatterns;
 	string        _target;
 	PackageInfo[] _rootPackages;
-	string[]      _excludePaths;
 	
 	void addRootPackage(string pkgName, string pkgVer = "*") @safe
 		in (!_rootPackages.canFind!(a => a.name == pkgName))
@@ -326,35 +328,43 @@ private:
 		_rootPackages ~= PackageInfo(pkgName, pkgVer);
 	}
 	
-	void addModule(R)(R path, FileInfo fInfo) @safe
+	void addModule(string pkgName, string path, FileInfo fInfo) @safe
 	{
 		import std.path;
-		PackageInfo[]* pkgTree = &_rootPackages;
-		PackageInfo* pkgSelected;
 		auto isPkgMod = fInfo.src.baseName.stripExtension() == "package";
-		foreach (p; path)
+		
+		static PackageInfo* getBranch(PackageInfo[]* tree, string name)
+			in (tree !is null)
+			out (r; r !is null)
 		{
-			bool found;
-			foreach (ref branch; *pkgTree)
+			foreach (ref branch; *tree)
 			{
-				if (branch.name == p)
-				{
-					found = true;
-					pkgSelected = () @trusted { return &branch; } ();
-					break;
-				}
+				if (branch.name == name)
+					return () @trusted { return &branch; } ();
 			}
-			if (!found)
-			{
-				*pkgTree ~= PackageInfo(p);
-				pkgSelected = &(*pkgTree)[$-1];
-			}
-			assert(pkgSelected !is null);
-			pkgTree = &pkgSelected.packages;
+			*tree ~= PackageInfo(name);
+			return &(*tree)[$-1];
 		}
+		
+		PackageInfo*   pkgSelected = getBranch(&_rootPackages, pkgName);
+		PackageInfo[]* pkgTree     = &pkgSelected.packages;
+		
+		if (path.isAbsolute || path.startsWith(".."))
+		{
+			pkgSelected = getBranch(pkgTree, "(extra)");
+		}
+		else
+		{
+			foreach (p; path.pathSplitter)
+			{
+				pkgSelected = getBranch(pkgTree, p);
+				pkgTree = &pkgSelected.packages;
+			}
+		}
+		
 		if (isPkgMod)
 		{
-			pkgSelected.packageD    = fInfo;
+			pkgSelected.packageD = fInfo;
 		}
 		else
 		{
@@ -391,9 +401,20 @@ private:
 	
 	bool _isExclude(string file) @safe
 	{
-		import std.regex, std.algorithm;
-		return _excludePatterns.any!(r => file.match(r))
-			|| _excludePaths.any!(p => file == p);
+		import std.regex, std.range, std.algorithm, std.array, std.path;
+		string[] filepaths;
+		foreach (p; file.pathSplitter)
+		{
+			filepaths ~= chain(filepaths, [p]).join("/");
+		}
+		return _excludePatterns.any!(r => filepaths.any!(a => a.match(r)))
+			|| _excludePaths.any!(p => filepaths.any!(a => a == p));
+	}
+	
+	bool _isExcludePackage(string pkgName) @safe
+	{
+		return _excludePackages.any!(p => pkgName == p)
+			|| _excludePackagePatterns.any!(r => pkgName.match(r));
 	}
 	
 public:
@@ -402,6 +423,8 @@ public:
 		in (!hasPackage(dubPkgName))
 	{
 		import std.file, std.path, std.string, std.array, std.range;
+		if (_isExcludePackage(dubPkgName))
+			return;
 		addRootPackage(dubPkgName, pkgVer);
 		auto absRoot     = root.absolutePath.buildNormalizedPath;
 		auto absRootPath = absRoot.replace("\\", "/");
@@ -416,7 +439,15 @@ public:
 			fInfo.rootDir   = absRoot;
 			fInfo.src       = relSrc;
 			fInfo.options   = options;
-			if (absSrc.baseName.stripExtension == "package")
+			if (relSrcPath.isAbsolute || relSrcPath.startsWith(".."))
+			{
+				auto modPath    = relSrcPath;
+				fInfo.dst       = dubPkgName.replace(":", "-") ~ "--_extra_." ~ modPath.baseName.stripExtension ~ ".html";
+				fInfo.modName   = modPath.baseName.stripExtension;
+				assert(modPath.baseName.length <= modPath.length);
+				fInfo.pkgName   = "(extra)";
+			}
+			else if (absSrc.baseName.stripExtension == "package")
 			{
 				auto modPath    = relSrcPath.dirName;
 				fInfo.dst       = dubPkgName.replace(":", "-") ~ "--" ~ modPath.replace("/", ".") ~ ".html";
@@ -433,14 +464,7 @@ public:
 				fInfo.pkgName   = modPath[0..$-modPath.baseName.length].chomp("/").replace("/", ".");
 			}
 			auto relSrcDir = relSrc.dirName;
-			if (relSrcDir == ".")
-			{
-				addModule([dubPkgName], fInfo);
-			}
-			else
-			{
-				addModule(chain([dubPkgName], relSrcDir.pathSplitter), fInfo);
-			}
+			addModule(dubPkgName, relSrcDir == "." ? null : relSrcDir, fInfo);
 		}
 	}
 	
@@ -492,12 +516,16 @@ public:
 	}
 	
 	///
-	void exclude(string[] paths, string[] patterns)
+	void exclude(string[] packages, string[] packagePatterns, string[] paths, string[] patterns)
 	{
 		_excludePaths = paths;
 		_excludePatterns = null;
+		_excludePackages = packages;
+		_excludePackagePatterns = null;
 		foreach (ptn; patterns)
 			_excludePatterns ~= regex(ptn);
+		foreach (ptn; packagePatterns)
+			_excludePackagePatterns ~= regex(ptn);
 	}
 	
 	///

@@ -89,7 +89,7 @@ Example:
     "//": "importPaths of dub settings.",
     "//": "Matched files are excluded from document generation.",
     "excludePatterns": [
-        "(?:(?<=/)|^)\\.[^/]+$",
+        "(?:(?<=/)|^)\\.[^/.]+$",
         "(?:(?<=[^/]+/)|^)_[^/]+$",
         "(?:(?<=[^/]+/)|^)internal(?:\\.d)?$"
     ],

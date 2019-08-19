@@ -57,21 +57,22 @@ struct PackageConfig
 		settings.buildType = buildType;
 		settings.compiler  = compilerData;
 		settings.platform  = buildPlatform;
-		
-		auto lists = dub.project.listBuildSettings(settings,
-			["dflags", "versions", "debug-versions",
-			"import-paths", "string-import-paths", "options",
-			"source-files"],
-			ListBuildSettingsFormat.commandLineNul).map!(a => a.split("\0")).array;
 		name    = pkg ? pkg.name : dub.project.rootPackage.name;
-		// -oq, -od が付与されているゴミが紛れ込む場合がある。dubのバグか？回避する。
-		path    = lists[3].filter!(a => a.startsWith("-I") && a[2..$].exists).front[2..$];
-		options = lists[0].reduce!((a, b) => a.canFind(b) ? a : a ~ [b])(lists[1..6].join);
-		files   = lists[6].filter!(a => a.exists).array;
-		packageVersion = pkg
-			? pkg.version_.toString()
-			: dub.project.rootPackage.version_.toString();
-		
+		if (dub.project.rootPackage.getBuildSettings(settings.config).targetType != TargetType.none)
+		{
+			auto lists = dub.project.listBuildSettings(settings,
+				["dflags", "versions", "debug-versions",
+				"import-paths", "string-import-paths", "options",
+				"source-files"],
+				ListBuildSettingsFormat.commandLineNul).map!(a => a.split("\0")).array;
+			// -oq, -od が付与されているゴミが紛れ込む場合がある。dubのバグか？回避する。
+			path    = lists[3].filter!(a => a.startsWith("-I") && a[2..$].exists).front[2..$];
+			options = lists[0].reduce!((a, b) => a.canFind(b) ? a : a ~ [b])(lists[1..6].join);
+			files   = lists[6].filter!(a => a.exists && canFind([".d", ".dd", ".di"], a.extension)).array;
+			packageVersion = pkg
+				? pkg.version_.toString()
+				: dub.project.rootPackage.version_.toString();
+		}
 		foreach (spkg; dub.project.rootPackage.subPackages)
 		{
 			PackageConfig pkgcfg;
@@ -135,7 +136,7 @@ struct GendocConfig
 	string[] excludePaths;
 	///
 	string[] excludePatterns = [
-		"(?:(?<=/)|^)\\.[^/]+$",
+		"(?:(?<=/)|^)\\.[^/.]+$",
 		"(?:(?<=[^/]+/)|^)_[^/]+$",
 		"(?:(?<=[^/]+/)|^)internal(?:\\.d)?$"];
 	///

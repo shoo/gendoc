@@ -67,7 +67,11 @@ int main(string[] args)
 		cfg.gendocData.ddocs.all!(a => a.exists).enforce("ddoc directory is missing");
 		cfg.gendocData.sourceDocs.all!(a => a.exists).enforce("source_docs directory is missing");
 		
-		modmgr.exclude(cfg.gendocData.excludePaths, cfg.gendocData.excludePatterns);
+		modmgr.exclude(
+				cfg.gendocData.excludePackages,
+				cfg.gendocData.excludePackagePatterns,
+				cfg.gendocData.excludePaths,
+				cfg.gendocData.excludePatterns);
 		
 		if(!cfg.gendocData.target.exists)
 			mkdir(cfg.gendocData.target);
@@ -86,23 +90,14 @@ int main(string[] args)
 		}
 		modmgr.target = cfg.gendocData.target;
 		
-		auto excludePackagePatterns = cfg.gendocData.excludePackagePatterns.map!(a => regex(a)).array;
-		bool _isExcludePackage(string pkgName)
-		{
-			return cfg.gendocData.excludePackages.any!(p => pkgName == p)
-				|| excludePackagePatterns.any!(r => pkgName.match(r));
-		}
 		void addPkg(PackageConfig pkgcfg)
 		{
-			if (!_isExcludePackage(pkgcfg.name))
-			{
-				modmgr.addSources(
-					pkgcfg.name,
-					pkgcfg.packageVersion,
-					pkgcfg.path,
-					pkgcfg.files,
-					pkgcfg.options);
-			}
+			modmgr.addSources(
+				pkgcfg.name,
+				pkgcfg.packageVersion,
+				pkgcfg.path,
+				pkgcfg.files,
+				pkgcfg.options);
 			foreach (subpkg; pkgcfg.subPackages)
 				addPkg(subpkg);
 		}
