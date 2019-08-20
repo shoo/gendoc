@@ -248,6 +248,11 @@ struct DubPkgInfo
 	{
 		return cast(inout)PackageAndModuleRange(cast(PkgInfo[])[root]);
 	}
+	///
+	inout(PackageAndModuleData)[] children() inout @trusted
+	{
+		return cast(inout)PackageAndModuleData(*cast(PkgInfo*)&root).children;
+	}
 }
 
 // 

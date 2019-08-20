@@ -104,11 +104,13 @@ int main(string[] args)
 		addPkg(cfg.packageData);
 		
 		auto moduleListDdoc = modmgr.getModuleListDdoc();
-		auto moduleListDdocFile = "moduleListDdoc.ddoc";
+		
+		generator.createTemporaryDir();
+		scope(exit)
+			generator.removeTemporaryDir();
+		auto moduleListDdocFile = generator.temporaryDir.buildPath("moduleListDdoc.ddoc");
 		import std.file;
 		std.file.write(moduleListDdocFile, moduleListDdoc);
-		scope(exit)
-			std.file.remove(moduleListDdocFile);
 		
 		generator.compiler = cfg.compiler;
 		
@@ -172,6 +174,12 @@ int main(string[] args)
 		{
 			foreach (de; dir.dirEntries("*.ddoc", SpanMode.shallow))
 				generator.ddocFiles ~= de.name;
+			foreach (de; dir.dirEntries("*.ddoc.mustache", SpanMode.shallow))
+			{
+				auto absDir = dir.absolutePath.buildNormalizedPath();
+				auto absFile = de.name.absolutePath.buildNormalizedPath();
+				generator.generateDdoc(modmgr.dubPackages, absDir, absFile.relativePath(absDir).stripExtension);
+			}
 		}
 		generator.ddocFiles ~= moduleListDdocFile;
 		

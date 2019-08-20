@@ -127,21 +127,28 @@ struct PackageConfig
 struct GendocConfig
 {
 	///
+	@optional
 	string[] ddocs;
 	///
+	@optional
 	string[] sourceDocs;
 	///
+	@optional
 	string   target;
 	///
+	@optional
 	string[] excludePaths;
 	///
+	@optional
 	string[] excludePatterns = [
 		"(?:(?<=/)|^)\\.[^/.]+$",
 		"(?:(?<=[^/]+/)|^)_[^/]+$",
 		"(?:(?<=[^/]+/)|^)internal(?:\\.d)?$"];
 	///
+	@optional
 	string[] excludePackages;
 	///
+	@optional
 	string[] excludePackagePatterns = [
 		"(?:(?<=[^:]+/)|^)_[^/]+$",
 		":docs?$"];
