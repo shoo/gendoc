@@ -270,9 +270,8 @@ dt.ddoc_decl:hover .ddoc_decl_anchor
 /* SPAN: Formats DDOC_KEYWORD */
 .ddoc_keyword
 {
-    font-size: 120%;
     font-weight: bold;
-    color: blue;
+    color: #226;
 }
 
 /* SPAN: Formats the DDOC_LICENSE section's title */
@@ -302,7 +301,7 @@ dt.ddoc_decl:hover .ddoc_decl_anchor
 /* SPAN: Formats DDOC_PARAM */
 .ddoc_param
 {
-    color: green;
+    color: #622;
 }
 
 /* SPAN: Formats the DDOC_PARAMS section's title */
@@ -639,7 +638,7 @@ dt.ddoc_decl:hover .ddoc_decl_anchor
 /* Customize how TABLEs look */
 table
 {
-    border: solid #046000;
+    border: solid #640000;
     border-width: 2px 2px 2px 2px;
     border-collapse: collapse;
 }
@@ -667,19 +666,19 @@ table td
 table th
 {
     border: none;
-    border-bottom: 2px solid #046000;
+    border-bottom: 2px solid #640000;
 }
 
 table th:not(:last-child)
 {
     padding-right: 1em;
-    border-right: 1px solid #046000;
+    border-right: 1px solid #640000;
 }
 
 table td:not(:last-child)
 {
     padding-right: 1em;
-    border-right: 1px dotted #046000;
+    border-right: 1px dotted #640000;
 }
 
 table a

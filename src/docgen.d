@@ -139,16 +139,17 @@ private:
 		
 		// オプションを解析
 		auto opt = getMustashImportOptions(options);
-		auto ctx = new MustacheContext;
-		foreach (k, v; opt.map)
-			ctx[k] = v;
-		foreach (e; opt.useSections)
-			ctx.useSection(e);
 		
 		// mustacheのデータを定義
 		foreach (ref dat; datas)
 		() {
-			auto children = dat.children;
+			auto ctx = new MustacheContext;
+			foreach (k, v; opt.map)
+				ctx[k] = v;
+			foreach (e; opt.useSections)
+				ctx.useSection(e);
+			auto children = dat.children.dup;
+			children.moduleSort();
 			if (dat.isPackage)
 			{
 				ctx.useSection("is_package");
@@ -203,9 +204,13 @@ private:
 		
 		auto ctx = new MustacheContext;
 		
+		ctx["project_name"]    = projects[0].name;
+		ctx["project_version"] = projects[0].packageVersion;
+		
 		foreach (p; projects)
 		() {
-			auto children  = p.children;
+			auto children  = p.children.dup;
+			children.moduleSort();
 			auto sc = ctx.addSubContext("dub_pkg_info");
 			sc["name"]     = p.name;
 			sc["version"]  = p.packageVersion;
@@ -213,6 +218,8 @@ private:
 			sc["children"] = (string str) => _mustashRenderChildren(children, str);
 		} ();
 		
+		_mustache.clearCache();
+		_mustache.level = Mustache.CacheLevel.no;
 		_mustache.path = dir;
 		return _mustache.render(name, ctx);
 	}

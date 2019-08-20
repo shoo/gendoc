@@ -152,8 +152,6 @@ public:
 
 
 
-
-
 /*******************************************************************************
  * 
  */
@@ -179,7 +177,7 @@ public:
 		import std.algorithm;
 		foreach (ref pkg; pkgs)
 			tmp ~= PackageAndModuleData(pkg);
-		tmp.sort();
+		tmp.moduleSort();
 		_datas = [tmp];
 	}
 	
@@ -204,7 +202,7 @@ public:
 		
 		if (chdatas.length > 0)
 		{
-			chdatas.sort();
+			chdatas.moduleSort();
 			_datas ~= [chdatas];
 		}
 	}
@@ -256,136 +254,11 @@ struct DubPkgInfo
 }
 
 // 
-private void sort(ref PackageAndModuleData[] datas) @safe
+void moduleSort(ref PackageAndModuleData[] datas) @safe
 {
 	import std.algorithm, std.string;
 	std.algorithm.sort!((a, b) => icmp(a.name, b.name) < 0)(datas);
 }
-
-// 
-private void putModuleMenuPkg(R)(ref R lines, PkgInfo data, size_t depth = 0, bool isDubPkg = false) @safe
-{
-	import std.array : replicate;
-	import std.format : formattedWrite;
-	
-	auto outerIndent = "    ".replicate(depth);
-	
-	lines.formattedWrite!"%s$(%s %s,\n"(outerIndent,
-		isDubPkg ? "MENU_DUBPKG" : "MENU_PKG",
-		data.name);
-	if (data.hasPackageD)
-	{
-		auto innerIndent = "    ".replicate(depth + 1);
-		lines.formattedWrite!"%s$(MENU_MODULE %s, package)\n"(innerIndent, data.packageD.dst);
-	}
-	
-	lines.putModuleMenuPkgChildren(data, depth + 1);
-	
-	lines.formattedWrite!"%s)\n"(outerIndent);
-}
-
-// 
-private void putModuleMenuPkgChildren(R)(ref R lines, PkgInfo data, size_t depth = 0) @safe
-{
-	lines.putModuleMenu(PackageAndModuleData(data).children, depth);
-}
-
-// 
-private void putModuleMenuMod(R)(ref R lines, ModInfo data, size_t depth = 0) @safe
-{
-	import std.array : replicate;
-	import std.format : formattedWrite;
-	
-	auto innerIndent = "    ".replicate(depth);
-	
-	lines.formattedWrite!"%s$(MENU_MODULE %s, %s)\n"(innerIndent, data.dst, data.modName);
-}
-
-// 
-private void putModuleMenu(R)(ref R lines, PackageAndModuleData data, size_t depth = 0) @safe
-{
-	if (data.isPackage)
-	{
-		lines.putModuleMenuPkg(data.packageInfo, depth);
-	}
-	else
-	{
-		lines.putModuleMenuMod(data.moduleInfo, depth);
-	}
-}
-// 
-private void putModuleMenu(R)(ref R lines, PackageAndModuleData[] datas, size_t depth = 0) @safe
-{
-	auto ary = datas[].dup;
-	ary.sort();
-	foreach (data; ary)
-		lines.putModuleMenu(data, depth);
-}
-
-
-/*******************************************************************************
- * 
- */
-private void putModuleIndexPkg(R)(ref R lines, PkgInfo pkg, size_t depth = 0, bool isDubPkg = false) @safe
-{
-	import std.array : replicate;
-	import std.format : formattedWrite;
-	
-	auto outerIndent = "    ".replicate(depth);
-	
-	lines.formattedWrite!"%s$(%s %s,\n"(outerIndent,
-		isDubPkg ? "INDEX_DUBPKG" : "INDEX_PKG",
-		pkg.name);
-	
-	if(pkg.hasPackageD)
-		lines.formattedWrite!"    $(INDEX_MODULE %s, %s)\n"(
-			pkg.packageD.dst, pkg.packageD.fullModuleName);
-	
-	lines.putModuleIndexPkgChildren(pkg, depth + 1);
-	
-	lines.formattedWrite!"%s)\n"(outerIndent);
-}
-
-/// ditto
-private void putModuleIndexPkgChildren(R)(ref R lines, PkgInfo pkg, size_t depth = 0) @safe
-{
-	lines.putModuleIndex(PackageAndModuleData(pkg).children, depth);
-}
-
-/// ditto
-private void putModuleIndexMod(R)(ref R lines, ModInfo file, size_t depth = 0) @safe
-{
-	import std.format: formattedWrite;
-	import std.array : replicate;
-	auto innerIndent = "    ".replicate(depth);
-	
-	lines.formattedWrite!"%s$(INDEX_MODULE %s, %s)\n"(innerIndent,
-		file.dst, file.fullModuleName);
-}
-
-/// ditto
-private void putModuleIndex(R)(ref R lines, PackageAndModuleData data, size_t depth = 0) @safe
-{
-	if (data.isPackage)
-	{
-		lines.putModuleIndexPkg(data.packageInfo, depth);
-	}
-	else
-	{
-		lines.putModuleIndexMod(data.moduleInfo, depth);
-	}
-}
-/// ditto
-private void putModuleIndex(R)(ref R lines, PackageAndModuleData[] datas, size_t depth = 0) @safe
-{
-	auto ary = datas[].dup;
-	ary.sort();
-	foreach (data; ary)
-		lines.putModuleIndex(data, depth);
-}
-
-
-
 
 /***************************************************************
  * 
@@ -453,29 +326,35 @@ private:
 	@safe unittest
 	{
 		ModuleManager modmgr;
-		modmgr.addModule(["a", "b", "c"], ModInfo("test.d"));
+		modmgr.addRootPackage("pkgname", "*", ".", string[].init);
+		modmgr.addModule("pkgname", "a/b/c", ModInfo("test.d"));
 		assert(modmgr._rootPackages.length == 1);
-		assert(modmgr._rootPackages[0].name == "a");
-		assert(modmgr._rootPackages[0].packages.length == 1);
-		assert(modmgr._rootPackages[0].packages[0].name == "b");
-		assert(modmgr._rootPackages[0].packages[0].packages.length == 1);
-		assert(modmgr._rootPackages[0].packages[0].packages[0].name == "c");
-		assert(modmgr._rootPackages[0].packages[0].packages[0].modules.length == 1);
-		assert(modmgr._rootPackages[0].packages[0].packages[0].modules[0].src == "test.d");
-		modmgr.addModule(["a", "b", "c"], ModInfo("test2.d"));
-		modmgr.addModule(["a", "b", "d"], ModInfo("package.d"));
+		assert(modmgr._rootPackages[0].name == "pkgname");
+		assert(modmgr._rootPackages[0].root.name == "pkgname");
+		assert(modmgr._rootPackages[0].root.packages.length == 1);
+		assert(modmgr._rootPackages[0].root.packages[0].name == "a");
+		assert(modmgr._rootPackages[0].root.packages[0].packages.length == 1);
+		assert(modmgr._rootPackages[0].root.packages[0].packages[0].name == "b");
+		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages.length == 1);
+		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages[0].name == "c");
+		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages[0].modules.length == 1);
+		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages[0].modules[0].src == "test.d");
+		modmgr.addModule("pkgname", "a/b/c", ModInfo("test2.d"));
+		modmgr.addModule("pkgname", "a/b/d", ModInfo("package.d"));
 		assert(modmgr._rootPackages.length == 1);
-		assert(modmgr._rootPackages[0].name == "a");
-		assert(modmgr._rootPackages[0].packages.length == 1);
-		assert(modmgr._rootPackages[0].packages[0].name == "b");
-		assert(modmgr._rootPackages[0].packages[0].packages.length == 2);
-		assert(modmgr._rootPackages[0].packages[0].packages[0].name == "c");
-		assert(modmgr._rootPackages[0].packages[0].packages[1].name == "d");
-		assert(modmgr._rootPackages[0].packages[0].packages[0].modules.length == 2);
-		assert(modmgr._rootPackages[0].packages[0].packages[0].modules[0].src == "test.d");
-		assert(modmgr._rootPackages[0].packages[0].packages[0].modules[1].src == "test2.d");
-		assert(modmgr._rootPackages[0].packages[0].packages[1].modules.length == 0);
-		assert(modmgr._rootPackages[0].packages[0].packages[1].packageD.src == "package.d");
+		assert(modmgr._rootPackages[0].name == "pkgname");
+		assert(modmgr._rootPackages[0].root.packages.length == 1);
+		assert(modmgr._rootPackages[0].root.packages[0].name == "a");
+		assert(modmgr._rootPackages[0].root.packages[0].packages.length == 1);
+		assert(modmgr._rootPackages[0].root.packages[0].packages[0].name == "b");
+		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages.length == 2);
+		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages[0].name == "c");
+		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages[1].name == "d");
+		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages[0].modules.length == 2);
+		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages[0].modules[0].src == "test.d");
+		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages[0].modules[1].src == "test2.d");
+		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages[1].modules.length == 0);
+		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages[1].packageD.src == "package.d");
 	}
 	
 	bool _isExclude(string file) @safe
@@ -579,11 +458,11 @@ public:
 		assert(modmgr._rootPackages.length == 1);
 		assert(modmgr._rootPackages[0].name == "root");
 		assert(modmgr._rootPackages[0].packageVersion == "v1.2.3");
-		assert(modmgr._rootPackages[0].modules.length == 0);
-		assert(modmgr._rootPackages[0].packages.length == 1);
-		assert(modmgr._rootPackages[0].packages[0].name == fdir);
-		assert(modmgr._rootPackages[0].packages[0].modules.length == 1);
-		assert(modmgr._rootPackages[0].packages[0].modules[0].src == fname);
+		assert(modmgr._rootPackages[0].root.modules.length == 0);
+		assert(modmgr._rootPackages[0].root.packages.length == 1);
+		assert(modmgr._rootPackages[0].root.packages[0].name == fdir);
+		assert(modmgr._rootPackages[0].root.packages[0].modules.length == 1);
+		assert(modmgr._rootPackages[0].root.packages[0].modules[0].src == fname);
 	}
 	
 	///
@@ -610,30 +489,6 @@ public:
 			_excludePatterns ~= regex(ptn);
 		foreach (ptn; packagePatterns)
 			_excludePackagePatterns ~= regex(ptn);
-	}
-	
-	///
-	string getModuleListDdoc() @safe
-	{
-		import std.array, std.format;
-		auto lines = appender!string;
-		lines.put("MODULE_MENU=\n");
-		foreach (pkg; _rootPackages)
-			lines.putModuleMenuPkg(pkg.root, 1, true);
-		lines.put("_=\n");
-
-		lines.put("\n");
-		lines.put("MODULE_INDEX=\n");
-		foreach (pkg; _rootPackages)
-			lines.putModuleIndexPkg(pkg.root, 1, true);
-		lines.put("_=\n");
-		
-		if (_rootPackages.length > 0)
-		{
-			lines.formattedWrite!"PROJECT_NAME=%s\n_=\n\n"(_rootPackages[0].name);
-			lines.formattedWrite!"PROJECT_VERSION=%s\n_=\n\n"(_rootPackages[0].packageVersion);
-		}
-		return lines.data;
 	}
 	
 	inout(DubPkgInfo)[] dubPackages() inout @property

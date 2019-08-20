@@ -1,5 +1,5 @@
 {{# is_package }}
-	$({{ tag_pkg }} {{ name }}
+	$({{ tag_pkg }} {{ name }},
 		{{# has_package_d }}
 			$(INFO_MOD package, {{ page_url }}, {{ package_name }}, {{ module_name }}, {{ full_module_name }}, {{ source_path }})
 		{{/ has_package_d }}
