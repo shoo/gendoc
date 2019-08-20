@@ -160,18 +160,22 @@ At that time, it is possible to change the contents with the information describ
   - In the case of JSON format, it is possible to take one of three types: string, array, or object.
     - string: treat the string as "mustache".
     - array: Interpret as command line.
+    
       |  Options     | Type             | Description                            |
       |:------------:|:----------------:|:---------------------------------------|
       | --file       | string           | file name of mustache                  |
       | --map        | string\[stirng\] | define additional variable             |
       | --use        | string\[\]       | usable section                         |
+    
     - object: Interpret the data structure.
+    
       |  Field       | Type             | Description                            |
       |:------------:|:----------------:|:---------------------------------------|
       | file         | string           | file name of mustache                  |
       | contents     | string           | mustache (File field takes precedence) |
       | map          | string\[stirng\] | define additional variable             |
       | useSections  | string\[\]       | usable section                         |
+  
   - If the file is specified above, rendering will be performed with the target file.
 - If none of the above, JSON parsing fails, or a muctache string is specified even in JSON format, treat it as a mustache string.
   - If a mustache-style string is specified in either way, the string is rendered directly as mustache instead of a file.
