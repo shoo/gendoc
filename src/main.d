@@ -103,12 +103,9 @@ int main(string[] args)
 		}
 		addPkg(cfg.packageData);
 		
-		auto moduleListDdoc = modmgr.getModuleListDdoc();
-		auto moduleListDdocFile = "moduleListDdoc.ddoc";
-		import std.file;
-		std.file.write(moduleListDdocFile, moduleListDdoc);
+		generator.createTemporaryDir();
 		scope(exit)
-			std.file.remove(moduleListDdocFile);
+			generator.removeTemporaryDir();
 		
 		generator.compiler = cfg.compiler;
 		
@@ -172,28 +169,14 @@ int main(string[] args)
 		{
 			foreach (de; dir.dirEntries("*.ddoc", SpanMode.shallow))
 				generator.ddocFiles ~= de.name;
+			foreach (de; dir.dirEntries("*.ddoc.mustache", SpanMode.shallow))
+			{
+				auto absDir = dir.absolutePath.buildNormalizedPath();
+				auto absFile = de.name.absolutePath.buildNormalizedPath();
+				generator.generateDdoc(modmgr.dubPackages, absDir, absFile.relativePath(absDir).stripExtension);
+			}
 		}
-		generator.ddocFiles ~= moduleListDdocFile;
 		
-		// d sources
-		//foreach (e; modmgr.entries)
-		//{
-		//	FileInfo f = void;
-		//	if (e.isPackage)
-		//	{
-		//		if (!e.packageInfo.hasPackageD)
-		//			continue;
-		//		f = e.packageInfo.packageD;
-		//	}
-		//	else
-		//	{
-		//		f = e.fileInfo;
-		//	}
-		//	generator.options = f.options;
-		//	generator.rootDir = f.rootDir;
-		//	generator.targetDir = cfg.gendocData.target.absolutePath.buildNormalizedPath;
-		//	generator.generate(f.dst, f.src);
-		//}
 		generator.targetDir = cfg.gendocData.target.absolutePath.buildNormalizedPath;
 		foreach (pkg; modmgr.dubPackages)
 			generator.generate(pkg, cfg.singleFile);
