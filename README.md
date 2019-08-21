@@ -128,29 +128,31 @@ $(MENU_DUBPKG {{ name }}, {{ version }},
 
 Available tags are as below:
 
-| Location                  | Tag name         | Type         | Description                                                                           |
-|:--------------------------|:----------------:|:------------:|:--------------------------------------------------------------------------------------|
-| (root of package)         | name             | Variables    | Dub package name.                                                                     |
-| (root of package)         | version          | Variables    | Dub package version.                                                                  |
-| (root of package)         | dir              | Variables    | Path of dub package directory.                                                        |
-| (root of package)         | ***children***   | Lambdas      | The package and module information included in the dub package is embedded.           |
-| ┣ children               | is_package       | Section      | Section used when the current element is a package.                                   |
-| ┗ children               | is_module        | Section      | Section used when the current element is a module.                                    |
-| ・┣ is_package           | has_package_d    | Section      | Section used when the current package has a package.d                                 |
-| ・┣ is_package           | no_package_d     | Section      | Section used when the current package has not a package.d                             |
-| ・┃┣ has_package_d      | name             | Variables    | Name of package. (foo/bar/package.d -> bar)                                           |
-| ・┃┣ has_package_d      | page_url         | Variables    | Url of the document of package.d                                                      |
-| ・┃┣ has_package_d      | package_name     | Variables    | Name of package. (foo/bar/package.d -> foo.bar)                                       |
-| ・┃┣ has_package_d      | module_name      | Variables    | Name of module.  (foo/bar/package.d -> (none))                                        |
-| ・┃┣ has_package_d      | full_module_name | Variables    | Fullname of module.  (foo/bar/package.d -> foo.bar)                                   |
-| ・┃┣ has_package_d      | ***children***   | Lambdas      | The package and module information included in the package is embedded.               |
-| ・┃┣ no_package_d       | name             | Variables    | Section used when the current package has not a package.d                             |
-| ・┃┗ no_package_d       | ***children***   | Lambdas      | The package and module information included in the package is embedded.               |
-| ・┣ is_module            | name             | Variables    | Name of package. (foo/bar/package.d -> bar)                                           |
-| ・┣ is_module            | page_url         | Variables    | Url of the document of module.                                                        |
-| ・┣ is_module            | package_name     | Variables    | Name of package. (foo/bar/hoge.d -> foo.bar)                                          |
-| ・┣ is_module            | module_name      | Variables    | Name of module.  (foo/bar/hoge.d -> hoge)                                             |
-| ・┗ is_module            | full_module_name | Variables    | Fullname of module.  (foo/bar/package.d -> foo.bar.hoge)                              |
+
+
+| Location                     |    Tag name      |    Type      | Description                                                                  |
+|:-----------------------------|:----------------:|:------------:|:-----------------------------------------------------------------------------|
+| 1. (root of package)         | name             | Variables    | Dub package name.                                                            |
+| 2. (root of package)         | version          | Variables    | Dub package version.                                                         |
+| 3. (root of package)         | dir              | Variables    | Path of dub package directory.                                               |
+| 4. (root of package)         | ***children***   | Lambdas      | The package and module information included in the dub package is embedded.  |
+|   4.1. children              | is_package       | Section      | Section used when the current element is a package.                          |
+|     4.1.1. is_package        | has_package_d    | Section      | Section used when the current package has a package.d                        |
+|       4.1.1.1. has_package_d | name             | Variables    | Name of package. (`foo/bar/package.d` -> `bar`)                              |
+|       4.1.1.2. has_package_d | page_url         | Variables    | Url of the document of package.d                                             |
+|       4.1.1.3. has_package_d | package_name     | Variables    | Name of package. (`foo/bar/package.d` -> `foo.bar`)                          |
+|       4.1.1.4. has_package_d | module_name      | Variables    | Name of module.  (`foo/bar/package.d` -> (none))                             |
+|       4.1.1.5. has_package_d | full_module_name | Variables    | Fullname of module.  (`foo/bar/package.d` -> `foo.bar`)                      |
+|       4.1.1.6. has_package_d | ***children***   | Lambdas      | The package and module information included in the package is embedded.      |
+|     4.1.2. is_package        | no_package_d     | Section      | Section used when the current package has not a package.d                    |
+|       4.1.2.1. no_package_d  | name             | Variables    | Section used when the current package has not a package.d                    |
+|       4.1.2.2. no_package_d  | ***children***   | Lambdas      | The package and module information included in the package is embedded.      |
+|   4.2. children              | is_module        | Section      | Section used when the current element is a module.                           |
+|     4.2.1. is_module         | name             | Variables    | Name of package. (`foo/bar/package.d` -> `bar`)                              |
+|     4.2.2. is_module         | page_url         | Variables    | Url of the document of module.                                               |
+|     4.2.3. is_module         | package_name     | Variables    | Name of package. (`foo/bar/hoge.d` -> `foo.bar`)                             |
+|     4.2.4. is_module         | module_name      | Variables    | Name of module.  (`foo/bar/hoge.d` -> `hoge`)                                |
+|     4.2.5. is_module         | full_module_name | Variables    | Fullname of module.  (`foo/bar/package.d` -> foo.bar.hoge)                   |
 
 As it appears above, `{{# children }} {{/ children }}` is special.
 Recursive embedding is done to represent the package tree structure.
