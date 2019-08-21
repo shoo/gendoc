@@ -44,6 +44,9 @@ struct MustashImportOptions
 	string         file;
 	///
 	@optional
+	string[]       imports;
+	///
+	@optional
 	string         contents;
 	///
 	@optional
@@ -90,8 +93,9 @@ private MustashImportOptions getMustashImportOptions(Json json)
 			return MustashImportOptions.init;
 		MustashImportOptions ret;
 		args.getopt(
-			"m|map",      &ret.map,
-			"u|use",      &ret.useSections);
+			"m|map",        &ret.map,
+			"i|import",     &ret.imports,
+			"u|use",        &ret.useSections);
 		ret.file = args[0];
 		return ret;
 	}
@@ -130,7 +134,26 @@ private:
 	
 	Mustache _mustache;
 	
-	string _mustashRenderChildren(PackageAndModuleData[] datas, string options)
+	string _mustacheFindPath(string name, string[] dirs)
+	{
+		string _makeFileBasename(string n)
+		{
+			if (n.endsWith("." ~ _mustache.ext))
+				return n;
+			return n ~ "." ~ _mustache.ext;
+		}
+		string _makeFilename(string dir, string n)
+		{
+			return dir.buildPath(_makeFileBasename(n));
+		}
+		if (_makeFileBasename(name).exists)
+			return _makeFileBasename(name);
+		foreach (file; dirs.map!(a => _makeFilename(a, name)).filter!(a => a.exists))
+			return file;
+		return _makeFilename(_mustache.path, name);
+	}
+	
+	string _mustacheRenderChildren(PackageAndModuleData[] datas, string caller, string options)
 	{
 		if (datas.length == 0)
 			return null;
@@ -183,7 +206,11 @@ private:
 				ctx["full_module_name"] = dat.moduleInfo.fullModuleName;
 				ctx["source_path"]      = dat.moduleInfo.src;
 			}
-			ctx["children"] = (string str) => _mustashRenderChildren(children, str);
+			auto importDirs = opt.imports ~ [caller.dirName];
+			auto finder = (string n) => _mustacheFindPath(n, importDirs);
+			auto datCaller = opt.file.length > 0 ? finder(opt.file) : caller;
+			ctx["children"] = (string str) => _mustacheRenderChildren(children, datCaller, str);
+			_mustache.findPath = finder;
 			// mustacheのレンダリング
 			if (opt.file.length > 0)
 			{
@@ -197,13 +224,12 @@ private:
 		return ret;
 	}
 	
-	string _mustashRenderDubPackages(DubPkgInfo[] projects, string dir, string name)
+	string _mustacheRenderDubPackages(DubPkgInfo[] projects, string dir, string name)
 	{
 		if (projects.length == 0)
 			return null;
 		
 		auto ctx = new MustacheContext;
-		
 		ctx["project_name"]    = projects[0].name;
 		ctx["project_version"] = projects[0].packageVersion;
 		
@@ -215,12 +241,11 @@ private:
 			sc["name"]     = p.name;
 			sc["version"]  = p.packageVersion;
 			sc["dir"]      = p.dir;
-			sc["children"] = (string str) => _mustashRenderChildren(children, str);
+			sc["children"] = (string str) => _mustacheRenderChildren(children, _mustacheFindPath(name, null), str);
 		} ();
 		
-		_mustache.clearCache();
-		_mustache.level = Mustache.CacheLevel.no;
 		_mustache.path = dir;
+		_mustache.findPath = null;
 		return _mustache.render(name, ctx);
 	}
 	
@@ -416,13 +441,40 @@ public:
 		return _tempDir;
 	}
 	
-	///
-	void generateDdoc(DubPkgInfo[] info, string dir, string mustacheName)
+	/***************************************************************************
+	 * Convert from mustache file
+	 * 
+	 * Returns:
+	 *     Converted file contents
+	 */
+	string convertFromMustache(DubPkgInfo[] info, string dir, string mustacheName)
 	{
-		auto ddocContent = _mustashRenderDubPackages(info, dir, mustacheName);
+		return _mustacheRenderDubPackages(info, dir, mustacheName);
+	}
+	
+	/***************************************************************************
+	 * Generate file from mustache file
+	 * 
+	 * Returns:
+	 *     File name of generated
+	 */
+	string generateFromMustache(DubPkgInfo[] info, string dir, string mustacheName)
+	{
+		auto converted = convertFromMustache(info, dir, mustacheName);
 		auto filename = _tempDir.buildPath(mustacheName);
-		std.file.write(filename, ddocContent);
-		ddocFiles ~= filename;
+		std.file.write(filename, converted);
+		return filename;
+	}
+	
+	/***************************************************************************
+	 * Generate ddoc file from mustache file
+	 * 
+	 * The generated ddoc file is added automatically
+	 */
+	void generateDdoc(DubPkgInfo[] info, string dir, string mustacheName)
+		in (mustacheName.extension == ".ddoc")
+	{
+		ddocFiles ~= generateFromMustache(info, dir, mustacheName);
 	}
 	
 	///

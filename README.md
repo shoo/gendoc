@@ -110,7 +110,7 @@ Example:
 
 # mustache
 You can use [mustache](http://mustache.github.io/) as a way to embed information that is difficult to manage manually, such as a list of modules, in a ddoc file.
-Save it with the extension `*.ddoc.mustache`, such as `module_list.ddoc.mustache`.
+Save it with the extension `*.ddoc.mustache`, `*.dd.mustache`, such as `module_list.ddoc.mustache`.
 
 ```mustache
 MODULE_MENU={{# dub_pkg_info }}
@@ -163,20 +163,22 @@ At that time, it is possible to change the contents with the information describ
     - string: treat the string as "mustache".
     - array: Interpret as command line.
     
-      |  Options     | Type             | Description                            |
-      |:------------:|:----------------:|:---------------------------------------|
-      | --file       | string           | file name of mustache                  |
-      | --map        | string\[stirng\] | define additional variable             |
-      | --use        | string\[\]       | usable section                         |
+      |  Options           | Type             | Description                                   |
+      |:-------------------|:----------------:|:----------------------------------------------|
+      | (first argumenet)  | string           | file name or path of mustache                 |
+      | `-i` \| `--import` | string\[\]       | search path of mustache file (first argument) |
+      | `-m` \| `--map`    | string\[stirng\] | define additional variable                    |
+      | `-u` \| `--use`    | string\[\]       | usable section                                |
     
     - object: Interpret the data structure.
     
-      |  Field       | Type             | Description                            |
-      |:------------:|:----------------:|:---------------------------------------|
-      | file         | string           | file name of mustache                  |
-      | contents     | string           | mustache (File field takes precedence) |
-      | map          | string\[stirng\] | define additional variable             |
-      | useSections  | string\[\]       | usable section                         |
+      |  Field        | Type             | Description                               |
+      |:--------------|:----------------:|:------------------------------------------|
+      | `file`        | string           | file name or path of mustache             |
+      | `imports`     | string\[stirng\] | search path of mustache file (file field) |
+      | `contents`    | string           | mustache (File field takes precedence)    |
+      | `map`         | string\[stirng\] | define additional variable                |
+      | `useSections` | string\[\]       | usable section                            |
   
   - If the file is specified above, rendering will be performed with the target file.
 - If none of the above, JSON parsing fails, or a muctache string is specified even in JSON format, treat it as a mustache string.

@@ -188,9 +188,22 @@ int main(string[] args)
 			generator.rootDir   = absSrcDir;
 			foreach (de; absSrcDir.dirEntries(SpanMode.depth))
 			{
+				import std.algorithm: endsWith;
 				if (de.isDir)
 					continue;
-				generator.generate(relativePath(de.name, absSrcDir), de.name, cfg.packageData.options);
+				auto targetFile = relativePath(de.name, absSrcDir);
+				switch (de.name.endsWith(".mustache"))
+				{
+				case 1:
+					auto absFile = de.name.absolutePath.buildNormalizedPath();
+					auto mustachName = absFile.relativePath(absSrcDir).stripExtension;
+					auto srcFile = generator.generateFromMustache(modmgr.dubPackages, absSrcDir, mustachName);
+					generator.generate(targetFile, srcFile, cfg.packageData.options);
+					break;
+				default:
+					generator.generate(targetFile, de.name, cfg.packageData.options);
+					break;
+				}
 			}
 		}
 	}
