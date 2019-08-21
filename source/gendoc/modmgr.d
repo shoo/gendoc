@@ -1,4 +1,4 @@
-module src.modmgr;
+module gendoc.modmgr;
 
 import std.algorithm;
 import std.regex;
@@ -253,7 +253,7 @@ struct DubPkgInfo
 	}
 }
 
-// 
+/// 
 void moduleSort(ref PackageAndModuleData[] datas) @safe
 {
 	import std.algorithm, std.string;
@@ -273,10 +273,10 @@ private:
 	string           _target;
 	DubPkgInfo[] _rootPackages;
 	
-	void addRootPackage(string pkgName, string pkgVer, string root, string[] options) @safe
+	void addRootPackage(string pkgName, string pkgVer, string root, in string[] options) @safe
 		in (!_rootPackages.canFind!(a => a.name == pkgName))
 	{
-		_rootPackages ~= DubPkgInfo(pkgName, pkgVer, root, options);
+		_rootPackages ~= DubPkgInfo(pkgName, pkgVer, root, options.dup);
 	}
 	
 	void addModule(string pkgName, string path, ModInfo modInfo) @safe
@@ -377,7 +377,7 @@ private:
 	
 public:
 	///
-	void addSources(string dubPkgName, string pkgVer, string root, string[] files, string[] options) @safe
+	void addSources(string dubPkgName, string pkgVer, string root, in string[] files, in string[] options) @safe
 		in (!hasPackage(dubPkgName))
 	{
 		import std.file, std.path, std.string, std.array, std.range;
@@ -479,11 +479,11 @@ public:
 	}
 	
 	///
-	void exclude(string[] packages, string[] packagePatterns, string[] paths, string[] patterns)
+	void exclude(in string[] packages, in string[] packagePatterns, in string[] paths, in string[] patterns)
 	{
-		_excludePaths = paths;
+		_excludePaths = paths.dup;
 		_excludePatterns = null;
-		_excludePackages = packages;
+		_excludePackages = packages.dup;
 		_excludePackagePatterns = null;
 		foreach (ptn; patterns)
 			_excludePatterns ~= regex(ptn);

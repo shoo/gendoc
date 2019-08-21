@@ -1,0 +1,21 @@
+Ddoc
+
+{{# dub_pkg_info }}
+$(IDX_DUBPKG {{ name }}, {{ version }},
+    {{# children }}{
+        "file": "../ddoc/_module_info",
+        "map": {
+            "tag_pkg":"IDX_PKG",
+            "tag_mod":"IDX_MOD"
+        }
+    }{{/ children }}
+)
+{{/ dub_pkg_info }}
+
+Macros:
+    TITLE=Documentation for {{ project_name }}
+
+    IDX_DUBPKG =<span class="module_index_dubpkgname">$1</span><ul>$3</ul>
+    IDX_PKG    =$+
+    IDX_MOD    =<li><a href="$2"> <span class="module_index">$5</span></a></li>
+

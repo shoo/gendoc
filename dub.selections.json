@@ -1,7 +1,0 @@
-{
-	"fileVersion": 1,
-	"versions": {
-		"dub": "1.16.0",
-		"mustache-d": "0.1.3"
-	}
-}

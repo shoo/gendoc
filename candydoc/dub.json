@@ -1,0 +1,29 @@
+{
+	"authors": ["SHOO"],
+	"copyright": "Copyright © 2019, SHOO",
+	"description": "Document generator using Ddoc D language standard feature for dub package.",
+	"name": "candydoc",
+	"importPaths": [
+		"."
+	],
+	"configurations": [
+		{
+			"name": "default",
+			"targetType": "executable",
+			"dependencies": {
+				"gendoc": {"path": "../gendoc"}
+			}
+		},
+		{
+			"name": "init",
+			"targetType": "none",
+			"dependencies": {
+				"none": {"path": "../none"}
+			},
+			"copyFiles": [
+				"ddoc",
+				"source_docs"
+			]
+		}
+	]
+}

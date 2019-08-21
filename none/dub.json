@@ -1,0 +1,7 @@
+{
+	"authors": ["SHOO"],
+	"copyright": "Copyright © 2019, SHOO",
+	"description": "Document generator using Ddoc D language standard feature for dub package.",
+	"name": "none",
+	"targetType": "library"
+}

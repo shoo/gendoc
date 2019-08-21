@@ -1,4 +1,4 @@
-module src.docgen;
+module gendoc.generator;
 
 
 import std.file, std.path, std.algorithm, std.range, std.array, std.exception;
@@ -7,7 +7,7 @@ import dub.internal.vibecompat.inet.path;
 import dub.internal.vibecompat.data.json;
 import dub.internal.utils;
 
-import src.modmgr;
+import gendoc.modmgr;
 
 
 

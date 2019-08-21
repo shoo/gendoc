@@ -41,17 +41,26 @@
 	License:   $(WEB www.boost.org/LICENSE_1_0.txt, Boost License 1.0).
 	Author:   Jonathan M Davis, SHOO
   +/
-module src.main;
+module gendoc.main;
 
 import std;
 
-import src.config;
-import src.docgen;
-import src.modmgr;
+import gendoc.config;
+import gendoc.generator;
+import gendoc.modmgr;
+alias Config = gendoc.config.Config;
 
-int main(string[] args)
+version(gendoc_app) int main(string[] args)
 {
-	src.config.Config cfg;
+	return gendocMain(args);
+}
+
+/*******************************************************************************
+ * Main routine of gendoc
+ */
+int gendocMain(string[] args)
+{
+	gendoc.config.Config cfg;
 	DocumentGenerator generator;
 	ModuleManager     modmgr;
 	try
@@ -64,105 +73,14 @@ int main(string[] args)
 			return 0;
 		}
 		
-		cfg.gendocData.ddocs.all!(a => a.exists).enforce("ddoc directory is missing");
-		cfg.gendocData.sourceDocs.all!(a => a.exists).enforce("source_docs directory is missing");
+		initializeDocsDirecotry(cfg.gendocData.target);
+		modmgr.setup(cfg);
 		
-		modmgr.exclude(
-				cfg.gendocData.excludePackages,
-				cfg.gendocData.excludePackagePatterns,
-				cfg.gendocData.excludePaths,
-				cfg.gendocData.excludePatterns);
-		
-		if(!cfg.gendocData.target.exists)
-			mkdir(cfg.gendocData.target);
-		foreach (de; cfg.gendocData.target.dirEntries(SpanMode.shallow))
-		{
-			if (de.name.startsWith(cfg.gendocData.target.buildPath(".")))
-				continue;
-			if (de.isDir)
-			{
-				rmdirRecurse(de);
-			}
-			else
-			{
-				remove(de.name);
-			}
-		}
-		modmgr.target = cfg.gendocData.target;
-		
-		void addPkg(PackageConfig pkgcfg)
-		{
-			modmgr.addSources(
-				pkgcfg.name,
-				pkgcfg.packageVersion,
-				pkgcfg.path,
-				pkgcfg.files,
-				pkgcfg.options);
-			foreach (subpkg; pkgcfg.subPackages)
-				addPkg(subpkg);
-		}
-		addPkg(cfg.packageData);
+		generator.setup(cfg, modmgr);
 		
 		generator.createTemporaryDir();
 		scope(exit)
 			generator.removeTemporaryDir();
-		
-		generator.compiler = cfg.compiler;
-		
-		if (!cfg.quiet)
-		{
-			generator.preGenerateCallback = (string pkgName, ModInfo[] modInfo, string[] args)
-			{
-				if (cfg.varbose)
-				{
-					writef("Generate %s ------------------\n", pkgName);
-					foreach (m; modInfo)
-					{
-						writef("  |from: %s\n", generator.rootDir.buildPath(m.src));
-						writef("  |  to: %s\n", generator.targetDir.buildPath(m.dst));
-					}
-					writef("    with args:\n%-(        %-s\n%)\n    ...", args);
-				}
-				else
-				{
-					writef("Generate %s ...", pkgName);
-				}
-			};
-			
-			generator.postGenerateCallback = (string pkgName, ModInfo[] modInfo, int status, string resMsg)
-			{
-				if (status == 0)
-				{
-					writeln(" done.");
-				}
-				else
-				{
-					if (cfg.varbose)
-					{
-						writefln(" Failed\n    with code = 0x%08x msg: %s", status, resMsg);
-					}
-					else
-					{
-						writeln(" Failed.");
-					}
-					throw new Exception(resMsg);
-				}
-			};
-			
-			generator.postCopyCallback = (string src, string dst)
-			{
-				if (cfg.varbose)
-				{
-					writefln("Copyfrom %s\n      to %s\n    ... done.",
-						generator.targetDir.buildPath(src),
-						generator.rootDir.buildPath(dst));
-				}
-				else
-				{
-					writefln("Copy     %s ... done.", dst);
-				}
-			};
-		}
 		
 		// set *.ddoc
 		foreach (dir; cfg.gendocData.ddocs)
@@ -215,4 +133,142 @@ int main(string[] args)
 	}
 
 	return 0;
+}
+
+/*******************************************************************************
+ * setup the module manager
+ */
+void setup(ref ModuleManager modmgr, const ref Config cfg)
+{
+	setupModuleManagerImpl(modmgr, cfg);
+}
+/// ditto
+void setup(ref ModuleManager modmgr, Config cfg)
+{
+	setupModuleManagerImpl(modmgr, cfg);
+}
+
+private void setupModuleManagerImpl(ref ModuleManager modmgr, const ref Config cfg)
+{
+	modmgr.exclude(
+		cfg.gendocData.excludePackages,
+		cfg.gendocData.excludePackagePatterns,
+		cfg.gendocData.excludePaths,
+		cfg.gendocData.excludePatterns);
+	
+	modmgr.target = cfg.gendocData.target;
+	
+	void addPkg(in ref PackageConfig pkgcfg)
+	{
+		modmgr.addSources(
+			pkgcfg.name,
+			pkgcfg.packageVersion,
+			pkgcfg.path,
+			pkgcfg.files,
+			pkgcfg.options);
+		foreach (subpkg; pkgcfg.subPackages)
+			addPkg(subpkg);
+	}
+	addPkg(cfg.packageData);
+}
+
+/*******************************************************************************
+ * setup the module manager
+ */
+void setup(ref DocumentGenerator generator, const ref Config cfg, const ref ModuleManager modmgr)
+{
+	setupDocumentGenerator(generator, cfg, modmgr);
+}
+/// ditto
+void setup(ref DocumentGenerator generator, Config cfg, ModuleManager modmgr)
+{
+	setupDocumentGenerator(generator, cfg, modmgr);
+}
+
+
+private void setupDocumentGenerator(
+	ref DocumentGenerator generator, const ref Config cfg, const ref ModuleManager modmgr)
+{
+	if (!cfg.quiet)
+	{
+		generator.preGenerateCallback = (string pkgName, ModInfo[] modInfo, string[] args)
+		{
+			if (cfg.varbose)
+			{
+				writef("Generate %s ------------------\n", pkgName);
+				foreach (m; modInfo)
+				{
+					writef("  |from: %s\n", generator.rootDir.buildPath(m.src));
+					writef("  |  to: %s\n", generator.targetDir.buildPath(m.dst));
+				}
+				writef("    with args:\n%-(        %-s\n%)\n    ...", args);
+			}
+			else
+			{
+				writef("Generate %s ...", pkgName.length > 0
+					? pkgName
+					: modInfo.length > 0 ? modInfo[0].dst : "html");
+			}
+		};
+		
+		generator.postGenerateCallback = (string pkgName, ModInfo[] modInfo, int status, string resMsg)
+		{
+			if (status == 0)
+			{
+				writeln(" done.");
+			}
+			else
+			{
+				if (cfg.varbose)
+				{
+					writefln(" Failed\n    with code = 0x%08x msg: %s", status, resMsg);
+				}
+				else
+				{
+					writeln(" Failed.");
+				}
+				throw new Exception(resMsg);
+			}
+		};
+		
+		generator.postCopyCallback = (string src, string dst)
+		{
+			if (cfg.varbose)
+			{
+				writefln("Copyfrom %s\n      to %s\n    ... done.",
+					generator.targetDir.buildPath(src),
+					generator.rootDir.buildPath(dst));
+			}
+			else
+			{
+				writefln("Copy     %s ... done.", dst);
+			}
+		};
+	}
+	
+	generator.compiler = cfg.compiler;
+	
+}
+
+
+/*******************************************************************************
+ * Setup docs directory
+ */
+void initializeDocsDirecotry(string docsDir)
+{
+	if(!docsDir.exists)
+		mkdir(docsDir);
+	foreach (de; docsDir.dirEntries(SpanMode.shallow))
+	{
+		if (de.name.startsWith(docsDir.buildPath(".")))
+			continue;
+		if (de.isDir)
+		{
+			rmdirRecurse(de);
+		}
+		else
+		{
+			remove(de.name);
+		}
+	}
 }
