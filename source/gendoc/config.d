@@ -156,7 +156,9 @@ struct GendocConfig
 	///
 	void fixPath(string dirPath)
 	{
-		import std.path;
+		import std.algorithm, std.path;
+		ddocs      = ddocs.remove!(a => a.length == 0);
+		sourceDocs = sourceDocs.remove!(a => a.length == 0);
 		foreach (ref d; ddocs)
 		{
 			if (!d.isAbsolute)
@@ -167,7 +169,7 @@ struct GendocConfig
 			if (!d.isAbsolute)
 				d = buildPath(dirPath, d);
 		}
-		if (!target.isAbsolute)
+		if (target.length > 0 && !target.isAbsolute)
 			target = buildPath(dirPath, target);
 	}
 	
@@ -283,7 +285,7 @@ struct GendocConfig
 			sourceDocs = optSourceDocs.map!(
 				a => a.isAbsolute ? a : root.buildPath(a)).array;
 		if (optTarget.length > 0)
-			optTarget = optTarget.isAbsolute ? optTarget : root.buildPath(optTarget);
+			target = optTarget.isAbsolute ? optTarget : root.buildPath(optTarget);
 		
 		// default settings
 		if (ddocs.length == 0 && root.buildPath("ddoc").exists)
