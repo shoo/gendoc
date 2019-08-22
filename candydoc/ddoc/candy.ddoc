@@ -54,7 +54,7 @@ DDOC_PARAM =<span class="funcparam">$0</span>
 
 ADD_PAGES =
 <script>
-explorer.packageExplorer.addPage("index.html", "$(PROJECT_NAME)");
+explorer.packageExplorer.addPage("index.html", "pages/$(PROJECT_NAME)");
 </script>
 
 ADD_MODULES =<script>$(MODULE_INFORMATION)</script>
@@ -62,4 +62,4 @@ ADD_MODULES =<script>$(MODULE_INFORMATION)</script>
 
 INFO_DUBPKG =$3
 INFO_PKG    =$2
-INFO_MOD    =explorer.packageExplorer.addModule("$2", "$5");
+INFO_MOD    =explorer.packageExplorer.addModule("$2", "$3.$6");

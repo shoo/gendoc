@@ -185,15 +185,17 @@ private:
 					ctx["module_name"]      = dat.packageInfo.packageD.modName;
 					ctx["full_module_name"] = dat.packageInfo.packageD.fullModuleName;
 					ctx["source_path"]      = dat.packageInfo.packageD.src;
+					ctx["dub_package_name"] = dat.packageInfo.packageD.dubPkgName;
 				}
 				else
 				{
 					ctx.useSection("no_package_d");
 					ctx["page_url"]         = "";
-					ctx["package_name"]     = "";
+					ctx["package_name"]     = dat.packageInfo.pkgName;
 					ctx["module_name"]      = "";
 					ctx["full_module_name"] = "";
 					ctx["source_path"]      = "";
+					ctx["dub_package_name"] = dat.packageInfo.dubPkgName;
 				}
 			}
 			else
@@ -205,6 +207,7 @@ private:
 				ctx["module_name"]      = dat.moduleInfo.modName;
 				ctx["full_module_name"] = dat.moduleInfo.fullModuleName;
 				ctx["source_path"]      = dat.moduleInfo.src;
+				ctx["dub_package_name"] = dat.moduleInfo.dubPkgName;
 			}
 			auto importDirs = opt.imports ~ [caller.dirName];
 			auto finder = (string n) => _mustacheFindPath(n, importDirs);
