@@ -7,54 +7,46 @@ import std.stdio;
 
 
 /***************************************************************
- * 
+ * Source file (D's module) information
  */
 struct ModInfo
 {
-	///
+	/// Source file with relative path from source root path, or absolute path as external files.
 	string src;
-	///
+	/// Distination file with relative path from target.
 	string dst;
-	///
+	/// (D's) Package name
 	string pkgName;
-	///
+	/// Module name
 	string modName;
 	
-	///
+	/// Concatinated package and module name
 	string fullModuleName() @safe const @property
 	{
 		return pkgName.length > 0 ? pkgName ~ "." ~ modName : modName;
 	}
 	
-	///
+	/// Constructor
 	this(string srcFile) @safe
 	{
 		src = srcFile;
 	}
-	
-	///
-	invariant()
-	{
-		import std.path;
-		assert(!src.isAbsolute);
-		assert(!dst.isAbsolute);
-	}
 }
 
 /***************************************************************
- * 
+ * Source file (D's package) information
  */
 struct PkgInfo
 {
-	///
-	string        name;
-	///
-	ModInfo    packageD;
-	///
-	ModInfo[]  modules;
-	///
+	/// name of package
+	string    name;
+	/// package.d module information if exists.
+	ModInfo   packageD;
+	/// module informations of package children
+	ModInfo[] modules;
+	/// package informations of package children
 	PkgInfo[] packages;
-	///
+	/// true if package.d module exists
 	bool hasPackageD() @safe @nogc nothrow const @property
 	{
 		return packageD.src.length > 0;
