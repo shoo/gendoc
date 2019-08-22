@@ -283,7 +283,7 @@ private:
 		import std.path, std.array;
 		auto isPkgMod = modInfo.src.baseName.stripExtension() == "package";
 		
-		static PkgInfo* getBranch(PkgInfo[]* tree, string name)
+		static PkgInfo* getBranch(string dubPkgName, PkgInfo[]* tree, string name, string fullPkgName)
 			in (tree !is null)
 			out (r; r !is null)
 		{
@@ -292,7 +292,7 @@ private:
 				if (branch.name == name)
 					return () @trusted { return &branch; } ();
 			}
-			*tree ~= PkgInfo(name);
+			*tree ~= PkgInfo(name, dubPkgName, fullPkgName);
 			return &(*tree)[$-1];
 		}
 		
@@ -301,19 +301,15 @@ private:
 		
 		if (path.isAbsolute || path.startsWith(".."))
 		{
-			pkgSelected = getBranch(pkgTree, "(extra)");
-			pkgSelected.dubPkgName = pkgName;
-			pkgSelected.pkgName    = "(extra)";
+			pkgSelected = getBranch(pkgName, pkgTree, "(extra)", "(extra)");
 		}
 		else
 		{
 			auto pathSplitted = path.pathSplitter.array;
 			foreach (i, p; pathSplitted)
 			{
-				pkgSelected            = getBranch(pkgTree, p);
+				pkgSelected            = getBranch(pkgName, pkgTree, p, pathSplitted[0..i+1].join("."));
 				pkgTree                = &pkgSelected.packages;
-				pkgSelected.dubPkgName = pkgName;
-				pkgSelected.pkgName    = pathSplitted[0..i].join(".");
 			}
 		}
 		
@@ -362,7 +358,6 @@ private:
 		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages[0].modules[1].src == "test2.d");
 		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages[1].modules.length == 0);
 		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages[1].packageD.src == "package.d");
-		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages[1].packageD.dubPkgName == "pkgname");
 	}
 	
 	bool _isExclude(string file) @safe
@@ -459,9 +454,9 @@ public:
 		import std.path;
 		ModuleManager modmgr;
 		auto filepath = __FILE__;
-		auto dir    = filepath.buildNormalizedPath("../..").absolutePath;
+		auto dir    = filepath.absolutePath.buildNormalizedPath("../..");
 		auto fdir   = filepath.dirName.baseName;
-		auto fname  = filepath.relativePath(dir);
+		auto fname  = filepath.absolutePath.buildNormalizedPath.relativePath(dir);
 		
 		modmgr.addSources("root", "v1.2.3", dir, [filepath], null);
 		assert(modmgr._rootPackages.length == 1);
