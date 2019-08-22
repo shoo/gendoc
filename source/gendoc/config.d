@@ -176,6 +176,7 @@ struct GendocConfig
 	///
 	bool loadConfig(string path)
 	{
+		debug import std.stdio;
 		import std.file, std.path, std.exception;
 		string jsonContent;
 		static immutable settingFileDefaultName = "gendoc.json";
@@ -187,6 +188,7 @@ struct GendocConfig
 			import dub.internal.utils;
 			if (!p.exists || !p.isFile)
 				return false;
+			debug writeln("Configuration loaded from: " ~ p);
 			this.deserializeJson!GendocConfig(jsonFromFile(NativePath(p)));
 			return true;
 		}
@@ -209,6 +211,7 @@ struct GendocConfig
 				{
 					ddocs      = [ddocDir];
 					sourceDocs = [sourceDocsDir];
+					debug writeln("Configuration loaded from: " ~ p);
 					return true;
 				}
 			}
@@ -217,6 +220,7 @@ struct GendocConfig
 			{
 				ddocs      = [ddocDir];
 				sourceDocs = [sourceDocsDir];
+				debug writeln("Configuration loaded from: " ~ p);
 				return true;
 			}
 			return false;
@@ -233,7 +237,7 @@ struct GendocConfig
 			// 1.1. "gendoc.json"読み込みトライ
 			if (_loadFile(settingFileDefaultName))
 				return true;
-			// 1.2. ディレクトリからの読み込みトライ
+			// 1.2. ".gendoc" ディレクトリからの読み込みトライ
 			if (settingDirDefaultName.exists && settingDirDefaultName.isDir)
 			{
 				// 1.2.1. "settings.json" or "gendoc.json" 読み込みトライ
@@ -244,6 +248,9 @@ struct GendocConfig
 				if (_loadDir(settingDirDefaultName, true))
 					return true;
 			}
+			// 1.3. カレントディレクトリからの読み込みトライ
+			if (_loadDir(".", false))
+				return true;
 		}
 		else
 		{
@@ -256,7 +263,7 @@ struct GendocConfig
 			 || _loadFile(path.buildPath("gendoc.json")))
 				return _fixPath(path);
 			// 2.3. "ddoc", "source_docs" 読み込みトライ
-			if (_isExistsDir(path) && _loadDir(path, false))
+			if (_isExistsDir(path) && _loadDir(path, true))
 				return true;
 		}
 		return false;
@@ -268,12 +275,12 @@ struct GendocConfig
 		import std.algorithm, std.array, std.path, std.file, std.exception;
 		if (configFile.length > 0)
 		{
-			// ファイルの指定があった場合
+			// 1.コマンドライン引数によってファイルの指定があった場合
 			loadConfig(root.buildPath(configFile)).enforce("Cannot load configuration: " ~ root.buildPath(configFile));
 		}
 		else
 		{
-			// デフォルトから読み込み
+			// 2.コマンドライン引数がない場合はデフォルトから読み込み
 			if (!loadConfig(null))
 				loadConfig(thisExePath.dirName);
 		}
