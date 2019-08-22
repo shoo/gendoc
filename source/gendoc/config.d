@@ -1,4 +1,4 @@
-module src.config;
+module gendoc.config;
 
 import dub.dub, dub.project, dub.package_, dub.generators.generator, dub.compilers.compiler;
 import dub.internal.vibecompat.core.log, dub.internal.vibecompat.data.json, dub.internal.vibecompat.inet.path;
@@ -154,55 +154,145 @@ struct GendocConfig
 		":docs?$"];
 	
 	///
-	void loadConfig(string path)
+	void fixPath(string dirPath)
 	{
+		import std.algorithm, std.path;
+		ddocs      = ddocs.remove!(a => a.length == 0);
+		sourceDocs = sourceDocs.remove!(a => a.length == 0);
+		foreach (ref d; ddocs)
+		{
+			if (!d.isAbsolute)
+				d = buildPath(dirPath, d);
+		}
+		foreach (ref d; sourceDocs)
+		{
+			if (!d.isAbsolute)
+				d = buildPath(dirPath, d);
+		}
+		if (target.length > 0 && !target.isAbsolute)
+			target = buildPath(dirPath, target);
+	}
+	
+	///
+	bool loadConfig(string path)
+	{
+		debug import std.stdio;
 		import std.file, std.path, std.exception;
 		string jsonContent;
-		if (path.length > 0
-			&& path.exists)
+		static immutable settingFileDefaultName = "gendoc.json";
+		static immutable settingDirDefaultName  = ".gendoc";
+		static immutable settingFileInDirDefaultName  = "settings.json";
+		
+		bool _loadFile(string p)
 		{
-			if (path.isFile)
-			{
-				jsonContent = std.file.readText(path);
-			}
-			else
-			{
-				auto filepath = path.buildPath("gendoc.json");
-				enforce(filepath.exists && filepath.isFile, "Cannot find gendoc.json in directory: " ~ path);
-				jsonContent = std.file.readText(filepath);
-			}
+			import dub.internal.utils;
+			if (!p.exists || !p.isFile)
+				return false;
+			debug writeln("Configuration loaded from: " ~ p);
+			this.deserializeJson!GendocConfig(jsonFromFile(NativePath(p)));
+			return true;
 		}
-		else if (path.length == 0)
+		
+		bool _isExistsDir(string p)
 		{
-			auto filepath = "gendoc.json";
-			if (filepath.exists && filepath.isFile)
-				jsonContent = std.file.readText(filepath);
+			return p.exists && p.isDir;
+		}
+		
+		bool _loadDir(string p, bool enableRawDocs)
+		{
+			auto ddocDir = p.buildPath("ddoc");
+			if (!_isExistsDir(ddocDir))
+				return false;
+			string sourceDocsDir;
+			if (enableRawDocs)
+			{
+				sourceDocsDir = p.buildPath("docs");
+				if (_isExistsDir(sourceDocsDir))
+				{
+					ddocs      = [ddocDir];
+					sourceDocs = [sourceDocsDir];
+					debug writeln("Configuration loaded from: " ~ p);
+					return true;
+				}
+			}
+			sourceDocsDir = p.buildPath("source_docs");
+			if (_isExistsDir(sourceDocsDir))
+			{
+				ddocs      = [ddocDir];
+				sourceDocs = [sourceDocsDir];
+				debug writeln("Configuration loaded from: " ~ p);
+				return true;
+			}
+			return false;
+		}
+		bool _fixPath(string p)
+		{
+			fixPath(p);
+			return true;
+		}
+		
+		if (path.length == 0)
+		{
+			// パス無しの場合、デフォルトのフォルダを検索
+			// 1.1. "gendoc.json"読み込みトライ
+			if (_loadFile(settingFileDefaultName))
+				return true;
+			// 1.2. ".gendoc" ディレクトリからの読み込みトライ
+			if (settingDirDefaultName.exists && settingDirDefaultName.isDir)
+			{
+				// 1.2.1. "settings.json" or "gendoc.json" 読み込みトライ
+				if (_loadFile(settingDirDefaultName.buildPath("settings.json"))
+				 || _loadFile(settingDirDefaultName.buildPath("gendoc.json")))
+					return _fixPath(settingDirDefaultName);
+				// 1.2.2. "ddoc", "docs" or "source_docs" 読み込みトライ
+				if (_loadDir(settingDirDefaultName, true))
+					return true;
+			}
+			// 1.3. カレントディレクトリからの読み込みトライ
+			if (_loadDir(".", false))
+				return true;
 		}
 		else
 		{
-			// 何もしない
+			// 2.パス有りの場合
+			// 2.1. ファイル読み込みトライ
+			if (_loadFile(path))
+				return _fixPath(path.dirName);
+			// 2.2. フォルダ以下の "settings.json" or "gendoc.json" 読み込みトライ
+			if (_loadFile(path.buildPath("settings.json"))
+			 || _loadFile(path.buildPath("gendoc.json")))
+				return _fixPath(path);
+			// 2.3. "ddoc", "source_docs" 読み込みトライ
+			if (_isExistsDir(path) && _loadDir(path, true))
+				return true;
 		}
-		if (jsonContent.length > 0)
-		{
-			auto json = parseJson(jsonContent);
-			this = deserializeJson!GendocConfig(json);
-		}
+		return false;
 	}
 	
 	///
 	void setup(string root, string configFile, string[] optDdocs, string[] optSourceDocs, string optTarget)
 	{
-		import std.algorithm, std.array, std.path, std.file;
-		loadConfig(configFile.length > 0 ? root.buildPath(configFile) : null);
+		import std.algorithm, std.array, std.path, std.file, std.exception;
+		if (configFile.length > 0)
+		{
+			// 1.コマンドライン引数によってファイルの指定があった場合
+			loadConfig(root.buildPath(configFile)).enforce("Cannot load configuration: " ~ root.buildPath(configFile));
+		}
+		else
+		{
+			// 2.コマンドライン引数がない場合はデフォルトから読み込み
+			if (!loadConfig(null))
+				loadConfig(thisExePath.dirName);
+		}
 		
 		if (optDdocs.length > 0)
-			ddocs ~= optDdocs.map!(
+			ddocs = optDdocs.map!(
 				a => a.isAbsolute ? a : root.buildPath(a)).array;
 		if (optSourceDocs.length > 0)
-			sourceDocs ~= optSourceDocs.map!(
+			sourceDocs = optSourceDocs.map!(
 				a => a.isAbsolute ? a : root.buildPath(a)).array;
 		if (optTarget.length > 0)
-			optTarget = optTarget.isAbsolute ? optTarget : root.buildPath(optTarget);
+			target = optTarget.isAbsolute ? optTarget : root.buildPath(optTarget);
 		
 		// default settings
 		if (ddocs.length == 0 && root.buildPath("ddoc").exists)
@@ -211,6 +301,20 @@ struct GendocConfig
 			sourceDocs = [root.buildPath("source_docs")];
 		if (target.length == 0)
 			target = root.buildPath("docs");
+		
+		// check
+		foreach (ref d; ddocs)
+		{
+			enforce(d.exists && d.isDir, "ddoc directory is missing: " ~ d);
+			enforce(filenameCmp(target.absolutePath.buildNormalizedPath, d.absolutePath.buildNormalizedPath) != 0,
+				"ddoc dir cannot be same to target: " ~ target);
+		}
+		foreach (ref d; sourceDocs)
+		{
+			enforce(d.exists && d.isDir, "source_docs directory is missing: " ~ d);
+			enforce(filenameCmp(target.absolutePath.buildNormalizedPath, d.absolutePath.buildNormalizedPath) != 0,
+				"source_docs dir cannot be same to target: " ~ target);
+		}
 	}
 }
 

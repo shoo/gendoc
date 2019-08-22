@@ -1,4 +1,4 @@
-module src.modmgr;
+module gendoc.modmgr;
 
 import std.algorithm;
 import std.regex;
@@ -7,54 +7,52 @@ import std.stdio;
 
 
 /***************************************************************
- * 
+ * Source file (D's module) information
  */
 struct ModInfo
 {
-	///
+	/// Source file with relative path from source root path, or absolute path as external files.
 	string src;
-	///
+	/// Distination file with relative path from target.
 	string dst;
-	///
+	/// Dub package name
+	string dubPkgName;
+	/// (D's) Package name (eg.  `hoge/fuga/piyo.d` -> `hoge.fuga` )
 	string pkgName;
-	///
+	/// Module name ( `hoge/fuga/piyo.d` -> `piyo` )
 	string modName;
 	
-	///
+	/// Concatinated package and module name (eg. `hoge/fuga/piyo.d` -> `hoge.fuga.piyo` )
 	string fullModuleName() @safe const @property
 	{
 		return pkgName.length > 0 ? pkgName ~ "." ~ modName : modName;
 	}
 	
-	///
+	/// Constructor
 	this(string srcFile) @safe
 	{
 		src = srcFile;
 	}
-	
-	///
-	invariant()
-	{
-		import std.path;
-		assert(!src.isAbsolute);
-		assert(!dst.isAbsolute);
-	}
 }
 
 /***************************************************************
- * 
+ * Source file (D's package) information
  */
 struct PkgInfo
 {
-	///
-	string        name;
-	///
-	ModInfo    packageD;
-	///
-	ModInfo[]  modules;
-	///
+	/// name of package (eg. `hoge/fuga/piyo.d` -> `fuga` )
+	string    name;
+	/// dub package name
+	string    dubPkgName;
+	/// full package name (eg. `hoge/fuga/piyo.d` -> `hoge.fuga` )
+	string    pkgName;
+	/// package.d module information if exists.
+	ModInfo   packageD;
+	/// module informations of package children
+	ModInfo[] modules;
+	/// package informations of package children
 	PkgInfo[] packages;
-	///
+	/// true if package.d module exists
 	bool hasPackageD() @safe @nogc nothrow const @property
 	{
 		return packageD.src.length > 0;
@@ -253,7 +251,7 @@ struct DubPkgInfo
 	}
 }
 
-// 
+/// 
 void moduleSort(ref PackageAndModuleData[] datas) @safe
 {
 	import std.algorithm, std.string;
@@ -273,19 +271,19 @@ private:
 	string           _target;
 	DubPkgInfo[] _rootPackages;
 	
-	void addRootPackage(string pkgName, string pkgVer, string root, string[] options) @safe
+	void addRootPackage(string pkgName, string pkgVer, string root, in string[] options) @safe
 		in (!_rootPackages.canFind!(a => a.name == pkgName))
 	{
-		_rootPackages ~= DubPkgInfo(pkgName, pkgVer, root, options);
+		_rootPackages ~= DubPkgInfo(pkgName, pkgVer, root, options.dup);
 	}
 	
 	void addModule(string pkgName, string path, ModInfo modInfo) @safe
 		in (_rootPackages.canFind!(a => a.name == pkgName))
 	{
-		import std.path;
+		import std.path, std.array;
 		auto isPkgMod = modInfo.src.baseName.stripExtension() == "package";
 		
-		static PkgInfo* getBranch(PkgInfo[]* tree, string name)
+		static PkgInfo* getBranch(string dubPkgName, PkgInfo[]* tree, string name, string fullPkgName)
 			in (tree !is null)
 			out (r; r !is null)
 		{
@@ -294,7 +292,7 @@ private:
 				if (branch.name == name)
 					return () @trusted { return &branch; } ();
 			}
-			*tree ~= PkgInfo(name);
+			*tree ~= PkgInfo(name, dubPkgName, fullPkgName);
 			return &(*tree)[$-1];
 		}
 		
@@ -303,14 +301,15 @@ private:
 		
 		if (path.isAbsolute || path.startsWith(".."))
 		{
-			pkgSelected = getBranch(pkgTree, "(extra)");
+			pkgSelected = getBranch(pkgName, pkgTree, "(extra)", "(extra)");
 		}
 		else
 		{
-			foreach (p; path.pathSplitter)
+			auto pathSplitted = path.pathSplitter.array;
+			foreach (i, p; pathSplitted)
 			{
-				pkgSelected = getBranch(pkgTree, p);
-				pkgTree = &pkgSelected.packages;
+				pkgSelected            = getBranch(pkgName, pkgTree, p, pathSplitted[0..i+1].join("."));
+				pkgTree                = &pkgSelected.packages;
 			}
 		}
 		
@@ -345,8 +344,12 @@ private:
 		assert(modmgr._rootPackages[0].name == "pkgname");
 		assert(modmgr._rootPackages[0].root.packages.length == 1);
 		assert(modmgr._rootPackages[0].root.packages[0].name == "a");
+		assert(modmgr._rootPackages[0].root.packages[0].pkgName == "a");
+		assert(modmgr._rootPackages[0].root.packages[0].dubPkgName == "pkgname");
 		assert(modmgr._rootPackages[0].root.packages[0].packages.length == 1);
 		assert(modmgr._rootPackages[0].root.packages[0].packages[0].name == "b");
+		assert(modmgr._rootPackages[0].root.packages[0].packages[0].pkgName == "a.b");
+		assert(modmgr._rootPackages[0].root.packages[0].packages[0].dubPkgName == "pkgname");
 		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages.length == 2);
 		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages[0].name == "c");
 		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages[1].name == "d");
@@ -377,7 +380,7 @@ private:
 	
 public:
 	///
-	void addSources(string dubPkgName, string pkgVer, string root, string[] files, string[] options) @safe
+	void addSources(string dubPkgName, string pkgVer, string root, in string[] files, in string[] options) @safe
 		in (!hasPackage(dubPkgName))
 	{
 		import std.file, std.path, std.string, std.array, std.range;
@@ -394,30 +397,31 @@ public:
 			auto relSrcPath = relSrc.replace("\\", "/");
 			if (_isExclude(relSrcPath))
 				continue;
+			modInfo.dubPkgName = dubPkgName;
 			modInfo.src = relSrc;
 			if (relSrcPath.isAbsolute || relSrcPath.startsWith(".."))
 			{
-				auto modPath    = relSrcPath;
+				auto modPath      = relSrcPath;
 				modInfo.dst       = dubPkgName.replace(":", "-") ~ "--_extra_." ~ modPath.baseName.stripExtension ~ ".html";
 				modInfo.modName   = modPath.baseName.stripExtension;
-				assert(modPath.baseName.length <= modPath.length);
 				modInfo.pkgName   = "(extra)";
+				assert(modPath.baseName.length <= modPath.length);
 			}
 			else if (absSrc.baseName.stripExtension == "package")
 			{
-				auto modPath    = relSrcPath.dirName;
+				auto modPath      = relSrcPath.dirName;
 				modInfo.dst       = dubPkgName.replace(":", "-") ~ "--" ~ modPath.replace("/", ".") ~ ".html";
 				modInfo.modName   = modPath.baseName;
-				assert(modInfo.modName.length <= modPath.length);
 				modInfo.pkgName   = modPath[0..$-modInfo.modName.length].chomp("/").replace("/", ".");
+				assert(modInfo.modName.length <= modPath.length);
 			}
 			else
 			{
-				auto modPath    = relSrcPath;
+				auto modPath      = relSrcPath;
 				modInfo.dst       = dubPkgName.replace(":", "-") ~ "--" ~ modPath.stripExtension.replace("/", ".") ~ ".html";
 				modInfo.modName   = modPath.baseName.stripExtension;
-				assert(modPath.baseName.length <= modPath.length);
 				modInfo.pkgName   = modPath[0..$-modPath.baseName.length].chomp("/").replace("/", ".");
+				assert(modPath.baseName.length <= modPath.length);
 			}
 			auto relSrcDir = relSrc.dirName;
 			addModule(dubPkgName, relSrcDir == "." ? null : relSrcDir, modInfo);
@@ -450,9 +454,9 @@ public:
 		import std.path;
 		ModuleManager modmgr;
 		auto filepath = __FILE__;
-		auto dir    = filepath.buildNormalizedPath("../..").absolutePath;
+		auto dir    = filepath.absolutePath.buildNormalizedPath("../..");
 		auto fdir   = filepath.dirName.baseName;
-		auto fname  = filepath.relativePath(dir);
+		auto fname  = filepath.absolutePath.buildNormalizedPath.relativePath(dir);
 		
 		modmgr.addSources("root", "v1.2.3", dir, [filepath], null);
 		assert(modmgr._rootPackages.length == 1);
@@ -463,6 +467,7 @@ public:
 		assert(modmgr._rootPackages[0].root.packages[0].name == fdir);
 		assert(modmgr._rootPackages[0].root.packages[0].modules.length == 1);
 		assert(modmgr._rootPackages[0].root.packages[0].modules[0].src == fname);
+		assert(modmgr._rootPackages[0].root.packages[0].modules[0].dubPkgName == "root");
 	}
 	
 	///
@@ -479,11 +484,11 @@ public:
 	}
 	
 	///
-	void exclude(string[] packages, string[] packagePatterns, string[] paths, string[] patterns)
+	void exclude(in string[] packages, in string[] packagePatterns, in string[] paths, in string[] patterns)
 	{
-		_excludePaths = paths;
+		_excludePaths = paths.dup;
 		_excludePatterns = null;
-		_excludePackages = packages;
+		_excludePackages = packages.dup;
 		_excludePackagePatterns = null;
 		foreach (ptn; patterns)
 			_excludePatterns ~= regex(ptn);

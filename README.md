@@ -56,8 +56,32 @@ gendoc -h
 |-q|           --quiet | bool     | Non-display messages.                                    | false                       |
 |-h|            --help | bool     | This help information.                                   | false                       |
 
-# gendoc.json
-You can change the gendoc settings by adding gendoc.json to the dub package.
+# Settings
+You can change the settings of the directory where the `*.ddoc`, `*.dd`, `*.html` etc. source files are placed according to your preference.
+The directory is searched using the following procedure:
+
+Search settings in the following order(Top item in list has highest priority):
+
+1. `(--gendocConfig=<jsonfile>)`
+2. `(--gendocConfig=<directory>)/settings.json`
+3. `(--gendocConfig=<directory>)/gendoc.json`
+4. `(--gendocConfig=<directory>)/ddoc` and `(--gendocConfig=<directory>)/docs`
+5. `(--gendocConfig=<directory>)/ddoc` and `(--gendocConfig=<directory>)/source_docs`
+6. `./gendoc.json`
+7. `./.gendoc/settings.json`
+8. `./.gendoc/gendoc.json`
+9. `./.gendoc/ddoc` and `./.gendoc/docs`
+10. `./.gendoc/ddoc` and `./.gendoc/source_docs`
+11. `./ddoc` and `./source_docs`
+12. `(gendocExePath)/gendoc.json`
+13. `(gendocExePath)/.gendoc/settings.json`
+14. `(gendocExePath)/.gendoc/gendoc.json`
+15. `(gendocExePath)/.gendoc/ddoc` and `(gendocExePath)/.gendoc/docs`
+16. `(gendocExePath)/.gendoc/ddoc` and `(gendocExePath)/.gendoc/source_docs`
+17. `(gendocExePath)/ddoc` and `(gendocExePath)/source_docs`
+
+## gendoc.json / .gendoc/settings.json
+You can change the gendoc settings by adding `gendoc.json` or `.gendoc/settings.json` to the dub package.
 
 Example:
 
@@ -140,19 +164,23 @@ Available tags are as below:
 |     4.1.1. is_package        | has_package_d    | Section      | Section used when the current package has a package.d                        |
 |       4.1.1.1. has_package_d | name             | Variables    | Name of package. (`foo/bar/package.d` -> `bar`)                              |
 |       4.1.1.2. has_package_d | page_url         | Variables    | Url of the document of package.d                                             |
+|       4.1.1.3. has_package_d | dub_package_name | Variables    | Name of dub package.                                                         |
 |       4.1.1.3. has_package_d | package_name     | Variables    | Name of package. (`foo/bar/package.d` -> `foo.bar`)                          |
 |       4.1.1.4. has_package_d | module_name      | Variables    | Name of module.  (`foo/bar/package.d` -> (none))                             |
 |       4.1.1.5. has_package_d | full_module_name | Variables    | Fullname of module.  (`foo/bar/package.d` -> `foo.bar`)                      |
 |       4.1.1.6. has_package_d | ***children***   | Lambdas      | The package and module information included in the package is embedded.      |
 |     4.1.2. is_package        | no_package_d     | Section      | Section used when the current package has not a package.d                    |
-|       4.1.2.1. no_package_d  | name             | Variables    | Section used when the current package has not a package.d                    |
-|       4.1.2.2. no_package_d  | ***children***   | Lambdas      | The package and module information included in the package is embedded.      |
+|       4.1.2.1. no_package_d  | name             | Variables    | Name of package(only bottom name). (`foo/bar` -> `bar`)                      |
+|       4.1.2.2. no_package_d  | dub_package_name | Variables    | Name of dub package.                                                         |
+|       4.1.2.3. no_package_d  | package_name     | Variables    | Name of package. (`foo/bar` -> `foo.bar`)                                    |
+|       4.1.2.4. no_package_d  | ***children***   | Lambdas      | The package and module information included in the package is embedded.      |
 |   4.2. children              | is_module        | Section      | Section used when the current element is a module.                           |
-|     4.2.1. is_module         | name             | Variables    | Name of package. (`foo/bar/package.d` -> `bar`)                              |
+|     4.2.1. is_module         | name             | Variables    | Name of package. (`foo/bar/hoge.d` -> `hoge`)                                |
 |     4.2.2. is_module         | page_url         | Variables    | Url of the document of module.                                               |
 |     4.2.3. is_module         | package_name     | Variables    | Name of package. (`foo/bar/hoge.d` -> `foo.bar`)                             |
-|     4.2.4. is_module         | module_name      | Variables    | Name of module.  (`foo/bar/hoge.d` -> `hoge`)                                |
-|     4.2.5. is_module         | full_module_name | Variables    | Fullname of module.  (`foo/bar/package.d` -> foo.bar.hoge)                   |
+|     4.2.4. is_module         | dub_package_name | Variables    | Name of dub package.                                                         |
+|     4.2.5. is_module         | module_name      | Variables    | Name of module.  (`foo/bar/hoge.d` -> `hoge`)                                |
+|     4.2.6. is_module         | full_module_name | Variables    | Fullname of module.  (`foo/bar/package.d` -> foo.bar.hoge)                   |
 
 As it appears above, `{{# children }} {{/ children }}` is special.
 Recursive embedding is done to represent the package tree structure.
@@ -187,3 +215,12 @@ At that time, it is possible to change the contents with the information describ
 
 # License
 gendoc is licensed by [Boost Software License 1.0](LICENSE)
+
+gendoc depends on:
+
+- [dub](https://code.dlang.org/packages/dub)                    ([MIT](https://github.com/dlang/dub/blob/master/LICENSE))
+- [mustache-d](https://code.dlang.org/packages/mustache-d)      ([BSL-1.0](https://github.com/repeatedly/mustache-d/blob/master/dub.json))
+
+Generated html by dendoc depends on:
+
+- [jQuery](https://jquery.com/) (CDN)                           ([MIT](https://jquery.org/license/))

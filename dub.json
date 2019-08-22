@@ -5,27 +5,24 @@
 	"license": "BSL-1.0",
 	"name": "gendoc",
 	"dependencies": {
-		"dub": "~>1.16.0",
+		"dub":        "~>1.16.0",
 		"mustache-d": "~>0.1.3"
 	},
 	"subConfigurations": {
 		"dub": "library"
 	},
-	"importPaths": [
-		"."
-	],
 	"configurations": [
 		{
 			"name": "default",
-			"targetType": "executable"
+			"targetType": "executable",
+			"versions": ["gendoc_app"]
 		},
 		{
-			"name": "init",
-			"targetType": "none",
-			"copyFiles": [
-				"ddoc",
-				"source_docs"
-			]
+			"name": "library",
+			"targetType": "library"
 		}
+	],
+	"subPackages": [
+		"candydoc"
 	]
 }

@@ -1,6 +1,6 @@
-module src.ut;
+module gendoc.ut;
 
-
+version (gendoc_app):
 debug shared static this()
 {
 	import core.stdc.stdio;

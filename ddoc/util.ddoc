@@ -19,7 +19,7 @@ MENU_MOD    =$(LI $(A $2, $(SPAN, $1)))
 
 INDEX_DUBPKG =$(SPANC module_index_dubpkgname, $1)$(UL $3)
 INDEX_PKG    =$2
-INDEX_MOD    =$(LI $(A $2, $(SPANC module_index, $1)))
+INDEX_MOD    =$(LI $(A $2, $(SPANC module_index, $6)))
 _=
 
 INFO_DUBPKG =
