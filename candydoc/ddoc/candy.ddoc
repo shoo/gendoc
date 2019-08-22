@@ -54,7 +54,7 @@ DDOC_PARAM =<span class="funcparam">$0</span>
 
 ADD_PAGES =
 <script>
-explorer.packageExplorer.addPage("index.html", "gendoc");
+explorer.packageExplorer.addPage("index.html", "$(PROJECT_NAME)");
 </script>
 
 ADD_MODULES =<script>$(MODULE_INFORMATION)</script>
