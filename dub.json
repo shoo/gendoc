@@ -14,8 +14,10 @@
 	"configurations": [
 		{
 			"name": "default",
+			"targetPath": "build",
 			"targetType": "executable",
-			"versions": ["gendoc_app"]
+			"versions": ["gendoc_app"],
+			"copyFiles": ["source_docs", "ddoc", "README.md", "LICENSE"]
 		},
 		{
 			"name": "library",

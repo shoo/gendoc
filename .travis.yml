@@ -2,21 +2,31 @@ language: d
 
 d:
   - dmd
+  - dmd-nightly
   - ldc
+  - ldc-beta
 
 os:
   - linux
-#  - osx
+  - osx
 
 env:
-  - ARCH=x86_64
-  - ARCH=x86
+  - TEST_TARGET_ARCH=x86_64
+  - TEST_TARGET_ARCH=x86
 
-branches:
-  only:
-    - master
+matrix:
+  exclude:
+  - d: ldc
+    os: osx
+    env: TEST_TARGET_ARCH=x86
+  - d: ldc-beta
+    os: osx
+    env: TEST_TARGET_ARCH=x86
 
 script: ./.travis.sh
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash) -t ${CODECOV_TOKEN} -s .cov
 
 sudo: false
 
@@ -24,3 +34,91 @@ addons:
   apt:
     packages:
       - gcc-multilib
+
+jobs:
+    include:
+        - stage: GitHub Release
+          d: ldc
+          os: linux
+          script: echo "Deploying to GitHub releases ..." && ./.travis-release.sh
+          deploy:
+            provider: releases
+            api_key: $GH_REPO_TOKEN
+            file_glob: true
+            file: gendoc-*.tar.gz
+            after_success: true
+            skip_cleanup: true
+            on:
+              repo: shoo/gendoc
+              tags: true
+        - stage: GitHub Release
+          d: ldc
+          os: osx
+          script: echo "Deploying to GitHub releases ..." && ./.travis-release.sh
+          deploy:
+            provider: releases
+            api_key: $GH_REPO_TOKEN
+            file_glob: true
+            file: gendoc-*.tar.gz
+            after_success: true
+            skip_cleanup: true
+            on:
+              repo: shoo/gendoc
+              tags: true
+        - stage: GitHub Release
+          d: dmd
+          os: linux
+          language: generic
+          sudo: yes
+          script: echo "Deploying to GitHub releases ..." && ARCH=32 ./.travis-release-windows.sh
+          addons:
+            apt:
+              packages:
+                - p7zip-full
+          deploy:
+            provider: releases
+            api_key: $GH_REPO_TOKEN
+            file_glob: true
+            file: gendoc-*.zip
+            after_success: true
+            skip_cleanup: true
+            on:
+              repo: shoo/gendoc
+              tags: true
+        - stage: GitHub Release
+          d: dmd
+          os: linux
+          language: generic
+          sudo: yes
+          script: echo "Deploying to GitHub releases ..." && ARCH=64 ./.travis-release-windows.sh
+          addons:
+            apt:
+              packages:
+                - p7zip-full
+          deploy:
+            provider: releases
+            file_glob: true
+            file: gendoc-*.zip
+            after_success: true
+            skip_cleanup: true
+            on:
+              repo: shoo/gendoc
+              tags: true
+        - stage: Documentation
+          d: ldc
+          os: linux
+          script: echo "Deploying to GitHub pages ..." && dub run gendoc -y
+          deploy:
+            - provider: pages
+              after_success: true
+              skip_cleanup: true
+              local_dir: docs
+              github_token: $GH_REPO_TOKEN
+              on:
+                tags: false
+                branch: master
+stages:
+  - name: test
+    if: type = pull_request or (type = push and branch = master)
+  - name: Documentation
+    if: type = push and branch = master

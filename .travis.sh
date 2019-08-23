@@ -4,5 +4,7 @@ function if_error_exit() {
     exit 1
 }
 
-dub test --arch=$ARCH || if_error_exit
-dub run --arch=$ARCH -- --arch=$ARCH -v || if_error_exit
+mkdir .cov
+
+dub test --arch=$TEST_TARGET_ARCH || if_error_exit
+dub run --arch=$TEST_TARGET_ARCH -- --arch=$TEST_TARGET_ARCH -v || if_error_exit

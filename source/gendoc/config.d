@@ -119,7 +119,36 @@ struct PackageConfig
 
 }
 
-
+private string _getHomeDirectory()
+{
+	import std.file, std.path;
+	version (Posix)
+	{
+		return expandTilde("~");
+	}
+	else version (Windows)
+	{
+		import core.runtime;
+		import core.sys.windows.windows, core.sys.windows.shlobj;
+		wchar[MAX_PATH+1] dst;
+		auto mod = LoadLibraryW("Shell32.dll");
+		if (!mod)
+			return getcwd;
+		
+		alias SHGetFolderPathProc = extern (Windows) HRESULT function(HWND, int, HANDLE, DWORD, LPWSTR);
+		auto getFolderPath = cast(SHGetFolderPathProc)GetProcAddress(cast(HMODULE)mod, "SHGetFolderPathW");
+		if (getFolderPath is null)
+			return getcwd;
+		if (getFolderPath(null, CSIDL_PROFILE, null, 0, dst.ptr) == S_OK)
+		{
+			import std.algorithm, std.conv;
+			auto idx = dst.ptr.lstrlen();
+			if (idx < dst.length)
+				return dst[0..idx].to!string();
+		}
+		return getcwd;
+	}
+}
 
 /*******************************************************************************
  * 
@@ -174,48 +203,38 @@ struct GendocConfig
 	}
 	
 	///
-	bool loadConfig(string path)
+	private bool _loadConfigFromFile(string p)
 	{
 		debug import std.stdio;
-		import std.file, std.path, std.exception;
-		string jsonContent;
-		static immutable settingFileDefaultName = "gendoc.json";
-		static immutable settingDirDefaultName  = ".gendoc";
-		static immutable settingFileInDirDefaultName  = "settings.json";
-		
-		bool _loadFile(string p)
+		import dub.internal.utils;
+		import std.file, std.path;
+		if (!p.exists || !p.isFile)
+			return false;
+		debug writeln("Configuration loaded from: " ~ p);
+		this.deserializeJson!GendocConfig(jsonFromFile(NativePath(p)));
+		fixPath(p.dirName);
+		return true;
+	}
+	
+	///
+	private bool _isExistsDir(string p)
+	{
+		import std.file, std.path;
+		return p.exists && p.isDir;
+	}
+	
+	///
+	private bool _loadConfigFromDir(string p, bool enableRawDocs)
+	{
+		debug import std.stdio;
+		import std.file, std.path;
+		auto ddocDir = p.buildPath("ddoc");
+		if (!_isExistsDir(ddocDir))
+			return false;
+		string sourceDocsDir;
+		if (enableRawDocs)
 		{
-			import dub.internal.utils;
-			if (!p.exists || !p.isFile)
-				return false;
-			debug writeln("Configuration loaded from: " ~ p);
-			this.deserializeJson!GendocConfig(jsonFromFile(NativePath(p)));
-			return true;
-		}
-		
-		bool _isExistsDir(string p)
-		{
-			return p.exists && p.isDir;
-		}
-		
-		bool _loadDir(string p, bool enableRawDocs)
-		{
-			auto ddocDir = p.buildPath("ddoc");
-			if (!_isExistsDir(ddocDir))
-				return false;
-			string sourceDocsDir;
-			if (enableRawDocs)
-			{
-				sourceDocsDir = p.buildPath("docs");
-				if (_isExistsDir(sourceDocsDir))
-				{
-					ddocs      = [ddocDir];
-					sourceDocs = [sourceDocsDir];
-					debug writeln("Configuration loaded from: " ~ p);
-					return true;
-				}
-			}
-			sourceDocsDir = p.buildPath("source_docs");
+			sourceDocsDir = p.buildPath("docs");
 			if (_isExistsDir(sourceDocsDir))
 			{
 				ddocs      = [ddocDir];
@@ -223,49 +242,138 @@ struct GendocConfig
 				debug writeln("Configuration loaded from: " ~ p);
 				return true;
 			}
-			return false;
 		}
-		bool _fixPath(string p)
+		sourceDocsDir = p.buildPath("source_docs");
+		if (_isExistsDir(sourceDocsDir))
 		{
-			fixPath(p);
+			ddocs      = [ddocDir];
+			sourceDocs = [sourceDocsDir];
+			debug writeln("Configuration loaded from: " ~ p);
 			return true;
 		}
+		return false;
+	}
+	
+	/***************************************************************************
+	 * Load configuration from specifiered path
+	 * 
+	 */
+	bool loadConfig(string path)
+	{
+		import std.file, std.path;
+		// 1.1. (--gendocConfig=<jsonfile>)
+		if (_loadConfigFromFile(path))
+			return true;
 		
-		if (path.length == 0)
-		{
-			// パス無しの場合、デフォルトのフォルダを検索
-			// 1.1. "gendoc.json"読み込みトライ
-			if (_loadFile(settingFileDefaultName))
-				return true;
-			// 1.2. ".gendoc" ディレクトリからの読み込みトライ
-			if (settingDirDefaultName.exists && settingDirDefaultName.isDir)
-			{
-				// 1.2.1. "settings.json" or "gendoc.json" 読み込みトライ
-				if (_loadFile(settingDirDefaultName.buildPath("settings.json"))
-				 || _loadFile(settingDirDefaultName.buildPath("gendoc.json")))
-					return _fixPath(settingDirDefaultName);
-				// 1.2.2. "ddoc", "docs" or "source_docs" 読み込みトライ
-				if (_loadDir(settingDirDefaultName, true))
-					return true;
-			}
-			// 1.3. カレントディレクトリからの読み込みトライ
-			if (_loadDir(".", false))
-				return true;
-		}
-		else
-		{
-			// 2.パス有りの場合
-			// 2.1. ファイル読み込みトライ
-			if (_loadFile(path))
-				return _fixPath(path.dirName);
-			// 2.2. フォルダ以下の "settings.json" or "gendoc.json" 読み込みトライ
-			if (_loadFile(path.buildPath("settings.json"))
-			 || _loadFile(path.buildPath("gendoc.json")))
-				return _fixPath(path);
-			// 2.3. "ddoc", "source_docs" 読み込みトライ
-			if (_isExistsDir(path) && _loadDir(path, true))
-				return true;
-		}
+		// 1.2. (--gendocConfig=<directory>)/settings.json
+		if (_loadConfigFromFile(path.buildPath("settings.json")))
+			return true;
+		
+		// 1.3. (--gendocConfig=<directory>)/gendoc.json
+		if (_loadConfigFromFile(path.buildPath("gendoc.json")))
+			return true;
+		
+		// 1.4. (--gendocConfig=<directory>)/ddoc and (--gendocConfig=<directory>)/docs
+		// 1.5. (--gendocConfig=<directory>)/ddoc and (--gendocConfig=<directory>)/source_docs
+		if (_loadConfigFromDir(path, true))
+			return true;
+		
+		return false;
+	}
+	
+	/// ditto
+	bool loadConfig()
+	{
+		import std.file, std.path;
+		// 2.1. ./gendoc.json
+		if (_loadConfigFromFile("gendoc.json"))
+			return true;
+		
+		// 2.2. ./.gendoc/settings.json
+		if (_loadConfigFromFile(".gendoc/settings.json"))
+			return true;
+		
+		// 2.3. ./.gendoc/gendoc.json
+		if (_loadConfigFromFile(".gendoc/gendoc.json"))
+			return true;
+		
+		// 2.4.  ./.gendoc/ddoc and ./.gendoc/docs
+		// 2.5. ./.gendoc/ddoc and ./.gendoc/source_docs
+		if (_loadConfigFromDir(".gendoc", true))
+			return true;
+		
+		// 2.6. ./ddoc and ./source_docs
+		// (docs may be a target)
+		if (_loadConfigFromDir(".", false))
+			return true;
+		
+		auto homeDir = _getHomeDirectory();
+		
+		
+		// 3.1. $(HOME)/.gendoc.json
+		if (_loadConfigFromFile(homeDir.buildPath(".gendoc.json")))
+			return true;
+		
+		// 3.2. $(HOME)/gendoc.json
+		if (_loadConfigFromFile(homeDir.buildPath("gendoc.json")))
+			return true;
+		
+		// 3.3. $(HOME)/.gendoc/settings.json
+		if (_loadConfigFromFile(homeDir.buildPath(".gendoc/settings.json")))
+			return true;
+		
+		// 3.4. $(HOME)/.gendoc/gendoc.json
+		if (_loadConfigFromFile(homeDir.buildPath(".gendoc/gendoc.json")))
+			return true;
+		
+		// 3.5. $(HOME)/.gendoc/ddoc and $(HOME)/.gendoc/docs
+		// 3.6. $(HOME)/.gendoc/ddoc and $(HOME)/.gendoc/sourcec_docs
+		if (_loadConfigFromDir(homeDir.buildPath(".gendoc"), true))
+			return true;
+		
+		auto gendocExeDir = thisExePath.dirName;
+		
+		// 4.1. (gendocExeDir)/gendoc.json
+		if (_loadConfigFromFile(gendocExeDir.buildPath("gendoc.json")))
+			return true;
+		
+		// 4.2. (gendocExeDir)/.gendoc/settings.json
+		if (_loadConfigFromFile(gendocExeDir.buildPath(".gendoc/settings.json")))
+			return true;
+		
+		// 4.3. (gendocExeDir)/.gendoc/gendoc.json
+		if (_loadConfigFromFile(gendocExeDir.buildPath(".gendoc/gendoc.json")))
+			return true;
+		
+		// 4.4. (gendocExeDir)/.gendoc/ddoc and (gendocExeDir)/.gendoc/docs
+		// 4.5. (gendocExeDir)/.gendoc/ddoc and (gendocExeDir)/.gendoc/source_docs
+		if (_loadConfigFromDir(gendocExeDir.buildPath(".gendoc"), true))
+			return true;
+		
+		// 4.6. (gendocExeDir)/ddoc and (gendocExeDir)/source_docs
+		// (docs may be a gendoc's document target)
+		if (_loadConfigFromDir(gendocExeDir, false))
+			return true;
+		
+		auto gendocEtcDir = gendocExeDir.dirName.buildPath("etc");
+		
+		// 5.1. (gendocEtcDir)/gendoc.json
+		if (_loadConfigFromFile(gendocEtcDir.buildPath("gendoc.json")))
+			return true;
+		
+		// 5.2. (gendocEtcDir)/.gendoc/settings.json
+		if (_loadConfigFromFile(gendocEtcDir.buildPath(".gendoc/settings.json")))
+			return true;
+		
+		// 5.3. (gendocEtcDir)/.gendoc/gendoc.json
+		if (_loadConfigFromFile(gendocEtcDir.buildPath(".gendoc/gendoc.json")))
+			return true;
+		
+		// 5.4. (gendocEtcDir)/.gendoc/ddoc and (gendocEtcDir)/.gendoc/docs
+		// 5.5. (gendocEtcDir)/.gendoc/ddoc and (gendocEtcDir)/.gendoc/source_docs
+		if (_loadConfigFromDir(gendocEtcDir.buildPath(".gendoc"), true))
+			return true;
+		
 		return false;
 	}
 	
@@ -276,13 +384,14 @@ struct GendocConfig
 		if (configFile.length > 0)
 		{
 			// 1.コマンドライン引数によってファイルの指定があった場合
-			loadConfig(root.buildPath(configFile)).enforce("Cannot load configuration: " ~ root.buildPath(configFile));
+			auto filepath = root.buildPath(configFile);
+			// コマンドラインの指定があるのに構成が見つからない場合はエラー
+			loadConfig(filepath).enforce("Cannot load configuration: " ~ filepath);
 		}
 		else
 		{
 			// 2.コマンドライン引数がない場合はデフォルトから読み込み
-			if (!loadConfig(null))
-				loadConfig(thisExePath.dirName);
+			loadConfig();
 		}
 		
 		if (optDdocs.length > 0)
