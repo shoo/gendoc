@@ -2,7 +2,6 @@
 
 # sets up LDC for cross-compilation. Source this script, s.t. the new LDC is in PATH
 
-LDC_VERSION="1.16.0"
 ARCH=${ARCH:-32}
 VERSION=$(git describe --abbrev=0 --tags)
 OS=windows
@@ -21,6 +20,7 @@ esac
 if [ ! -f install.sh ] ; then
 	wget https://dlang.org/install.sh
 fi
+LDC_VERSION=${LDC_VERSION:-$(bash ./install.sh -a ldc | sed -E 's/.+\/ldc-([0-9.]+)\/activate/\1/')}
 . $(bash ./install.sh -a "ldc-${LDC_VERSION}")
 
 # for the install.sh script only
