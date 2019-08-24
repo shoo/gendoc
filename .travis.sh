@@ -1,10 +1,14 @@
 #!/bin/bash
 
+set -eux -o pipefail
+
 function if_error_exit() {
     exit 1
 }
 
-mkdir .cov
+TEST_TARGET_ARCH=${TEST_TARGET_ARCH:-x86_64}
+COVERAGE_DIR=${COVERAGE_DIR:-.cov}
+COVERAGE_MERGE=${COVERAGE_MERGE:-true}
 
-dub test --arch=$TEST_TARGET_ARCH || if_error_exit
-dub run --arch=$TEST_TARGET_ARCH -- --arch=$TEST_TARGET_ARCH -v || if_error_exit
+dub test --arch=${TEST_TARGET_ARCH} --coverage
+dub run --arch=${TEST_TARGET_ARCH} -b=unittest-cov -- --arch=${TEST_TARGET_ARCH}

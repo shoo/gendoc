@@ -14,7 +14,7 @@ source .travis-release-windows-setup.sh
 archiveName="$BIN_NAME-$VERSION-$OS-$ARCH_SUFFIX.zip"
 echo "Building $archiveName"
 
-DUBOPTIONS=-b=release
+DUBOPTIONS=-b=release --combined -f
 
 # pre-build
 dub describe ${DUBOPTIONS} --data=pre-generate-commands --data-list>pre-generate-commands.sh
