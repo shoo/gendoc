@@ -63,32 +63,41 @@ The directory is searched using the following procedure:
 Search settings in the following order(Top item in list has highest priority):
 
 1. Command line argument specifiered
-  1. `(--gendocConfig=<jsonfile>)`
-  2. `(--gendocConfig=<directory>)/settings.json`
-  3. `(--gendocConfig=<directory>)/gendoc.json`
-  4. `(--gendocConfig=<directory>)/ddoc` and `(--gendocConfig=<directory>)/docs`
-  5. `(--gendocConfig=<directory>)/ddoc` and `(--gendocConfig=<directory>)/source_docs`
+    1. `(--gendocConfig=<jsonfile>)`
+    2. `(--gendocConfig=<directory>)/settings.json`
+    3. `(--gendocConfig=<directory>)/gendoc.json`
+    4. `(--gendocConfig=<directory>)/ddoc` and `(--gendocConfig=<directory>)/docs`
+    5. `(--gendocConfig=<directory>)/ddoc` and `(--gendocConfig=<directory>)/source_docs`
 2. Search current directory
-  1. `./gendoc.json`
-  2. `./.gendoc/settings.json`
-  3. `./.gendoc/gendoc.json`
-  4. `./.gendoc/ddoc` and `./.gendoc/docs`
-  5. `./.gendoc/ddoc` and `./.gendoc/source_docs`
-  6. `./ddoc` and `./source_docs` * (docs may be a target)
+    1. `./.gendoc.json`
+    2. `./gendoc.json`
+    3. `./.gendoc/settings.json`
+    4. `./.gendoc/gendoc.json`
+    5. `./.gendoc/ddoc` and `./.gendoc/docs`
+    6. `./.gendoc/ddoc` and `./.gendoc/source_docs`
+    7. `./ddoc` and `./source_docs` * (docs may be a target)
 3. Search `$(HOME)` (POSIX) or `%USERPROFILE` (Windows) directory
-  1. `$(HOME)/.gendoc.json`
-  2. `$(HOME)/gendoc.json`
-  3. `$(HOME)/.gendoc/settings.json`
-  4. `$(HOME)/.gendoc/gendoc.json`
-  5. `$(HOME)/.gendoc/ddoc` and `$(HOME)/.gendoc/docs`
-  6. `$(HOME)/.gendoc/ddoc` and `$(HOME)/.gendoc/source_docs`
+    1. `$(HOME)/.gendoc.json`
+    2. `$(HOME)/gendoc.json`
+    3. `$(HOME)/.gendoc/settings.json`
+    4. `$(HOME)/.gendoc/gendoc.json`
+    5. `$(HOME)/.gendoc/ddoc` and `$(HOME)/.gendoc/docs`
+    6. `$(HOME)/.gendoc/ddoc` and `$(HOME)/.gendoc/source_docs`
 4. Search `(gendocExeDir)` directory
-  1. `(gendocExeDir)/gendoc.json`
-  2. `(gendocExeDir)/.gendoc/settings.json`
-  3. `(gendocExeDir)/.gendoc/gendoc.json`
-  4. `(gendocExeDir)/.gendoc/ddoc` and `(gendocExeDir)/.gendoc/docs`
-  5. `(gendocExeDir)/.gendoc/ddoc` and `(gendocExeDir)/.gendoc/source_docs`
-  6. `(gendocExeDir)/ddoc` and `(gendocExeDir)/source_docs` * (docs may be a gendoc's document target)
+    1. `(gendocExeDir)/.gendoc.json`
+    2. `(gendocExeDir)/gendoc.json`
+    3. `(gendocExeDir)/.gendoc/settings.json`
+    4. `(gendocExeDir)/.gendoc/gendoc.json`
+    5. `(gendocExeDir)/.gendoc/ddoc` and `(gendocExeDir)/.gendoc/docs`
+    6. `(gendocExeDir)/.gendoc/ddoc` and `(gendocExeDir)/.gendoc/source_docs`
+    7. `(gendocExeDir)/ddoc` and `(gendocExeDir)/source_docs` * (docs may be a gendoc's document target)
+5. Search `(gendocExeDir)/../etc` directory
+    1. `(gendocExeDir)/../etc/.gendoc.json`
+    2. `(gendocExeDir)/../etc/gendoc.json`
+    3. `(gendocExeDir)/../etc/.gendoc/gendoc.json`
+    4. `(gendocExeDir)/../etc/.gendoc/ddoc` and `(gendocExeDir)/../etc/.gendoc/docs`
+    5. `(gendocExeDir)/../etc/.gendoc/ddoc` and `(gendocExeDir)/../etc/.gendoc/source_docs`
+    6. `(gendocExeDir)/../etc/ddoc` and `(gendocExeDir)/../etc/source_docs` * (docs may be a gendoc's document target)
 
 ## gendoc.json / .gendoc/settings.json
 You can change the gendoc settings by adding `gendoc.json` or `.gendoc/settings.json` to the dub package.

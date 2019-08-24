@@ -43,7 +43,6 @@
   +/
 module gendoc.main;
 
-import std;
 
 import gendoc.config;
 import gendoc.generator;
@@ -60,6 +59,7 @@ version(gendoc_app) int main(string[] args)
  */
 int gendocMain(string[] args)
 {
+	import std.path, std.file;
 	gendoc.config.Config cfg;
 	DocumentGenerator generator;
 	ModuleManager     modmgr;
@@ -189,6 +189,7 @@ void setup(ref DocumentGenerator generator, Config cfg, ModuleManager modmgr)
 private void setupDocumentGenerator(
 	ref DocumentGenerator generator, const ref Config cfg, const ref ModuleManager modmgr)
 {
+	import std.stdio, std.path;
 	if (!cfg.quiet)
 	{
 		generator.preGenerateCallback = (string pkgName, ModInfo[] modInfo, string[] args)
@@ -256,6 +257,7 @@ private void setupDocumentGenerator(
  */
 void initializeDocsDirecotry(string docsDir)
 {
+	import std.file, std.path, std.algorithm;
 	if(!docsDir.exists)
 		mkdir(docsDir);
 	foreach (de; docsDir.dirEntries(SpanMode.shallow))

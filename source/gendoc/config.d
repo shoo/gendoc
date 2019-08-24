@@ -32,7 +32,7 @@ struct PackageConfig
 		string configName,
 		string compiler)
 	{
-		import std;
+		import std.algorithm, std.array, std.file, std.path;
 		Package bkupPkg = dub.project.rootPackage;
 		if (pkg)
 			dub.loadPackage(pkg);
@@ -285,24 +285,28 @@ struct GendocConfig
 	bool loadConfig()
 	{
 		import std.file, std.path;
-		// 2.1. ./gendoc.json
+		// 2.1. ./.gendoc.json
+		if (_loadConfigFromFile(".gendoc.json"))
+			return true;
+		
+		// 2.2. ./gendoc.json
 		if (_loadConfigFromFile("gendoc.json"))
 			return true;
 		
-		// 2.2. ./.gendoc/settings.json
+		// 2.3. ./.gendoc/settings.json
 		if (_loadConfigFromFile(".gendoc/settings.json"))
 			return true;
 		
-		// 2.3. ./.gendoc/gendoc.json
+		// 2.4. ./.gendoc/gendoc.json
 		if (_loadConfigFromFile(".gendoc/gendoc.json"))
 			return true;
 		
-		// 2.4.  ./.gendoc/ddoc and ./.gendoc/docs
-		// 2.5. ./.gendoc/ddoc and ./.gendoc/source_docs
+		// 2.5.  ./.gendoc/ddoc and ./.gendoc/docs
+		// 2.6. ./.gendoc/ddoc and ./.gendoc/source_docs
 		if (_loadConfigFromDir(".gendoc", true))
 			return true;
 		
-		// 2.6. ./ddoc and ./source_docs
+		// 2.7. ./ddoc and ./source_docs
 		// (docs may be a target)
 		if (_loadConfigFromDir(".", false))
 			return true;
@@ -334,23 +338,27 @@ struct GendocConfig
 		auto gendocExeDir = thisExePath.dirName;
 		
 		// 4.1. (gendocExeDir)/gendoc.json
+		if (_loadConfigFromFile(gendocExeDir.buildPath(".gendoc.json")))
+			return true;
+		
+		// 4.2. (gendocExeDir)/gendoc.json
 		if (_loadConfigFromFile(gendocExeDir.buildPath("gendoc.json")))
 			return true;
 		
-		// 4.2. (gendocExeDir)/.gendoc/settings.json
+		// 4.3. (gendocExeDir)/.gendoc/settings.json
 		if (_loadConfigFromFile(gendocExeDir.buildPath(".gendoc/settings.json")))
 			return true;
 		
-		// 4.3. (gendocExeDir)/.gendoc/gendoc.json
+		// 4.4. (gendocExeDir)/.gendoc/gendoc.json
 		if (_loadConfigFromFile(gendocExeDir.buildPath(".gendoc/gendoc.json")))
 			return true;
 		
-		// 4.4. (gendocExeDir)/.gendoc/ddoc and (gendocExeDir)/.gendoc/docs
-		// 4.5. (gendocExeDir)/.gendoc/ddoc and (gendocExeDir)/.gendoc/source_docs
+		// 4.5. (gendocExeDir)/.gendoc/ddoc and (gendocExeDir)/.gendoc/docs
+		// 4.6. (gendocExeDir)/.gendoc/ddoc and (gendocExeDir)/.gendoc/source_docs
 		if (_loadConfigFromDir(gendocExeDir.buildPath(".gendoc"), true))
 			return true;
 		
-		// 4.6. (gendocExeDir)/ddoc and (gendocExeDir)/source_docs
+		// 4.7. (gendocExeDir)/ddoc and (gendocExeDir)/source_docs
 		// (docs may be a gendoc's document target)
 		if (_loadConfigFromDir(gendocExeDir, false))
 			return true;
@@ -358,19 +366,23 @@ struct GendocConfig
 		auto gendocEtcDir = gendocExeDir.dirName.buildPath("etc");
 		
 		// 5.1. (gendocEtcDir)/gendoc.json
+		if (_loadConfigFromFile(gendocEtcDir.buildPath(".gendoc.json")))
+			return true;
+		
+		// 5.2. (gendocEtcDir)/gendoc.json
 		if (_loadConfigFromFile(gendocEtcDir.buildPath("gendoc.json")))
 			return true;
 		
-		// 5.2. (gendocEtcDir)/.gendoc/settings.json
+		// 5.3. (gendocEtcDir)/.gendoc/settings.json
 		if (_loadConfigFromFile(gendocEtcDir.buildPath(".gendoc/settings.json")))
 			return true;
 		
-		// 5.3. (gendocEtcDir)/.gendoc/gendoc.json
+		// 5.4. (gendocEtcDir)/.gendoc/gendoc.json
 		if (_loadConfigFromFile(gendocEtcDir.buildPath(".gendoc/gendoc.json")))
 			return true;
 		
-		// 5.4. (gendocEtcDir)/.gendoc/ddoc and (gendocEtcDir)/.gendoc/docs
-		// 5.5. (gendocEtcDir)/.gendoc/ddoc and (gendocEtcDir)/.gendoc/source_docs
+		// 5.5. (gendocEtcDir)/.gendoc/ddoc and (gendocEtcDir)/.gendoc/docs
+		// 5.6. (gendocEtcDir)/.gendoc/ddoc and (gendocEtcDir)/.gendoc/source_docs
 		if (_loadConfigFromDir(gendocEtcDir.buildPath(".gendoc"), true))
 			return true;
 		
