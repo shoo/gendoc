@@ -11,7 +11,10 @@
 			"name": "default",
 			"targetType": "executable",
 			"dependencies": {
-				"gendoc": {"path": "../gendoc"}
+				"gendoc": {"path": ".."}
+			},
+			"subConfigurations": {
+				"gendoc": "library"
 			}
 		},
 		{
