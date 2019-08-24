@@ -94,10 +94,10 @@ Search settings in the following order(Top item in list has highest priority):
 5. Search `(gendocExeDir)/../etc` directory
     1. `(gendocExeDir)/../etc/.gendoc.json`
     2. `(gendocExeDir)/../etc/gendoc.json`
-    3. `(gendocExeDir)/../etc/.gendoc/gendoc.json`
-    4. `(gendocExeDir)/../etc/.gendoc/ddoc` and `(gendocExeDir)/../etc/.gendoc/docs`
-    5. `(gendocExeDir)/../etc/.gendoc/ddoc` and `(gendocExeDir)/../etc/.gendoc/source_docs`
-    6. `(gendocExeDir)/../etc/ddoc` and `(gendocExeDir)/../etc/source_docs` * (docs may be a gendoc's document target)
+    3. `(gendocExeDir)/../etc/.gendoc/settings.json`
+    4. `(gendocExeDir)/../etc/.gendoc/gendoc.json`
+    5. `(gendocExeDir)/../etc/.gendoc/ddoc` and `(gendocExeDir)/../etc/.gendoc/docs`
+    6. `(gendocExeDir)/../etc/.gendoc/ddoc` and `(gendocExeDir)/../etc/.gendoc/source_docs`
 
 ## gendoc.json / .gendoc/settings.json
 You can change the gendoc settings by adding `gendoc.json` or `.gendoc/settings.json` to the dub package.
