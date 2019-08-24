@@ -11,6 +11,5 @@ COVERAGE_DIR=${COVERAGE_DIR:-.cov}
 COVERAGE_MERGE=${COVERAGE_MERGE:-true}
 DC=${DC:-dmd}
 
-dub test -a=${TEST_TARGET_ARCH} --coverage --compiler=${DC} -c=default
 dub run -a=${TEST_TARGET_ARCH} -b=unittest-cov -c=default --compiler=${DC} -- -a=${TEST_TARGET_ARCH}
 dub run :candydoc -a=${TEST_TARGET_ARCH} -b=unittest-cov -c=default --compiler=${DC} -- -a=${TEST_TARGET_ARCH} --gendocConfig=candydoc --gendocTarget=docs_candydoc
