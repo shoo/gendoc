@@ -1,4 +1,4 @@
-module gendoc.ut;
+module ut;
 
 debug shared static this()
 {
@@ -6,7 +6,7 @@ debug shared static this()
 	setvbuf(stdout, null, _IONBF, 0);
 }
 ///
-version (D_Coverage) version(unittest) version (gendoc_app)
+version (D_Coverage) version(unittest)
 {
 	private extern (C) void dmd_coverDestPath( string pathname );
 	private extern (C) void dmd_coverSetMerge( bool flag );

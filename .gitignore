@@ -10,6 +10,7 @@ build/
 *.lib
 gendoc-test-*
 /gendoc
+/candydoc/gendoc_candydoc
 *.exe
 *.o
 *.obj
