@@ -20,6 +20,11 @@
 			"copyFiles": ["source_docs", "ddoc", "README.md", "LICENSE"]
 		},
 		{
+			"name": "init",
+			"targetType": "none",
+			"copyFiles": ["source_docs", "ddoc"]
+		},
+		{
 			"name": "library",
 			"targetType": "library"
 		}

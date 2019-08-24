@@ -107,7 +107,9 @@ jobs:
         - stage: Documentation
           d: ldc
           os: linux
-          script: echo "Deploying to GitHub pages ..." && dub run gendoc -y
+          script:
+            - echo "Deploying to GitHub pages ..." && dub run gendoc -y
+            - dub run gendoc:candydoc -y --gendocConfig=candydoc --gendocTarget=docs/candydoc
           deploy:
             - provider: pages
               after_success: true
