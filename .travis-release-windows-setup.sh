@@ -71,8 +71,8 @@ fi
 
 # set suffices and compilation flags
 if [ "$ARCH_SUFFIX" == "x86_64" ] ; then
-	export DFLAGS="-mtriple=x86_64-windows-msvc"
+	export TARGET_MTRIPLE="x86_64-windows-msvc"
 else
-	export DFLAGS="-mtriple=i686-windows-msvc"
+	export TARGET_MTRIPLE="i686-windows-msvc"
 fi
 

@@ -2,10 +2,6 @@
 
 set -eux -o pipefail
 
-function if_error_exit() {
-    exit 1
-}
-
 TEST_TARGET_ARCH=${TEST_TARGET_ARCH:-x86_64}
 echo "--coverage_dir=${COVERAGE_DIR:-.cov}">.coverageopt
 echo "--coverage_merge=${COVERAGE_MERGE:-true}">>.coverageopt

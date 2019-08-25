@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 set -eux -o pipefail
+
+PROJECTNAME=gendoc
+
 VERSION=$(git describe --abbrev=0 --tags)
 ARCH="${ARCH:-64}"
 LDC_FLAGS=()
@@ -20,7 +23,7 @@ case "$ARCH" in
     *) echo "Unknown ARCH: $ARCH"; exit 1
 esac
 
-archiveName="gendoc-$VERSION-$OS-$ARCH_SUFFIX.tar.gz"
+archiveName="$PROJECTNAME-$VERSION-$OS-$ARCH_SUFFIX.tar.gz"
 
 echo "Building $archiveName"
 

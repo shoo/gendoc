@@ -2,7 +2,7 @@
 # Build the Windows binaries under Linux
 set -eux -o pipefail
 
-BIN_NAME=d_test
+PROJECTNAME=gendoc
 
 # Allow the script to be run from anywhere
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -11,11 +11,11 @@ cd $DIR
 source .travis-release-windows-setup.sh
 
 # Run LDC with cross-compilation
-archiveName="$BIN_NAME-$VERSION-$OS-$ARCH_SUFFIX.zip"
+archiveName="$PROJECTNAME-$VERSION-$OS-$ARCH_SUFFIX.zip"
 echo "Building $archiveName"
 
-# dub build -b=release
+git clone https://github.com/dlang/dub.git --depth=1 && dub run --root=dub -- -a=$TARGET_MTRIPLE -b=release -c=default --compiler=ldc2
 
-# cd build
-# zip "../$archiveName" "*"
-# cd ..
+cd build
+zip "../$archiveName" "*"
+cd ..
