@@ -230,9 +230,9 @@ At that time, it is possible to change the contents with the information describ
       |  Options           | Type             | Description                                   |
       |:-------------------|:----------------:|:----------------------------------------------|
       | (first argumenet)  | string           | file name or path of mustache                 |
-      | `-i` \| `--import` | string\[\]       | search path of mustache file (first argument) |
-      | `-m` \| `--map`    | string\[stirng\] | define additional variable                    |
-      | `-u` \| `--use`    | string\[\]       | usable section                                |
+      | `-i` / `--import`  | string\[\]       | search path of mustache file (first argument) |
+      | `-m` / `--map`     | string\[stirng\] | define additional variable                    |
+      | `-u` / `--use`     | string\[\]       | usable section                                |
     
     - object: Interpret the data structure.
     
