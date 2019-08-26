@@ -12,9 +12,6 @@ jobs:
       env: TEST_TARGET_ARCH=x86_64
       after_success:
         - bash <(curl -s https://codecov.io/bash) -t ${CODECOV_TOKEN} -s .cov
-    - d: ldc
-      os: linux
-      env: TEST_TARGET_ARCH=x86_64
     - d: ldc-latest-ci
       os: linux
       env: TEST_TARGET_ARCH=x86_64
