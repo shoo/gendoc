@@ -111,6 +111,7 @@ jobs:
             - p7zip-full
       deploy:
         provider: releases
+        api_key: $GH_REPO_TOKEN
         file_glob: true
         file: gendoc-*.zip
         skip_cleanup: true
