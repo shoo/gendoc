@@ -33,10 +33,22 @@ Or, can be run using dub package manager:
 dub run gendoc
 ```
 
+You can apply CanDyDoc style:
+
+```sh
+dub run gendoc:candydoc
+```
+
 In addition, to import template document styles using gendoc's dub package:
 
 ```sh
 dub build gendoc -c=init
+```
+
+CanDyDoc:
+
+```sh
+dub build gendoc:candydoc -c=init
 ```
 
 When you want to know the detail of usage, you can use the help command to display help messages:
@@ -45,21 +57,21 @@ When you want to know the detail of usage, you can use the help command to displ
 gendoc -h
 ```
 
-|  | Options           | Type     | Desctiption                                              | Default                     |
-|-:|------------------:|:---------|:---------------------------------------------------------|:----------------------------|
-|-a|            --arch | string   | Archtecture of dub project.                              | x86_64                      |
-|-b|           --build | string   | Build type of dub project.                               | debug                       |
-|-c|          --config | string   | Configuration of dub project.                            |                             |
-|  |        --compiler | string   | Specifies the compiler binary to use (can be a path).    | dmd                         |
-|  |     --gendocDdocs | string[] | Ddoc sources of document files.                          | \["ddoc"\] if exists        |
-|  |--gendocSourceDocs | string[] | Source of document files.                                | \["source_docs"\] if exists |
-|  |    --gendocTarget | string   | Target directory of generated documents.                 | docs                        |
-|  |    --gendocConfig | string   | Configuration file of gendoc.                            | "gendoc.json" if exists     |
-|  |            --root | string   | Path to operate in instead of the current working dir.   | .                           |
-|  |      --singleFile | bool     | Single file generation mode.                             | false                       |
-|-v|         --varbose | bool     | Display varbose messages.                                | false                       |
-|-q|           --quiet | bool     | Non-display messages.                                    | false                       |
-|-h|            --help | bool     | This help information.                                   | false                       |
+| .  | Options            | Type       | Desctiption                                              | Default                     |
+|---:|-------------------:|:-----------|:---------------------------------------------------------|:----------------------------|
+| -a |             --arch | string     | Archtecture of dub project.                              | x86_64                      |
+| -b |            --build | string     | Build type of dub project.                               | debug                       |
+| -c |           --config | string     | Configuration of dub project.                            |                             |
+|    |         --compiler | string     | Specifies the compiler binary to use (can be a path).    | dmd                         |
+|    |      --gendocDdocs | string\[\] | Ddoc sources of document files.                          | \["ddoc"\] if exists        |
+|    | --gendocSourceDocs | string\[\] | Source of document files.                                | \["source_docs"\] if exists |
+|    |     --gendocTarget | string     | Target directory of generated documents.                 | docs                        |
+|    |     --gendocConfig | string     | Configuration file of gendoc.                            | "gendoc.json" if exists     |
+|    |             --root | string     | Path to operate in instead of the current working dir.   | .                           |
+|    |       --singleFile | bool       | Single file generation mode.                             | false                       |
+| -v |          --varbose | bool       | Display varbose messages.                                | false                       |
+| -q |            --quiet | bool       | Non-display messages.                                    | false                       |
+| -h |             --help | bool       | This help information.                                   | false                       |
 
 # Settings
 You can change the settings of the directory where the `*.ddoc`, `*.dd`, `*.html` etc. source files are placed according to your preference.
