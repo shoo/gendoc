@@ -38,7 +38,6 @@ struct PackageConfig
 			dub.loadPackage(pkg);
 		scope (exit) if (pkg)
 			dub.loadPackage(bkupPkg);
-		dub.project.reinit();
 		if (!dub.project.hasAllDependencies)
 			dub.upgrade(UpgradeOptions.select);
 		
@@ -78,7 +77,8 @@ struct PackageConfig
 			PackageConfig pkgcfg;
 			if (spkg.recipe.name.length > 0)
 			{
-				auto subpkg = dub.packageManager.getSubPackage(dub.project.rootPackage, spkg.recipe.name, false);
+				auto basepkg = dub.packageManager.getPackage(name, packageVersion);
+				auto subpkg = dub.packageManager.getSubPackage(basepkg, spkg.recipe.name, false);
 				pkgcfg.loadPackage(dub, subpkg,
 					archType, buildType, configName, compiler);
 			}
@@ -92,6 +92,7 @@ struct PackageConfig
 			subPackages ~= pkgcfg;
 		}
 	}
+	
 	/// ditto
 	void loadPackage(
 		string dir,
@@ -108,7 +109,6 @@ struct PackageConfig
 			compiler = dub.defaultCompiler;
 		if (archType.length == 0)
 			archType = dub.defaultArchitecture;
-		auto tmppkg = dub.packageManager.getOrLoadPackage(NativePath(absDir), NativePath.init, true);
 		dub.loadPackage();
 		loadPackage(dub, null,
 			archType,
