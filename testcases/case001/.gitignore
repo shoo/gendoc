@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/case001
+case001.so
+case001.dylib
+case001.dll
+case001.a
+case001.lib
+case001-test-*
+*.exe
+*.o
+*.obj
+*.lst
