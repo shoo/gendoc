@@ -15,5 +15,5 @@ if [ "$TESTTYPE" == "unittest" ] ; then
 elif [ "$TESTTYPE" == "integration" ]; then
 	dub build -a=${TEST_TARGET_ARCH} -b=unittest-cov -c=default --compiler=${DMD}
 	build/gendoc -a=${TEST_TARGET_ARCH} --root=testcases/case001
-	# build/gendoc -a=${TEST_TARGET_ARCH} --root=testcases/case002
+	build/gendoc -a=${TEST_TARGET_ARCH} --root=testcases/case002
 fi

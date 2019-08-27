@@ -65,7 +65,10 @@ struct PackageConfig
 				"source-files"],
 				ListBuildSettingsFormat.commandLineNul).map!(a => a.split("\0")).array;
 			// -oq, -od が付与されているゴミが紛れ込む場合がある。dubのバグか？回避する。
-			path    = lists[3].filter!(a => a.startsWith("-I") && a[2..$].exists).front[2..$];
+			auto importDirs = lists[3].filter!(a => a.startsWith("-I") && a[2..$].exists);
+			path    = importDirs.empty
+				? pkg ? pkg.path.toNativeString() : dub.project.rootPackage.path.toNativeString()
+				: importDirs.front[2..$];
 			options = lists[0].reduce!((a, b) => a.canFind(b) ? a : a ~ [b])(lists[1..6].join);
 			files   = lists[6].filter!(a => a.exists && canFind([".d", ".dd", ".di"], a.extension)).array;
 			packageVersion = pkg
@@ -116,7 +119,13 @@ struct PackageConfig
 			configName,
 			compiler);
 	}
-
+	
+	@system unittest
+	{
+		PackageConfig cfg;
+		string compiler;
+		cfg.loadPackage("testcases/case002", "x86_64", "debug", null, compiler);
+	}
 }
 
 private string _getHomeDirectory()
