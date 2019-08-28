@@ -122,9 +122,13 @@ struct PackageConfig
 	
 	@system unittest
 	{
-		PackageConfig cfg;
-		string compiler;
-		cfg.loadPackage("testcases/case002", "x86_64", "debug", null, compiler);
+		import std.file;
+		if ("testcases/case002".exists)
+		{
+			PackageConfig cfg;
+			string compiler;
+			cfg.loadPackage("testcases/case002", "x86_64", "debug", null, compiler);
+		}
 	}
 }
 
@@ -291,33 +295,33 @@ struct GendocConfig
 	}
 	
 	/// ditto
-	bool loadConfig()
+	bool loadDefaultConfig(string root)
 	{
 		import std.file, std.path;
 		// 2.1. ./.gendoc.json
-		if (_loadConfigFromFile(".gendoc.json"))
+		if (_loadConfigFromFile(root.buildPath(".gendoc.json")))
 			return true;
 		
 		// 2.2. ./gendoc.json
-		if (_loadConfigFromFile("gendoc.json"))
+		if (_loadConfigFromFile(root.buildPath("gendoc.json")))
 			return true;
 		
 		// 2.3. ./.gendoc/settings.json
-		if (_loadConfigFromFile(".gendoc/settings.json"))
+		if (_loadConfigFromFile(root.buildPath(".gendoc/settings.json")))
 			return true;
 		
 		// 2.4. ./.gendoc/gendoc.json
-		if (_loadConfigFromFile(".gendoc/gendoc.json"))
+		if (_loadConfigFromFile(root.buildPath(".gendoc/gendoc.json")))
 			return true;
 		
 		// 2.5.  ./.gendoc/ddoc and ./.gendoc/docs
 		// 2.6. ./.gendoc/ddoc and ./.gendoc/source_docs
-		if (_loadConfigFromDir(".gendoc", true))
+		if (_loadConfigFromDir(root.buildPath(".gendoc"), true))
 			return true;
 		
 		// 2.7. ./ddoc and ./source_docs
 		// (docs may be a target)
-		if (_loadConfigFromDir(".", false))
+		if (_loadConfigFromDir(root, false))
 			return true;
 		
 		auto homeDir = _getHomeDirectory();
@@ -412,7 +416,7 @@ struct GendocConfig
 		else
 		{
 			// 2.コマンドライン引数がない場合はデフォルトから読み込み
-			loadConfig();
+			loadDefaultConfig(root);
 		}
 		
 		if (optDdocs.length > 0)

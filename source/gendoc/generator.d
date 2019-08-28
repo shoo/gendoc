@@ -107,8 +107,8 @@ private MustashImportOptions getMustashImportOptions(Json json)
 	{
 		MustashImportOptions ret;
 		ret.contents = json.to!string();
+		return ret;
 	}
-	return MustashImportOptions.init;
 }
 
 /// ditto
@@ -117,6 +117,64 @@ private MustashImportOptions getMustashImportOptions(string opt)
 	return getMustashImportOptions(parseOption(opt));
 }
 
+
+
+/*******************************************************************************
+ * 
+ */
+struct MustashCommandOptions
+{
+	///
+	@optional
+	string[]       args;
+	///
+	@optional
+	string[string] env;
+	///
+	@optional
+	string         workDir;
+}
+
+/*******************************************************************************
+ * 
+ */
+private MustashCommandOptions getMustashCommandOptions(Json json)
+{
+	if (json.type == Json.Type.null_)
+	{
+		return MustashCommandOptions.init;
+	}
+	else if (json.type == Json.Type.array)
+	{
+		import std.getopt;
+		auto args = [""] ~ json.get!(Json[]).map!(a => a.to!string).array;
+		if (args.length == 0)
+			return MustashCommandOptions.init;
+		MustashCommandOptions ret;
+		args.getopt(
+			"a|args",             &ret.args,
+			"e|env|environment",  &ret.env,
+			"d|workDir|work|dir", &ret.workDir);
+		return ret;
+	}
+	else if (json.type == Json.Type.object)
+	{
+		return json.deserializeJson!MustashCommandOptions();
+	}
+	else 
+	{
+		import std.string;
+		MustashCommandOptions ret;
+		ret.args = json.to!string().splitLines.filter!(a => a.length > 0).array;
+		return ret;
+	}
+}
+
+/// ditto
+private MustashCommandOptions getMustashCommandOptions(string opt)
+{
+	return getMustashCommandOptions(parseOption(opt));
+}
 
 /***************************************************************
  * 
@@ -212,7 +270,10 @@ private:
 			auto importDirs = opt.imports ~ [caller.dirName];
 			auto finder = (string n) => _mustacheFindPath(n, importDirs);
 			auto datCaller = opt.file.length > 0 ? finder(opt.file) : caller;
-			ctx["children"] = (string str) => _mustacheRenderChildren(children, datCaller, str);
+			ctx["children"]    = (string str) => _mustacheRenderChildren(children, datCaller, str);
+			ctx["command"]     = (string str) => _mustacheRenderCommand(datCaller, str);
+			ctx["rdmd"]        = (string str) => _mustacheRenderEvalD(datCaller, str);
+			ctx["environment"] = (string str) => _mustacheRenderEnv(datCaller, str);
 			_mustache.findPath = finder;
 			// mustacheのレンダリング
 			if (opt.file.length > 0)
@@ -227,6 +288,61 @@ private:
 		return ret;
 	}
 	
+	string _mustacheRenderCommand(string caller, string options)
+	{
+		import std.process, std.string;
+		import gendoc.misc;
+		string ret;
+		// オプションを解析
+		auto opt = getMustashCommandOptions(options);
+		
+		bool mapFunc(ref string arg, MacroType type)
+		{
+			if (auto val = environment.get(arg, null))
+			{
+				arg = val;
+				return true;
+			}
+			return false;
+		}
+		// マクロ展開
+		foreach (k, ref v; opt.env)
+			v = v.expandMacro(&mapFunc);
+		foreach (ref a; opt.args)
+			a = a.expandMacro(&mapFunc);
+		opt.workDir = opt.workDir.expandMacro(&mapFunc);
+		
+		// コマンド呼び出し
+		if (opt.args.length == 1)
+		{
+			auto res = executeShell(opt.args[0], opt.env, std.process.Config.none, size_t.max, opt.workDir);
+			enforce(res.status == 0, "External program was failed: " ~ res.output);
+			ret = res.output.strip;
+		}
+		else
+		{
+			auto res = execute(opt.args, opt.env, std.process.Config.none, size_t.max, opt.workDir);
+			enforce(res.status == 0, "External program was failed: " ~ res.output);
+			ret = res.output.chomp;
+		}
+		return ret;
+	}
+	
+	string _mustacheRenderEvalD(string caller, string dsrc)
+	{
+		import std.process, std.string;
+		// rdmd呼び出し
+		auto res = execute(["rdmd", "--eval", dsrc], null, std.process.Config.none, size_t.max, caller.dirName);
+		enforce(res.status == 0, "External D program was failed: " ~ res.output);
+		return res.output.chomp;
+	}
+	
+	string _mustacheRenderEnv(string caller, string key)
+	{
+		import std.process;
+		return environment.get(key);
+	}
+	
 	string _mustacheRenderDubPackages(DubPkgInfo[] projects, string dir, string name)
 	{
 		if (projects.length == 0)
@@ -235,16 +351,22 @@ private:
 		auto ctx = new MustacheContext;
 		ctx["project_name"]    = projects[0].name;
 		ctx["project_version"] = projects[0].packageVersion;
+		ctx["command"]         = (string str) => _mustacheRenderCommand(_mustacheFindPath(name, null), str);
+		ctx["rdmd"]            = (string str) => _mustacheRenderEvalD(_mustacheFindPath(name, null), str);
+		ctx["environment"]     = (string str) => _mustacheRenderEnv(_mustacheFindPath(name, null), str);
 		
 		foreach (p; projects)
 		() {
 			auto children  = p.children.dup;
 			children.moduleSort();
 			auto sc = ctx.addSubContext("dub_pkg_info");
-			sc["name"]     = p.name;
-			sc["version"]  = p.packageVersion;
-			sc["dir"]      = p.dir;
-			sc["children"] = (string str) => _mustacheRenderChildren(children, _mustacheFindPath(name, null), str);
+			sc["name"]        = p.name;
+			sc["version"]     = p.packageVersion;
+			sc["dir"]         = p.dir;
+			sc["children"]    = (string str) => _mustacheRenderChildren(children, _mustacheFindPath(name, null), str);
+			sc["command"]     = (string str) => _mustacheRenderCommand(_mustacheFindPath(name, null), str);
+			sc["rdmd"]        = (string str) => _mustacheRenderEvalD(_mustacheFindPath(name, null), str);
+			sc["environment"] = (string str) => _mustacheRenderEnv(_mustacheFindPath(name, null), str);
 		} ();
 		
 		_mustache.path = dir;

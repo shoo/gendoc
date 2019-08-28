@@ -195,28 +195,40 @@ Available tags are as below:
 | 1. (root of package)         | name             | Variables    | Dub package name.                                                            |
 | 2. (root of package)         | version          | Variables    | Dub package version.                                                         |
 | 3. (root of package)         | dir              | Variables    | Path of dub package directory.                                               |
-| 4. (root of package)         | ***children***   | Lambdas      | The package and module information included in the dub package is embedded.  |
-|   4.1. children              | is_package       | Section      | Section used when the current element is a package.                          |
-|     4.1.1. is_package        | has_package_d    | Section      | Section used when the current package has a package.d                        |
-|       4.1.1.1. has_package_d | name             | Variables    | Name of package. (`foo/bar/package.d` -> `bar`)                              |
-|       4.1.1.2. has_package_d | page_url         | Variables    | Url of the document of package.d                                             |
-|       4.1.1.3. has_package_d | dub_package_name | Variables    | Name of dub package.                                                         |
-|       4.1.1.3. has_package_d | package_name     | Variables    | Name of package. (`foo/bar/package.d` -> `foo.bar`)                          |
-|       4.1.1.4. has_package_d | module_name      | Variables    | Name of module.  (`foo/bar/package.d` -> (none))                             |
-|       4.1.1.5. has_package_d | full_module_name | Variables    | Fullname of module.  (`foo/bar/package.d` -> `foo.bar`)                      |
-|       4.1.1.6. has_package_d | ***children***   | Lambdas      | The package and module information included in the package is embedded.      |
-|     4.1.2. is_package        | no_package_d     | Section      | Section used when the current package has not a package.d                    |
-|       4.1.2.1. no_package_d  | name             | Variables    | Name of package(only bottom name). (`foo/bar` -> `bar`)                      |
-|       4.1.2.2. no_package_d  | dub_package_name | Variables    | Name of dub package.                                                         |
-|       4.1.2.3. no_package_d  | package_name     | Variables    | Name of package. (`foo/bar` -> `foo.bar`)                                    |
-|       4.1.2.4. no_package_d  | ***children***   | Lambdas      | The package and module information included in the package is embedded.      |
-|   4.2. children              | is_module        | Section      | Section used when the current element is a module.                           |
-|     4.2.1. is_module         | name             | Variables    | Name of package. (`foo/bar/hoge.d` -> `hoge`)                                |
-|     4.2.2. is_module         | page_url         | Variables    | Url of the document of module.                                               |
-|     4.2.3. is_module         | package_name     | Variables    | Name of package. (`foo/bar/hoge.d` -> `foo.bar`)                             |
-|     4.2.4. is_module         | dub_package_name | Variables    | Name of dub package.                                                         |
-|     4.2.5. is_module         | module_name      | Variables    | Name of module.  (`foo/bar/hoge.d` -> `hoge`)                                |
-|     4.2.6. is_module         | full_module_name | Variables    | Fullname of module.  (`foo/bar/package.d` -> foo.bar.hoge)                   |
+| 4. (root of package)         | command          | Lambdas      | Execute command and store result.                                            |
+| 5. (root of package)         | rdmd             | Lambdas      | Execute dlang code with rdmd --eval and store the result to standard output. |
+| 6. (root of package)         | environemnt      | Lambdas      | Expand and store environment variables.                                      |
+| 7. (root of package)         | ***children***   | Lambdas      | The package and module information included in the dub package is embedded.  |
+|   7.1. children              | is_package       | Section      | Section used when the current element is a package.                          |
+|     7.1.1. is_package        | has_package_d    | Section      | Section used when the current package has a package.d                        |
+|       7.1.1.1. has_package_d | name             | Variables    | Name of package. (`foo/bar/package.d` -> `bar`)                              |
+|       7.1.1.2. has_package_d | page_url         | Variables    | Url of the document of package.d                                             |
+|       7.1.1.3. has_package_d | dub_package_name | Variables    | Name of dub package.                                                         |
+|       7.1.1.3. has_package_d | package_name     | Variables    | Name of package. (`foo/bar/package.d` -> `foo.bar`)                          |
+|       7.1.1.4. has_package_d | module_name      | Variables    | Name of module.  (`foo/bar/package.d` -> (none))                             |
+|       7.1.1.5. has_package_d | full_module_name | Variables    | Fullname of module.  (`foo/bar/package.d` -> `foo.bar`)                      |
+|       7.1.1.6. has_package_d | command          | Lambdas      | Execute command and store result.                                            |
+|       7.1.1.7. has_package_d | rdmd             | Lambdas      | Execute dlang code with rdmd --eval and store the result to standard output. |
+|       7.1.1.8. has_package_d | environemnt      | Lambdas      | Expand and store environment variables.                                      |
+|       7.1.1.9. has_package_d | ***children***   | Lambdas      | The package and module information included in the package is embedded.      |
+|     7.1.2. is_package        | no_package_d     | Section      | Section used when the current package has not a package.d                    |
+|       7.1.2.1. no_package_d  | name             | Variables    | Name of package(only bottom name). (`foo/bar` -> `bar`)                      |
+|       7.1.2.2. no_package_d  | dub_package_name | Variables    | Name of dub package.                                                         |
+|       7.1.2.3. no_package_d  | package_name     | Variables    | Name of package. (`foo/bar` -> `foo.bar`)                                    |
+|       7.1.1.4. no_package_d  | command          | Lambdas      | Execute command and store result.                                            |
+|       7.1.1.5. no_package_d  | rdmd             | Lambdas      | Execute dlang code with rdmd --eval and store the result to standard output. |
+|       7.1.1.6. no_package_d  | environemnt      | Lambdas      | Expand and store environment variables.                                      |
+|       7.1.2.7. no_package_d  | ***children***   | Lambdas      | The package and module information included in the package is embedded.      |
+|   7.2. children              | is_module        | Section      | Section used when the current element is a module.                           |
+|     7.2.1. is_module         | name             | Variables    | Name of package. (`foo/bar/hoge.d` -> `hoge`)                                |
+|     7.2.2. is_module         | page_url         | Variables    | Url of the document of module.                                               |
+|     7.2.3. is_module         | package_name     | Variables    | Name of package. (`foo/bar/hoge.d` -> `foo.bar`)                             |
+|     7.2.4. is_module         | dub_package_name | Variables    | Name of dub package.                                                         |
+|     7.2.5. is_module         | module_name      | Variables    | Name of module.  (`foo/bar/hoge.d` -> `hoge`)                                |
+|     7.2.6. is_module         | full_module_name | Variables    | Fullname of module.  (`foo/bar/package.d` -> foo.bar.hoge)                   |
+|     7.2.7. is_module         | command          | Lambdas      | Execute command and store result.                                            |
+|     7.2.8. is_module         | rdmd             | Lambdas      | Execute dlang code with rdmd --eval and store the result to standard output. |
+|     7.2.9. is_module         | environemnt      | Lambdas      | Expand and store environment variables.                                      |
 
 As it appears above, `{{# children }} {{/ children }}` is special.
 Recursive embedding is done to represent the package tree structure.
