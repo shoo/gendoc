@@ -165,7 +165,7 @@ private MustashCommandOptions getMustashCommandOptions(Json json)
 	{
 		import std.string;
 		MustashCommandOptions ret;
-		ret.args = json.to!string().splitLines.filter!(a => a.length > 0).array;
+		ret.args = json.to!string().splitLines.map!(a => a.strip).filter!(a => a.length > 0).array;
 		return ret;
 	}
 }
