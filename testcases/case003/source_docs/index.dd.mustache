@@ -1,8 +1,13 @@
 Ddoc
 
 {{# environment }}PATH{{/ environment }}
-{{# command }}git describe{{/ command }}
-{{# rdmd }}writeln("Hello, world!");{{/ rdmd }}
+{{# command }}echo TEST{{/ command }}
+{{# command }}
+    git
+    config
+    --get
+    remote.origin.url
+{{/ command }}
 $(PROJECT_SRC_ROOT)
 
 $(MODULE_INDEX)
