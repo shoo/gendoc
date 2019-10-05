@@ -23,6 +23,7 @@ import gendoc.modmgr;
 private struct JsonModuleData
 {
 	///
+	@optional
 	string name;
 	///
 	string file;
@@ -523,7 +524,11 @@ private:
 		auto restSrcFiles = files.dup;
 		foreach(m; jsModDatas)
 		{
-			auto tmpfile = _fixAbs(_tempDir, m.name ~ ".html");
+			auto tmpfile = m.name.length > 0
+			             ? _fixAbs(_tempDir, m.name ~ ".html")
+			             : m.file.isAbsolute
+			               ? m.file.relativePath(rootDir).buildNormalizedPath.stripExtension.pathSplitter.join(".")
+			               : m.file.buildNormalizedPath.stripExtension.pathSplitter.join(".");
 			auto idx = restSrcFiles.countUntil!(
 				a => filenameCmp(_fixAbs(rootDir, a.src).buildNormalizedPath(), m.file.buildNormalizedPath()) == 0);
 			enforce(idx != restSrcFiles.length);
@@ -657,10 +662,10 @@ public:
 		auto jsModDatas = getModuleDatas(target);
 		foreach(m; modules)
 		{
-			auto tmpfile = _fixAbs(rootDir, m.moduleInfo.src);
+			auto tmpfile = _fixAbs(rootDir, m.moduleInfo.src).buildNormalizedPath();
 			auto idx = jsModDatas.countUntil!(
 				a => filenameCmp(a.file.buildNormalizedPath(), tmpfile) == 0);
-			enforce(idx != jsModDatas.length);
+			enforce(idx != -1);
 			// タイトルの取り出し
 			// splitLinesでLF,CR,CRLFの区切りの違いを無視して行単位で区切る。
 			// 先頭行があれば、先頭行をstripしたものをタイトルとする
