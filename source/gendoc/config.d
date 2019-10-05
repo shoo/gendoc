@@ -1,8 +1,8 @@
 /*******************************************************************************
- * gendocの設定ファイル・コマンドライン引数の調停を行います
+ * Manage configs and commands
  * 
- * See_Also:
- * TEST$(A aaa)$(BR)
+ * Mediation of gendoc configuration file and command line arguments.
+ * Also get dub package informations.
  */
 module gendoc.config;
 

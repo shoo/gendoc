@@ -1,6 +1,8 @@
 // Written in the D programming language
 
 /++
+	Ddoc generator
+	
 	This is a program for simplifying ddoc generation.
 
 	It ensures that the names of the generated .html files include the full

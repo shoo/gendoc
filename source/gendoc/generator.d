@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * Document generator
+ * 
+ * Passes module information such as paths or compilation options to the compiler,
+ * and generate JSON and HTML files. And also convert mustache files.
+ */
 module gendoc.generator;
 
 

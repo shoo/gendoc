@@ -1,3 +1,9 @@
+/***************************************************************
+ * D's Module manager
+ * 
+ * Provides data structures and helper functions to manage 
+ * module paths, package names, and which dub package they belong to.
+ */
 module gendoc.modmgr;
 
 import std.algorithm;

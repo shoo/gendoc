@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * Misc types or functions
+ * 
+ * Provides versatile misc functions.
+ */
 module gendoc.misc;
 
 import std.traits;
