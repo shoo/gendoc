@@ -82,6 +82,13 @@ int gendocMain(string[] args)
 		scope(exit)
 			generator.removeTemporaryDir();
 		
+		// generate JSON
+		if (cfg.gendocData.enableGenerateJSON)
+		{
+			foreach (pkg; modmgr.dubPackages)
+				generator.generateJson(pkg);
+		}
+		
 		// set *.ddoc
 		foreach (dir; cfg.gendocData.ddocs)
 		{
@@ -95,7 +102,6 @@ int gendocMain(string[] args)
 			}
 		}
 		
-		generator.targetDir = cfg.gendocData.target.absolutePath.buildNormalizedPath;
 		foreach (pkg; modmgr.dubPackages)
 			generator.generate(pkg, cfg.singleFile);
 		
@@ -247,7 +253,8 @@ private void setupDocumentGenerator(
 		};
 	}
 	
-	generator.compiler = cfg.compiler;
+	generator.compiler  = cfg.compiler;
+	generator.targetDir = cfg.gendocData.target.absolutePath.buildNormalizedPath;
 	
 }
 

@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * gendocの設定ファイル・コマンドライン引数の調停を行います
+ * 
+ * See_Also:
+ * TEST$(A aaa)$(BR)
+ */
 module gendoc.config;
 
 import dub.dub, dub.project, dub.package_, dub.generators.generator, dub.compilers.compiler;
@@ -194,6 +200,10 @@ struct GendocConfig
 	string[] excludePackagePatterns = [
 		"(?:(?<=[^:]+/)|^)_[^/]+$",
 		":docs?$"];
+	
+	///
+	@optional
+	bool enableGenerateJSON = true;
 	
 	///
 	void fixPath(string dirPath)

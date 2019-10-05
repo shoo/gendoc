@@ -20,6 +20,9 @@ private struct JsonModuleData
 	string name;
 	///
 	string file;
+	///
+	@optional
+	string comment;
 }
 
 /*******************************************************************************
@@ -103,7 +106,7 @@ private MustashImportOptions getMustashImportOptions(Json json)
 	{
 		return json.deserializeJson!MustashImportOptions();
 	}
-	else 
+	else
 	{
 		MustashImportOptions ret;
 		ret.contents = json.to!string();
@@ -161,7 +164,7 @@ private MustashCommandOptions getMustashCommandOptions(Json json)
 	{
 		return json.deserializeJson!MustashCommandOptions();
 	}
-	else 
+	else
 	{
 		import std.string;
 		MustashCommandOptions ret;
@@ -244,6 +247,7 @@ private:
 					ctx["full_module_name"] = dat.packageInfo.packageD.fullModuleName;
 					ctx["source_path"]      = dat.packageInfo.packageD.src;
 					ctx["dub_package_name"] = dat.packageInfo.packageD.dubPkgName;
+					ctx["module_title"]     = dat.packageInfo.packageD.title;
 				}
 				else
 				{
@@ -254,6 +258,7 @@ private:
 					ctx["full_module_name"] = "";
 					ctx["source_path"]      = "";
 					ctx["dub_package_name"] = dat.packageInfo.dubPkgName;
+					ctx["module_title"]     = "";
 				}
 			}
 			else
@@ -266,6 +271,7 @@ private:
 				ctx["full_module_name"] = dat.moduleInfo.fullModuleName;
 				ctx["source_path"]      = dat.moduleInfo.src;
 				ctx["dub_package_name"] = dat.moduleInfo.dubPkgName;
+				ctx["module_title"]     = dat.moduleInfo.title;
 			}
 			auto importDirs = opt.imports ~ [caller.dirName];
 			auto finder = (string n) => _mustacheFindPath(n, importDirs);
@@ -411,7 +417,7 @@ private:
 	void _ldcCompilation(DubPkgInfo dubpkg)
 	{
 		auto modules = dubpkg.entries.filter!(
-			a => (a.isModule() || a.isPackageModule) && a.moduleInfo.src.extension.startsWith(".d"));
+			a => (a.isModule() || a.isPackageModule()) && a.moduleInfo.src.extension.startsWith(".d"));
 		_generateD_ldc(dubpkg.name, modules.map!(a => a.moduleInfo).array, dubpkg.options);
 	}
 	
@@ -600,6 +606,55 @@ public:
 		in (mustacheName.extension == ".ddoc")
 	{
 		ddocFiles ~= generateFromMustache(info, dir, mustacheName);
+	}
+	
+	/***************************************************************************
+	 * Generate JSON file from d source file through syntax compilation
+	 */
+	void generateJson(DubPkgInfo dubpkg)
+	{
+		import std.algorithm;
+		import std.string;
+		import std.process: execute;
+		
+		auto modules = dubpkg.entries.filter!(
+			a => (a.isModule() || a.isPackageModule()) && a.moduleInfo.src.extension == ".d").array;
+		auto files = modules.map!(a => a.moduleInfo).array;
+		if (files.length == 0)
+			return;
+		
+		auto argsApp = appender!(string[]);
+		rootDir = dubpkg.dir;
+		auto target = targetDir.buildPath(dubpkg.name.replace(":", "-") ~ ".json");
+		auto dummyHtml = target ~ ".html";
+		auto srcfiles = files.map!(a => _fixAbs(rootDir, a.src).buildNormalizedPath()).array;
+		argsApp ~= [compiler, "-o-", "-X", "-Xf" ~ target, "-D", "-Df" ~ dummyHtml];
+		argsApp ~= dubpkg.options;
+		argsApp ~= srcfiles;
+		if (!disableMarkdown)
+			argsApp ~= "-preview=markdown";
+		
+		auto result = execute(argsApp.data);
+		if (dummyHtml.exists)
+			std.file.remove(dummyHtml);
+		enforce(result.status == 0);
+		enforce(target.exists);
+		
+		auto jsModDatas = getModuleDatas(target);
+		foreach(m; modules)
+		{
+			auto tmpfile = _fixAbs(rootDir, m.moduleInfo.src);
+			auto idx = jsModDatas.countUntil!(
+				a => filenameCmp(a.file.buildNormalizedPath(), tmpfile) == 0);
+			enforce(idx != jsModDatas.length);
+			// タイトルの取り出し
+			// splitLinesでLF,CR,CRLFの区切りの違いを無視して行単位で区切る。
+			// 先頭行があれば、先頭行をstripしたものをタイトルとする
+			auto commentLines = jsModDatas[idx].comment.splitLines;
+			if (commentLines.length > 0)
+				m.moduleInfo.title = commentLines.front.strip;
+			jsModDatas = std.algorithm.remove(jsModDatas, idx);
+		}
 	}
 	
 	///

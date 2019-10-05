@@ -21,6 +21,13 @@ struct ModInfo
 	string pkgName;
 	/// Module name ( `hoge/fuga/piyo.d` -> `piyo` )
 	string modName;
+	/***************************************************************************
+	 * Title of module
+	 * 
+	 * First line of documented module comment.
+	 * Note that it is NOT strictly same from the DDoc's Sammery section.
+	 */
+	string title;
 	
 	/// Concatinated package and module name (eg. `hoge/fuga/piyo.d` -> `hoge.fuga.piyo` )
 	string fullModuleName() @safe const @property
