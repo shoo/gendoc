@@ -626,17 +626,25 @@ public:
 		auto argsApp = appender!(string[]);
 		rootDir = dubpkg.dir;
 		auto target = targetDir.buildPath(dubpkg.name.replace(":", "-") ~ ".json");
-		auto dummyHtml = target ~ ".html";
 		auto srcfiles = files.map!(a => _fixAbs(rootDir, a.src).buildNormalizedPath()).array;
-		argsApp ~= [compiler, "-o-", "-X", "-Xf" ~ target, "-D", "-Df" ~ dummyHtml];
+		argsApp ~= [compiler, "-o-", "-X", "-Xf" ~ target, "-D"];
+		
+		if (compiler.endsWith("ldc2", "ldc2.exe", "ldc") > 0)
+		{
+			auto dummyHtml = tempDir.buildPath(target.baseName ~ ".html");
+			argsApp ~= ("-Dd" ~ dummyHtml);
+		}
+		else
+		{
+			auto dummyHtml = tempDir.buildPath(target.baseName ~ ".html");
+			argsApp ~= ("-Df" ~ dummyHtml);
+		}
 		argsApp ~= dubpkg.options;
 		argsApp ~= srcfiles;
 		if (!disableMarkdown)
 			argsApp ~= "-preview=markdown";
 		
 		auto result = execute(argsApp.data);
-		if (dummyHtml.exists)
-			std.file.remove(dummyHtml);
 		enforce(result.status == 0);
 		enforce(target.exists);
 		
