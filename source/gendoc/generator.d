@@ -522,13 +522,19 @@ private:
 		
 		auto jsModDatas = getModuleDatas(tempDstJson);
 		auto restSrcFiles = files.dup;
+		
+		string toFullModName(string f)
+		{
+			return f.buildNormalizedPath.stripExtension.pathSplitter.join(".");
+		}
 		foreach(m; jsModDatas)
 		{
 			auto tmpfile = m.name.length > 0
 			             ? _fixAbs(_tempDir, m.name ~ ".html")
 			             : m.file.isAbsolute
-			               ? m.file.relativePath(rootDir).buildNormalizedPath.stripExtension.pathSplitter.join(".")
-			               : m.file.buildNormalizedPath.stripExtension.pathSplitter.join(".");
+			               ? _fixAbs(_tempDir, toFullModName(m.file.relativePath(rootDir)) ~ ".html")
+			               : _fixAbs(_tempDir, toFullModName(m.file) ~ ".html");
+			enforce(tmpfile.exists);
 			auto idx = restSrcFiles.countUntil!(
 				a => filenameCmp(_fixAbs(rootDir, a.src).buildNormalizedPath(), m.file.buildNormalizedPath()) == 0);
 			enforce(idx != restSrcFiles.length);
