@@ -559,14 +559,7 @@ public:
 	void createTemporaryDir()
 	{
 		import std.uuid;
-		if (targetDir.length > 0)
-		{
-			_tempDir = targetDir.buildPath(".gendocwork-" ~ randomUUID.toString);
-		}
-		else
-		{
-			_tempDir = tempDir().buildPath(".gendocwork-" ~ randomUUID.toString);
-		}
+		_tempDir = tempDir().buildPath(".gendocwork-" ~ randomUUID.toString);
 		_tempDir.mkdirRecurse();
 	}
 	
