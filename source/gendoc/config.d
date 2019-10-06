@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * Manage configs and commands
+ * 
+ * Mediation of gendoc configuration file and command line arguments.
+ * Also get dub package informations.
+ */
 module gendoc.config;
 
 import dub.dub, dub.project, dub.package_, dub.generators.generator, dub.compilers.compiler;
@@ -194,6 +200,10 @@ struct GendocConfig
 	string[] excludePackagePatterns = [
 		"(?:(?<=[^:]+/)|^)_[^/]+$",
 		":docs?$"];
+	
+	///
+	@optional
+	bool enableGenerateJSON = true;
 	
 	///
 	void fixPath(string dirPath)
