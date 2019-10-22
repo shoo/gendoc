@@ -14,7 +14,7 @@ source .travis-release-windows-setup.sh
 archiveName="$PROJECTNAME-$VERSION-$OS-$ARCH_SUFFIX.zip"
 echo "Building $archiveName"
 
-git clone https://github.com/dlang/dub.git --depth=1 && dub run --root=dub -- build -a=$TARGET_MTRIPLE -b=release -c=default --compiler=ldc2
+dub build -a=$TARGET_MTRIPLE -b=release -c=default --compiler=ldc2
 
 cd build
 zip -r "../$archiveName" "./"
