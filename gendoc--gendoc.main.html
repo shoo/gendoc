@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html>    <head>        <META http-equiv="content-type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="css/proj_docs.css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="js/sidebar.js"></script>
+        <script type="text/javascript" src="js/listanchors.js"></script>
+        <title>gendoc.main</title>
+        
+        
+    </head>
+    <body>        
+        <div class="container">            
+<div class="sidebar-underbar"></div>
+<div class="sidebar">    <div class="head">        <h2>gendoc</h2>
+        <p><span class="smallprint"><b>version:</b> 0.0.3+commit.18.g5af528c <span class="separator"><br></span>
+            </span>
+        </p>
+        <p><a href="index.html">overview</a></p>
+    </div>
+    
+    <ul>
+
+	
+	<li class="expand-container open"><a class='expand-toggle' href="#"><span >gendoc</span></a><ul>
+		
+		
+
+	<li><a title="Manage configs and commands" href="gendoc--gendoc.config.html"><span >config</span></a></li>
+
+
+
+	<li><a title="Document generator" href="gendoc--gendoc.generator.html"><span >generator</span></a></li>
+
+
+
+	<li><a title="Ddoc generator" href="gendoc--gendoc.main.html"><span >main</span></a></li>
+
+
+
+	<li><a title="Misc types or functions" href="gendoc--gendoc.misc.html"><span >misc</span></a></li>
+
+
+
+	<li><a title="D's Module manager" href="gendoc--gendoc.modmgr.html"><span >modmgr</span></a></li>
+
+
+
+	<li><a title="Features for unit testing" href="gendoc--gendoc.ut.html"><span >ut</span></a></li>
+
+
+	</ul></li>
+
+
+
+
+
+
+	
+</ul>
+</div>
+            <div class="content">                <h1>gendoc.main</h1>
+                
+                <div class="quickindex" id="quickindex"></div>
+                
+                <div class="ddoc_summary">Ddoc generator
+</div><div class="ddoc_description">This is a program for simplifying ddoc generation.
+<div class="ddoc_blankline"></div>
+
+	It ensures that the names of the generated .html files include the full
+	module path (with underscores instead of dots) rather than simply being
+	named after the modules (since just using the module names results in
+	connflicts if any packages have modules with the same name).
+<div class="ddoc_blankline"></div>
+
+	It also provides an easy way to exclude files from ddoc generation. Any
+	modules or packages with the name internal are excluded as well as any
+	files that are passed on the command line. And package.d files have their
+	corresponding .html files renamed to match the package name.
+<div class="ddoc_blankline"></div>
+
+	Also, the program generates a .ddoc file intended for use in a navigation
+	bar on the side of the documentation (similar to what dlang.org has) uses
+	it in the ddoc generation (it's deleted afterwards). The navigation bar
+	contains the full module hierarchy to allow for easy navigation among the
+	modules in the project. Of course, the other .ddoc files have to actually
+	use the MODULE_MENU macro in the generated .ddoc file, or the documentation
+	won't end up with a navigation bar.
+<div class="ddoc_blankline"></div>
+
+	The program assumes a layout similar to dub in that the source files are
+	expected to be in a directory called "source", and the generated
+	documentation goes in the "docs" directory (which is deleted before
+	documentation generation to ensure a clean build).
+<div class="ddoc_blankline"></div>
+
+	It's expected that any .ddoc files being used will be in the "ddoc"
+	directory, which isn't a dub thing, but they have to go somewhere.
+<div class="ddoc_blankline"></div>
+
+	In addition, the program expects there to be a "source_docs" directory. Any
+	.dd files that are there will have corresponding .html files generated for
+	them (e.g. for generating index.html), and any other files or directories
+	(e.g. a "css" or "js" folder) will be copied over to the "docs" folder.
+<div class="ddoc_blankline"></div>
+
+	Note that this program does assume that all module names match their file
+	names and that all package names match their folder names.
+
+</div>
+<div class="ddoc_license"><span class="ddoc_license_header">License:</span>
+ <a href="http://www.boost.org/LICENSE_1_0.txt">Boost License 1.0</a>.
+</div>
+<div class="ddoc_section_nonstandard"><span class="ddoc_section_nonstandard_header">Author:</span>
+Jonathan M Davis</div>
+<dl class="ddoc_members"><div class="ddoc_module_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".gendocMain"></span><div class="quickindex" id="quickindex.gendocMain"></div>int <code class="ddoc_psymbol">gendocMain</code>(string[] <span class="ddoc_param">args</span>);
+<br></div></dt>
+<dd><div class="ddoc_summary">Main routine of gendoc</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".setup"></span><div class="quickindex" id="quickindex.setup"></div>void <code class="ddoc_psymbol">setup</code>(ref ModuleManager <span class="ddoc_param">modmgr</span>, ref const Config <span class="ddoc_param">cfg</span>);
+<br>
+void <code class="ddoc_psymbol">setup</code>(ref ModuleManager <span class="ddoc_param">modmgr</span>, Config <span class="ddoc_param">cfg</span>);
+<br></div></dt>
+<dd><div class="ddoc_summary"><code class="ddoc_psymbol">setup</code> the module manager</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".setup.2"></span><div class="quickindex" id="quickindex.setup.2"></div>void <code class="ddoc_psymbol">setup</code>(ref DocumentGenerator <span class="ddoc_param">generator</span>, ref const Config <span class="ddoc_param">cfg</span>, ref const ModuleManager <span class="ddoc_param">modmgr</span>);
+<br>
+void <code class="ddoc_psymbol">setup</code>(ref DocumentGenerator <span class="ddoc_param">generator</span>, Config <span class="ddoc_param">cfg</span>, ModuleManager <span class="ddoc_param">modmgr</span>);
+<br></div></dt>
+<dd><div class="ddoc_summary"><code class="ddoc_psymbol">setup</code> the module manager</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".initializeDocsDirecotry"></span><div class="quickindex" id="quickindex.initializeDocsDirecotry"></div>void <code class="ddoc_psymbol">initializeDocsDirecotry</code>(string <span class="ddoc_param">docsDir</span>);
+<br></div></dt>
+<dd><div class="ddoc_summary">Setup docs directory</div></dd>
+</div></dl>
+
+                
+            </div>
+        </div>
+        
+        <script type="text/javascript">jQuery(document).ready(listanchors);</script>
+        
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+     </body>
+</html>

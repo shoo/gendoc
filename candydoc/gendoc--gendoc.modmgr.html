@@ -1,0 +1,691 @@
+
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>gendoc.modmgr</title>
+<link rel="stylesheet" type="text/css" href="candydoc/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="candydoc/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="candydoc/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="candydoc/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="candydoc/explorer.js" type="text/javascript"></script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("gendoc.modmgr");</script>
+    <table class="content">
+        <tr><td id="docbody"><h1>gendoc.modmgr</h1><section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    D's Module manager
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    Provides data structures and helper functions to manage
+ module paths, package names, and which dub package they belong to.
+  </p>
+</div>
+
+</section>
+<section class="section ddoc_module_members_section">
+  <div class="ddoc_module_members">
+    
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="ModInfo"></span>struct 
+<span class="currsymbol">ModInfo</span>
+<script>explorer.outline.addDecl('ModInfo');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd"><section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Source file (D's module) information
+  </p>
+</div>
+
+</section>
+
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="ModInfo.src"></span>string 
+<span class="currsymbol">src</span>
+<script>explorer.outline.addDecl('src');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd"><section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Source file with relative path from source root path, or absolute path as external files.
+  </p>
+</div>
+
+</section>
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="ModInfo.dst"></span>string 
+<span class="currsymbol">dst</span>
+<script>explorer.outline.addDecl('dst');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd"><section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Distination file with relative path from target.
+  </p>
+</div>
+
+</section>
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="ModInfo.dubPkgName"></span>string 
+<span class="currsymbol">dubPkgName</span>
+<script>explorer.outline.addDecl('dubPkgName');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd"><section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Dub package name
+  </p>
+</div>
+
+</section>
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="ModInfo.pkgName"></span>string 
+<span class="currsymbol">pkgName</span>
+<script>explorer.outline.addDecl('pkgName');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd"><section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    (D's) Package name (eg.  <code class="code">hoge/fuga/piyo.d</code> -&gt; <code class="code">hoge.fuga</code> )
+  </p>
+</div>
+
+</section>
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="ModInfo.modName"></span>string 
+<span class="currsymbol">modName</span>
+<script>explorer.outline.addDecl('modName');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd"><section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Module name ( <code class="code">hoge/fuga/piyo.d</code> -&gt; <code class="code">piyo</code> )
+  </p>
+</div>
+
+</section>
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="ModInfo.title"></span>string 
+<span class="currsymbol">title</span>
+<script>explorer.outline.addDecl('title');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd"><section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Title of module
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    First line of documented module comment.
+ Note that it is NOT strictly same from the DDoc's Sammery section.
+  </p>
+</div>
+
+</section>
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="ModInfo.fullModuleName"></span>const @property @safe string 
+<span class="currsymbol">fullModuleName</span>
+<script>explorer.outline.addDecl('fullModuleName');</script>();
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd"><section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Concatinated package and module name (eg. <code class="code">hoge/fuga/piyo.d</code> -&gt; <code class="code">hoge.fuga.piyo</code> )
+  </p>
+</div>
+
+</section>
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="ModInfo.this"></span>@safe this(string <span class="funcparam">srcFile</span>);
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd"><section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Constructor
+  </p>
+</div>
+
+</section>
+</dd>
+</dl>
+<script>explorer.outline.decSymbolLevel();</script>
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PkgInfo"></span>struct 
+<span class="currsymbol">PkgInfo</span>
+<script>explorer.outline.addDecl('PkgInfo');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd"><section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Source file (D's package) information
+  </p>
+</div>
+
+</section>
+
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PkgInfo.name"></span>string 
+<span class="currsymbol">name</span>
+<script>explorer.outline.addDecl('name');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd"><section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    
+<span class="currsymbol">name</span>
+<script>explorer.outline.addDecl('name');</script> of package (eg. <code class="code">hoge/fuga/piyo.d</code> -&gt; <code class="code">fuga</code> )
+  </p>
+</div>
+
+</section>
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PkgInfo.dubPkgName"></span>string 
+<span class="currsymbol">dubPkgName</span>
+<script>explorer.outline.addDecl('dubPkgName');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd"><section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    dub package name
+  </p>
+</div>
+
+</section>
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PkgInfo.pkgName"></span>string 
+<span class="currsymbol">pkgName</span>
+<script>explorer.outline.addDecl('pkgName');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd"><section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    full package name (eg. <code class="code">hoge/fuga/piyo.d</code> -&gt; <code class="code">hoge.fuga</code> )
+  </p>
+</div>
+
+</section>
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PkgInfo.packageD"></span>ModInfo 
+<span class="currsymbol">packageD</span>
+<script>explorer.outline.addDecl('packageD');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd"><section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    package.d module information if exists.
+  </p>
+</div>
+
+</section>
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PkgInfo.modules"></span>ModInfo[] 
+<span class="currsymbol">modules</span>
+<script>explorer.outline.addDecl('modules');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd"><section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    module informations of package children
+  </p>
+</div>
+
+</section>
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PkgInfo.packages"></span>PkgInfo[] 
+<span class="currsymbol">packages</span>
+<script>explorer.outline.addDecl('packages');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd"><section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    package informations of package children
+  </p>
+</div>
+
+</section>
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PkgInfo.hasPackageD"></span>const nothrow @nogc @property @safe bool 
+<span class="currsymbol">hasPackageD</span>
+<script>explorer.outline.addDecl('hasPackageD');</script>();
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd"><section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    <code class="code">true</code> if package.d module exists
+  </p>
+</div>
+
+</section>
+</dd>
+</dl>
+<script>explorer.outline.decSymbolLevel();</script>
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PackageAndModuleData"></span>struct 
+<span class="currsymbol">PackageAndModuleData</span>
+<script>explorer.outline.addDecl('PackageAndModuleData');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PackageAndModuleData.this"></span>@safe this(return ref ModInfo <span class="funcparam">modInfo</span>);
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PackageAndModuleData.this.2"></span>@safe this(return ref PkgInfo <span class="funcparam">d</span>);
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PackageAndModuleData.name"></span>const @property @safe string 
+<span class="currsymbol">name</span>
+<script>explorer.outline.addDecl('name');</script>();
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PackageAndModuleData.isPackage"></span>const @property @safe bool 
+<span class="currsymbol">isPackage</span>
+<script>explorer.outline.addDecl('isPackage');</script>();
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PackageAndModuleData.isModule"></span>const @property @safe bool 
+<span class="currsymbol">isModule</span>
+<script>explorer.outline.addDecl('isModule');</script>();
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PackageAndModuleData.isPackageModule"></span>const @property @safe bool 
+<span class="currsymbol">isPackageModule</span>
+<script>explorer.outline.addDecl('isPackageModule');</script>();
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PackageAndModuleData.packageInfo"></span>inout @property ref @safe inout(PkgInfo) 
+<span class="currsymbol">packageInfo</span>
+<script>explorer.outline.addDecl('packageInfo');</script>();
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PackageAndModuleData.moduleInfo"></span>inout @property ref @safe inout(ModInfo) 
+<span class="currsymbol">moduleInfo</span>
+<script>explorer.outline.addDecl('moduleInfo');</script>();
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PackageAndModuleData.children"></span>inout @property @trusted inout(PackageAndModuleData)[] 
+<span class="currsymbol">children</span>
+<script>explorer.outline.addDecl('children');</script>();
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+</dl>
+<script>explorer.outline.decSymbolLevel();</script>
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PackageAndModuleRange"></span>struct 
+<span class="currsymbol">PackageAndModuleRange</span>
+<script>explorer.outline.addDecl('PackageAndModuleRange');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PackageAndModuleRange.this"></span>this(PackageAndModuleData[] <span class="funcparam">pkgs</span>);
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PackageAndModuleRange.this.2"></span>this(PkgInfo[] <span class="funcparam">pkgs</span>);
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PackageAndModuleRange.front"></span>inout @property inout(PackageAndModuleData) 
+<span class="currsymbol">front</span>
+<script>explorer.outline.addDecl('front');</script>();
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PackageAndModuleRange.popFront"></span>void 
+<span class="currsymbol">popFront</span>
+<script>explorer.outline.addDecl('popFront');</script>();
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PackageAndModuleRange.empty"></span>const @property bool 
+<span class="currsymbol">empty</span>
+<script>explorer.outline.addDecl('empty');</script>();
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+</dl>
+<script>explorer.outline.decSymbolLevel();</script>
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="DubPkgInfo"></span>struct 
+<span class="currsymbol">DubPkgInfo</span>
+<script>explorer.outline.addDecl('DubPkgInfo');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="DubPkgInfo.name"></span>string 
+<span class="currsymbol">name</span>
+<script>explorer.outline.addDecl('name');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="DubPkgInfo.packageVersion"></span>string 
+<span class="currsymbol">packageVersion</span>
+<script>explorer.outline.addDecl('packageVersion');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="DubPkgInfo.root"></span>PkgInfo 
+<span class="currsymbol">root</span>
+<script>explorer.outline.addDecl('root');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="DubPkgInfo.dir"></span>string 
+<span class="currsymbol">dir</span>
+<script>explorer.outline.addDecl('dir');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="DubPkgInfo.options"></span>string[] 
+<span class="currsymbol">options</span>
+<script>explorer.outline.addDecl('options');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="DubPkgInfo.this"></span>@safe this(string <span class="funcparam">dubPkgName</span>, string <span class="funcparam">ver</span>, string <span class="funcparam">rootDir</span>, string[] <span class="funcparam">opts</span>);
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="DubPkgInfo.entries"></span>inout @trusted inout(PackageAndModuleRange) 
+<span class="currsymbol">entries</span>
+<script>explorer.outline.addDecl('entries');</script>();
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="DubPkgInfo.children"></span>inout @trusted inout(PackageAndModuleData)[] 
+<span class="currsymbol">children</span>
+<script>explorer.outline.addDecl('children');</script>();
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+</dl>
+<script>explorer.outline.decSymbolLevel();</script>
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="moduleSort"></span>@safe void 
+<span class="currsymbol">moduleSort</span>
+<script>explorer.outline.addDecl('moduleSort');</script>(ref PackageAndModuleData[] <span class="funcparam">datas</span>);
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="ModuleManager"></span>struct 
+<span class="currsymbol">ModuleManager</span>
+<script>explorer.outline.addDecl('ModuleManager');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="ModuleManager.addSources"></span>@safe void 
+<span class="currsymbol">addSources</span>
+<script>explorer.outline.addDecl('addSources');</script>(string <span class="funcparam">dubPkgName</span>, string <span class="funcparam">pkgVer</span>, string <span class="funcparam">root</span>, in string[] <span class="funcparam">files</span>, in string[] <span class="funcparam">options</span>);
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="ModuleManager.hasPackage"></span>const @safe bool 
+<span class="currsymbol">hasPackage</span>
+<script>explorer.outline.addDecl('hasPackage');</script>(string <span class="funcparam">dubPkgName</span>);
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="ModuleManager.getPackageInfo"></span>inout ref @safe inout(PkgInfo) 
+<span class="currsymbol">getPackageInfo</span>
+<script>explorer.outline.addDecl('getPackageInfo');</script>(string <span class="funcparam">dubPkgName</span>);
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="ModuleManager.getDubPackageInfo"></span>inout ref @safe inout(DubPkgInfo) 
+<span class="currsymbol">getDubPackageInfo</span>
+<script>explorer.outline.addDecl('getDubPackageInfo');</script>(string <span class="funcparam">dubPkgName</span>);
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="ModuleManager.clearSources"></span>@safe void 
+<span class="currsymbol">clearSources</span>
+<script>explorer.outline.addDecl('clearSources');</script>();
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="ModuleManager.target"></span>@property @safe void 
+<span class="currsymbol">target</span>
+<script>explorer.outline.addDecl('target');</script>(string <span class="funcparam">dstDir</span>);
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="ModuleManager.exclude"></span>void 
+<span class="currsymbol">exclude</span>
+<script>explorer.outline.addDecl('exclude');</script>(in string[] <span class="funcparam">packages</span>, in string[] <span class="funcparam">packagePatterns</span>, in string[] <span class="funcparam">paths</span>, in string[] <span class="funcparam">patterns</span>);
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+</dl>
+<script>explorer.outline.decSymbolLevel();</script>
+</dd>
+</dl>
+<script>explorer.outline.decSymbolLevel();</script>
+  </div>
+</section>
+</td></tr>
+        <tr><td id="docfooter">
+            Page was generated with
+            <img src="candydoc/img/candydoc.gif" style="vertical-align:middle; position:relative; top:-1px">
+            on Tue Oct 22 07:26:41 2019
+
+        </td></tr>
+    </table>
+</div>
+
+<script>
+explorer.packageExplorer.addPage("index.html", "pages/gendoc");
+</script>
+<script>
+
+	
+	
+		
+		
+
+	explorer.packageExplorer.addModule("gendoc--gendoc.config.html", "gendoc.gendoc.config");
+
+
+
+	explorer.packageExplorer.addModule("gendoc--gendoc.generator.html", "gendoc.gendoc.generator");
+
+
+
+	explorer.packageExplorer.addModule("gendoc--gendoc.main.html", "gendoc.gendoc.main");
+
+
+
+	explorer.packageExplorer.addModule("gendoc--gendoc.misc.html", "gendoc.gendoc.misc");
+
+
+
+	explorer.packageExplorer.addModule("gendoc--gendoc.modmgr.html", "gendoc.gendoc.modmgr");
+
+
+
+	explorer.packageExplorer.addModule("gendoc--gendoc.ut.html", "gendoc.gendoc.ut");
+
+
+	
+
+
+
+
+
+
+	
+</script>
+</body></html>

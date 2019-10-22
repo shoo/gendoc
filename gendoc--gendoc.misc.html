@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html>    <head>        <META http-equiv="content-type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="css/proj_docs.css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="js/sidebar.js"></script>
+        <script type="text/javascript" src="js/listanchors.js"></script>
+        <title>gendoc.misc</title>
+        
+        
+    </head>
+    <body>        
+        <div class="container">            
+<div class="sidebar-underbar"></div>
+<div class="sidebar">    <div class="head">        <h2>gendoc</h2>
+        <p><span class="smallprint"><b>version:</b> 0.0.3+commit.18.g5af528c <span class="separator"><br></span>
+            </span>
+        </p>
+        <p><a href="index.html">overview</a></p>
+    </div>
+    
+    <ul>
+
+	
+	<li class="expand-container open"><a class='expand-toggle' href="#"><span >gendoc</span></a><ul>
+		
+		
+
+	<li><a title="Manage configs and commands" href="gendoc--gendoc.config.html"><span >config</span></a></li>
+
+
+
+	<li><a title="Document generator" href="gendoc--gendoc.generator.html"><span >generator</span></a></li>
+
+
+
+	<li><a title="Ddoc generator" href="gendoc--gendoc.main.html"><span >main</span></a></li>
+
+
+
+	<li><a title="Misc types or functions" href="gendoc--gendoc.misc.html"><span >misc</span></a></li>
+
+
+
+	<li><a title="D's Module manager" href="gendoc--gendoc.modmgr.html"><span >modmgr</span></a></li>
+
+
+
+	<li><a title="Features for unit testing" href="gendoc--gendoc.ut.html"><span >ut</span></a></li>
+
+
+	</ul></li>
+
+
+
+
+
+
+	
+</ul>
+</div>
+            <div class="content">                <h1>gendoc.misc</h1>
+                
+                <div class="quickindex" id="quickindex"></div>
+                
+                <div class="ddoc_summary">Misc types or functions
+</div><div class="ddoc_description">Provides versatile <code class="ddoc_psymbol">misc</code> functions.</div>
+<dl class="ddoc_members"><div class="ddoc_module_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".MacroType"></span><div class="quickindex" id="quickindex.MacroType"></div>enum <code class="ddoc_psymbol">MacroType</code>: <span class="ddoc_enum_basetype">int</span>;
+<br></div></dt>
+<dd>
+<dl class="ddoc_members"><div class="ddoc_enum_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".MacroType.str"></span><div class="quickindex" id="quickindex.MacroType.str"></div><code class="ddoc_psymbol">str</code><br></div></dt>
+<dd><div class="ddoc_summary">$xxx, ${xxx}</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".MacroType.expr"></span><div class="quickindex" id="quickindex.MacroType.expr"></div><code class="ddoc_psymbol">expr</code><br></div></dt>
+<dd><div class="ddoc_summary"><span style="color:red">!!!!! UNDEFINED MACRO: "xxx" !!!!!!</span></div></dd>
+</div></dl>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".expandMacro"></span><div class="quickindex" id="quickindex.expandMacro"></div>T <code class="ddoc_psymbol">expandMacro</code><span class="ddoc_template_param_list" title="Template parameter list">(T, Func)</span>(in T <span class="ddoc_param">str</span>, Func <span class="ddoc_param">mapFunc</span>)<br><span class="ddoc_constraint">if(isSomeString!T &amp;&amp; isCallable!Func &amp;&amp; is(ReturnType!Func : bool) &amp;&amp; (ParameterTypeTuple!Func.length &gt;= 1) &amp;&amp; is(T : ParameterTypeTuple!Func[0]) &amp;&amp; ((ParameterStorageClassTuple!Func[0] &amp; ParameterStorageClass.ref_) == ParameterStorageClass.ref_))</span>;
+<br>
+T <code class="ddoc_psymbol">expandMacro</code><span class="ddoc_template_param_list" title="Template parameter list">(T, Func)</span>(in T <span class="ddoc_param">str</span>, Func <span class="ddoc_param">mapFunc</span>)<br><span class="ddoc_constraint">if(isSomeString!T &amp;&amp; isCallable!Func &amp;&amp; is(ReturnType!Func : T) &amp;&amp; (ParameterTypeTuple!Func.length &gt;= 1) &amp;&amp; is(T : ParameterTypeTuple!Func[0]))</span>;
+<br>
+T <code class="ddoc_psymbol">expandMacro</code><span class="ddoc_template_param_list" title="Template parameter list">(T, MAP)</span>(in T <span class="ddoc_param">str</span>, MAP <span class="ddoc_param">map</span>)<br><span class="ddoc_constraint">if(isSomeString!T &amp;&amp; is(typeof(()
+{
+auto p = T.init in <span class="ddoc_param">map</span>;
+T tmp = *p;
+}
+)))</span>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Expands macro variables contained within a <span class="ddoc_param">str</span></div></dd>
+</div></dl>
+
+                
+            </div>
+        </div>
+        
+        <script type="text/javascript">jQuery(document).ready(listanchors);</script>
+        
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+     </body>
+</html>

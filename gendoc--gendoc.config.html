@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html>    <head>        <META http-equiv="content-type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="css/proj_docs.css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="js/sidebar.js"></script>
+        <script type="text/javascript" src="js/listanchors.js"></script>
+        <title>gendoc.config</title>
+        
+        
+    </head>
+    <body>        
+        <div class="container">            
+<div class="sidebar-underbar"></div>
+<div class="sidebar">    <div class="head">        <h2>gendoc</h2>
+        <p><span class="smallprint"><b>version:</b> 0.0.3+commit.18.g5af528c <span class="separator"><br></span>
+            </span>
+        </p>
+        <p><a href="index.html">overview</a></p>
+    </div>
+    
+    <ul>
+
+	
+	<li class="expand-container open"><a class='expand-toggle' href="#"><span >gendoc</span></a><ul>
+		
+		
+
+	<li><a title="Manage configs and commands" href="gendoc--gendoc.config.html"><span >config</span></a></li>
+
+
+
+	<li><a title="Document generator" href="gendoc--gendoc.generator.html"><span >generator</span></a></li>
+
+
+
+	<li><a title="Ddoc generator" href="gendoc--gendoc.main.html"><span >main</span></a></li>
+
+
+
+	<li><a title="Misc types or functions" href="gendoc--gendoc.misc.html"><span >misc</span></a></li>
+
+
+
+	<li><a title="D's Module manager" href="gendoc--gendoc.modmgr.html"><span >modmgr</span></a></li>
+
+
+
+	<li><a title="Features for unit testing" href="gendoc--gendoc.ut.html"><span >ut</span></a></li>
+
+
+	</ul></li>
+
+
+
+
+
+
+	
+</ul>
+</div>
+            <div class="content">                <h1>gendoc.config</h1>
+                
+                <div class="quickindex" id="quickindex"></div>
+                
+                <div class="ddoc_summary">Manage configs and commands
+</div><div class="ddoc_description">Mediation of gendoc configuration file and command line arguments.
+ Also get dub package informations.</div>
+<dl class="ddoc_members"><div class="ddoc_module_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageConfig"></span><div class="quickindex" id="quickindex.PackageConfig"></div>struct <code class="ddoc_psymbol">PackageConfig</code>;
+<br></div></dt>
+<dd>
+<dl class="ddoc_members"><div class="ddoc_struct_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageConfig.path"></span><div class="quickindex" id="quickindex.PackageConfig.path"></div>string <code class="ddoc_psymbol">path</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageConfig.name"></span><div class="quickindex" id="quickindex.PackageConfig.name"></div>string <code class="ddoc_psymbol">name</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageConfig.files"></span><div class="quickindex" id="quickindex.PackageConfig.files"></div>string[] <code class="ddoc_psymbol">files</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageConfig.options"></span><div class="quickindex" id="quickindex.PackageConfig.options"></div>string[] <code class="ddoc_psymbol">options</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageConfig.packageVersion"></span><div class="quickindex" id="quickindex.PackageConfig.packageVersion"></div>string <code class="ddoc_psymbol">packageVersion</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageConfig.subPackages"></span><div class="quickindex" id="quickindex.PackageConfig.subPackages"></div>PackageConfig[] <code class="ddoc_psymbol">subPackages</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageConfig.loadPackage"></span><div class="quickindex" id="quickindex.PackageConfig.loadPackage"></div>void <code class="ddoc_psymbol">loadPackage</code>(Dub <span class="ddoc_param">dub</span>, Package <span class="ddoc_param">pkg</span>, string <span class="ddoc_param">archType</span>, string <span class="ddoc_param">buildType</span>, string <span class="ddoc_param">configName</span>, string <span class="ddoc_param">compiler</span>);
+<br>
+void <code class="ddoc_psymbol">loadPackage</code>(string <span class="ddoc_param">dir</span>, string <span class="ddoc_param">archType</span>, string <span class="ddoc_param">buildType</span>, string <span class="ddoc_param">configName</span>, ref string <span class="ddoc_param">compiler</span>);
+<br></div></dt>
+<dd>
+</dd>
+</div></dl>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".GendocConfig"></span><div class="quickindex" id="quickindex.GendocConfig"></div>struct <code class="ddoc_psymbol">GendocConfig</code>;
+<br></div></dt>
+<dd>
+<dl class="ddoc_members"><div class="ddoc_struct_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".GendocConfig.ddocs"></span><div class="quickindex" id="quickindex.GendocConfig.ddocs"></div>string[] <code class="ddoc_psymbol">ddocs</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".GendocConfig.sourceDocs"></span><div class="quickindex" id="quickindex.GendocConfig.sourceDocs"></div>string[] <code class="ddoc_psymbol">sourceDocs</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".GendocConfig.target"></span><div class="quickindex" id="quickindex.GendocConfig.target"></div>string <code class="ddoc_psymbol">target</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".GendocConfig.excludePaths"></span><div class="quickindex" id="quickindex.GendocConfig.excludePaths"></div>string[] <code class="ddoc_psymbol">excludePaths</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".GendocConfig.excludePatterns"></span><div class="quickindex" id="quickindex.GendocConfig.excludePatterns"></div>string[] <code class="ddoc_psymbol">excludePatterns</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".GendocConfig.excludePackages"></span><div class="quickindex" id="quickindex.GendocConfig.excludePackages"></div>string[] <code class="ddoc_psymbol">excludePackages</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".GendocConfig.excludePackagePatterns"></span><div class="quickindex" id="quickindex.GendocConfig.excludePackagePatterns"></div>string[] <code class="ddoc_psymbol">excludePackagePatterns</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".GendocConfig.enableGenerateJSON"></span><div class="quickindex" id="quickindex.GendocConfig.enableGenerateJSON"></div>bool <code class="ddoc_psymbol">enableGenerateJSON</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".GendocConfig.fixPath"></span><div class="quickindex" id="quickindex.GendocConfig.fixPath"></div>void <code class="ddoc_psymbol">fixPath</code>(string <span class="ddoc_param">dirPath</span>);
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".GendocConfig.loadConfig"></span><div class="quickindex" id="quickindex.GendocConfig.loadConfig"></div>bool <code class="ddoc_psymbol">loadConfig</code>(string <span class="ddoc_param">path</span>);
+<br>
+<span class="def-anchor" id=".GendocConfig.loadDefaultConfig"></span><div class="quickindex" id="quickindex.GendocConfig.loadDefaultConfig"></div>bool <code class="ddoc_psymbol">loadDefaultConfig</code>(string <span class="ddoc_param">root</span>);
+<br></div></dt>
+<dd><div class="ddoc_summary">Load configuration from specifiered <span class="ddoc_param">path</span>
+</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".GendocConfig.setup"></span><div class="quickindex" id="quickindex.GendocConfig.setup"></div>void <code class="ddoc_psymbol">setup</code>(string <span class="ddoc_param">root</span>, string <span class="ddoc_param">configFile</span>, string[] <span class="ddoc_param">optDdocs</span>, string[] <span class="ddoc_param">optSourceDocs</span>, string <span class="ddoc_param">optTarget</span>);
+<br></div></dt>
+<dd>
+</dd>
+</div></dl>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".Config"></span><div class="quickindex" id="quickindex.Config"></div>struct <code class="ddoc_psymbol">Config</code>;
+<br></div></dt>
+<dd>
+<dl class="ddoc_members"><div class="ddoc_struct_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".Config.compiler"></span><div class="quickindex" id="quickindex.Config.compiler"></div>string <code class="ddoc_psymbol">compiler</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".Config.packageData"></span><div class="quickindex" id="quickindex.Config.packageData"></div>PackageConfig <code class="ddoc_psymbol">packageData</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".Config.gendocData"></span><div class="quickindex" id="quickindex.Config.gendocData"></div>GendocConfig <code class="ddoc_psymbol">gendocData</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".Config.singleFile"></span><div class="quickindex" id="quickindex.Config.singleFile"></div>bool <code class="ddoc_psymbol">singleFile</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".Config.quiet"></span><div class="quickindex" id="quickindex.Config.quiet"></div>bool <code class="ddoc_psymbol">quiet</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".Config.varbose"></span><div class="quickindex" id="quickindex.Config.varbose"></div>bool <code class="ddoc_psymbol">varbose</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".Config.setup"></span><div class="quickindex" id="quickindex.Config.setup"></div>GetoptResult <code class="ddoc_psymbol">setup</code>(string[] <span class="ddoc_param">commandlineArgs</span>);
+<br></div></dt>
+<dd>
+</dd>
+</div></dl>
+</dd>
+</div></dl>
+
+                
+            </div>
+        </div>
+        
+        <script type="text/javascript">jQuery(document).ready(listanchors);</script>
+        
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+     </body>
+</html>

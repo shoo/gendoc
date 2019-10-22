@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html>    <head>        <META http-equiv="content-type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="css/proj_docs.css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="js/sidebar.js"></script>
+        <script type="text/javascript" src="js/listanchors.js"></script>
+        <title>gendoc.generator</title>
+        
+        
+    </head>
+    <body>        
+        <div class="container">            
+<div class="sidebar-underbar"></div>
+<div class="sidebar">    <div class="head">        <h2>gendoc</h2>
+        <p><span class="smallprint"><b>version:</b> 0.0.3+commit.18.g5af528c <span class="separator"><br></span>
+            </span>
+        </p>
+        <p><a href="index.html">overview</a></p>
+    </div>
+    
+    <ul>
+
+	
+	<li class="expand-container open"><a class='expand-toggle' href="#"><span >gendoc</span></a><ul>
+		
+		
+
+	<li><a title="Manage configs and commands" href="gendoc--gendoc.config.html"><span >config</span></a></li>
+
+
+
+	<li><a title="Document generator" href="gendoc--gendoc.generator.html"><span >generator</span></a></li>
+
+
+
+	<li><a title="Ddoc generator" href="gendoc--gendoc.main.html"><span >main</span></a></li>
+
+
+
+	<li><a title="Misc types or functions" href="gendoc--gendoc.misc.html"><span >misc</span></a></li>
+
+
+
+	<li><a title="D's Module manager" href="gendoc--gendoc.modmgr.html"><span >modmgr</span></a></li>
+
+
+
+	<li><a title="Features for unit testing" href="gendoc--gendoc.ut.html"><span >ut</span></a></li>
+
+
+	</ul></li>
+
+
+
+
+
+
+	
+</ul>
+</div>
+            <div class="content">                <h1>gendoc.generator</h1>
+                
+                <div class="quickindex" id="quickindex"></div>
+                
+                <div class="ddoc_summary">Document <code class="ddoc_psymbol">generator</code>
+</div><div class="ddoc_description">Passes module information such as paths or compilation options to the compiler,
+ and generate JSON and HTML files. And also convert mustache files.</div>
+<dl class="ddoc_members"><div class="ddoc_module_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".MustashImportOptions"></span><div class="quickindex" id="quickindex.MustashImportOptions"></div>struct <code class="ddoc_psymbol">MustashImportOptions</code>;
+<br></div></dt>
+<dd>
+<dl class="ddoc_members"><div class="ddoc_struct_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".MustashImportOptions.file"></span><div class="quickindex" id="quickindex.MustashImportOptions.file"></div>string <code class="ddoc_psymbol">file</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".MustashImportOptions.imports"></span><div class="quickindex" id="quickindex.MustashImportOptions.imports"></div>string[] <code class="ddoc_psymbol">imports</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".MustashImportOptions.contents"></span><div class="quickindex" id="quickindex.MustashImportOptions.contents"></div>string <code class="ddoc_psymbol">contents</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".MustashImportOptions.map"></span><div class="quickindex" id="quickindex.MustashImportOptions.map"></div>string[string] <code class="ddoc_psymbol">map</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".MustashImportOptions.useSections"></span><div class="quickindex" id="quickindex.MustashImportOptions.useSections"></div>string[] <code class="ddoc_psymbol">useSections</code>;
+<br></div></dt>
+<dd>
+</dd>
+</div></dl>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".MustashCommandOptions"></span><div class="quickindex" id="quickindex.MustashCommandOptions"></div>struct <code class="ddoc_psymbol">MustashCommandOptions</code>;
+<br></div></dt>
+<dd>
+<dl class="ddoc_members"><div class="ddoc_struct_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".MustashCommandOptions.args"></span><div class="quickindex" id="quickindex.MustashCommandOptions.args"></div>string[] <code class="ddoc_psymbol">args</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".MustashCommandOptions.env"></span><div class="quickindex" id="quickindex.MustashCommandOptions.env"></div>string[string] <code class="ddoc_psymbol">env</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".MustashCommandOptions.workDir"></span><div class="quickindex" id="quickindex.MustashCommandOptions.workDir"></div>string <code class="ddoc_psymbol">workDir</code>;
+<br></div></dt>
+<dd>
+</dd>
+</div></dl>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DocumentGenerator"></span><div class="quickindex" id="quickindex.DocumentGenerator"></div>struct <code class="ddoc_psymbol">DocumentGenerator</code>;
+<br></div></dt>
+<dd>
+<dl class="ddoc_members"><div class="ddoc_struct_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".DocumentGenerator.compiler"></span><div class="quickindex" id="quickindex.DocumentGenerator.compiler"></div>string <code class="ddoc_psymbol">compiler</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DocumentGenerator.ddocFiles"></span><div class="quickindex" id="quickindex.DocumentGenerator.ddocFiles"></div>string[] <code class="ddoc_psymbol">ddocFiles</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DocumentGenerator.disableMarkdown"></span><div class="quickindex" id="quickindex.DocumentGenerator.disableMarkdown"></div>bool <code class="ddoc_psymbol">disableMarkdown</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DocumentGenerator.targetDir"></span><div class="quickindex" id="quickindex.DocumentGenerator.targetDir"></div>string <code class="ddoc_psymbol">targetDir</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DocumentGenerator.rootDir"></span><div class="quickindex" id="quickindex.DocumentGenerator.rootDir"></div>string <code class="ddoc_psymbol">rootDir</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DocumentGenerator.preGenerateCallback"></span><div class="quickindex" id="quickindex.DocumentGenerator.preGenerateCallback"></div>void delegate(string dubPkgName, ModInfo[] modInfo, string[] args) <code class="ddoc_psymbol">preGenerateCallback</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DocumentGenerator.postGenerateCallback"></span><div class="quickindex" id="quickindex.DocumentGenerator.postGenerateCallback"></div>void delegate(string dubPkgName, ModInfo[] modInfo, int result, string output) <code class="ddoc_psymbol">postGenerateCallback</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DocumentGenerator.postCopyCallback"></span><div class="quickindex" id="quickindex.DocumentGenerator.postCopyCallback"></div>void delegate(string src, string dst) <code class="ddoc_psymbol">postCopyCallback</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DocumentGenerator.createTemporaryDir"></span><div class="quickindex" id="quickindex.DocumentGenerator.createTemporaryDir"></div>void <code class="ddoc_psymbol">createTemporaryDir</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DocumentGenerator.removeTemporaryDir"></span><div class="quickindex" id="quickindex.DocumentGenerator.removeTemporaryDir"></div>void <code class="ddoc_psymbol">removeTemporaryDir</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DocumentGenerator.temporaryDir"></span><div class="quickindex" id="quickindex.DocumentGenerator.temporaryDir"></div>const pure nothrow @nogc @property @safe string <code class="ddoc_psymbol">temporaryDir</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DocumentGenerator.convertFromMustache"></span><div class="quickindex" id="quickindex.DocumentGenerator.convertFromMustache"></div>string <code class="ddoc_psymbol">convertFromMustache</code>(DubPkgInfo[] <span class="ddoc_param">info</span>, string <span class="ddoc_param">dir</span>, string <span class="ddoc_param">mustacheName</span>);
+<br></div></dt>
+<dd><div class="ddoc_summary">Convert from mustache file
+</div><div class="ddoc_returns"><span class="ddoc_returns_header">Returns:</span>
+ Converted file contents</div>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DocumentGenerator.generateFromMustache"></span><div class="quickindex" id="quickindex.DocumentGenerator.generateFromMustache"></div>string <code class="ddoc_psymbol">generateFromMustache</code>(DubPkgInfo[] <span class="ddoc_param">info</span>, string <span class="ddoc_param">dir</span>, string <span class="ddoc_param">mustacheName</span>);
+<br></div></dt>
+<dd><div class="ddoc_summary">Generate file from mustache file
+</div><div class="ddoc_returns"><span class="ddoc_returns_header">Returns:</span>
+ File name of generated</div>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DocumentGenerator.generateDdoc"></span><div class="quickindex" id="quickindex.DocumentGenerator.generateDdoc"></div>void <code class="ddoc_psymbol">generateDdoc</code>(DubPkgInfo[] <span class="ddoc_param">info</span>, string <span class="ddoc_param">dir</span>, string <span class="ddoc_param">mustacheName</span>);
+<br></div></dt>
+<dd><div class="ddoc_summary">Generate ddoc file from mustache file
+</div><div class="ddoc_description">The generated ddoc file is added automatically</div>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DocumentGenerator.generateJson"></span><div class="quickindex" id="quickindex.DocumentGenerator.generateJson"></div>void <code class="ddoc_psymbol">generateJson</code>(DubPkgInfo <span class="ddoc_param">dubpkg</span>);
+<br></div></dt>
+<dd><div class="ddoc_summary">Generate JSON file from d source file through syntax compilation</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DocumentGenerator.generate"></span><div class="quickindex" id="quickindex.DocumentGenerator.generate"></div>void <code class="ddoc_psymbol">generate</code>(string <span class="ddoc_param">target</span>, string <span class="ddoc_param">source</span>, string[] <span class="ddoc_param">options</span>);
+<br>
+void <code class="ddoc_psymbol">generate</code>(DubPkgInfo <span class="ddoc_param">dubpkg</span>, bool <span class="ddoc_param">singleFile</span> = false);
+<br></div></dt>
+<dd>
+</dd>
+</div></dl>
+</dd>
+</div></dl>
+
+                
+            </div>
+        </div>
+        
+        <script type="text/javascript">jQuery(document).ready(listanchors);</script>
+        
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+     </body>
+</html>

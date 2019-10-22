@@ -1,0 +1,371 @@
+
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="text/javascript" http-equiv="content-script-type">
+<title>gendoc.config</title>
+<link rel="stylesheet" type="text/css" href="candydoc/style.css">
+<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="candydoc/ie56hack.css"><![endif]-->
+<script language="JavaScript" src="candydoc/util.js" type="text/javascript"></script>
+<script language="JavaScript" src="candydoc/tree.js" type="text/javascript"></script>
+<script language="JavaScript" src="candydoc/explorer.js" type="text/javascript"></script>
+</head><body>
+<div id="tabarea"></div><div id="explorerclient"></div>
+<div id="content"><script>explorer.initialize("gendoc.config");</script>
+    <table class="content">
+        <tr><td id="docbody"><h1>gendoc.config</h1><section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Manage configs and commands
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    Mediation of gendoc configuration file and command line arguments.
+ Also get dub package informations.
+  </p>
+</div>
+
+</section>
+<section class="section ddoc_module_members_section">
+  <div class="ddoc_module_members">
+    
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PackageConfig"></span>struct 
+<span class="currsymbol">PackageConfig</span>
+<script>explorer.outline.addDecl('PackageConfig');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PackageConfig.path"></span>string 
+<span class="currsymbol">path</span>
+<script>explorer.outline.addDecl('path');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PackageConfig.name"></span>string 
+<span class="currsymbol">name</span>
+<script>explorer.outline.addDecl('name');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PackageConfig.files"></span>string[] 
+<span class="currsymbol">files</span>
+<script>explorer.outline.addDecl('files');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PackageConfig.options"></span>string[] 
+<span class="currsymbol">options</span>
+<script>explorer.outline.addDecl('options');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PackageConfig.packageVersion"></span>string 
+<span class="currsymbol">packageVersion</span>
+<script>explorer.outline.addDecl('packageVersion');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PackageConfig.subPackages"></span>PackageConfig[] 
+<span class="currsymbol">subPackages</span>
+<script>explorer.outline.addDecl('subPackages');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="PackageConfig.loadPackage"></span>void 
+<span class="currsymbol">loadPackage</span>
+<script>explorer.outline.addDecl('loadPackage');</script>(Dub <span class="funcparam">dub</span>, Package <span class="funcparam">pkg</span>, string <span class="funcparam">archType</span>, string <span class="funcparam">buildType</span>, string <span class="funcparam">configName</span>, string <span class="funcparam">compiler</span>);
+<br>
+void 
+<span class="currsymbol">loadPackage</span>
+<script>explorer.outline.addDecl('loadPackage');</script>(string <span class="funcparam">dir</span>, string <span class="funcparam">archType</span>, string <span class="funcparam">buildType</span>, string <span class="funcparam">configName</span>, ref string <span class="funcparam">compiler</span>);
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+</dl>
+<script>explorer.outline.decSymbolLevel();</script>
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="GendocConfig"></span>struct 
+<span class="currsymbol">GendocConfig</span>
+<script>explorer.outline.addDecl('GendocConfig');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="GendocConfig.ddocs"></span>string[] 
+<span class="currsymbol">ddocs</span>
+<script>explorer.outline.addDecl('ddocs');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="GendocConfig.sourceDocs"></span>string[] 
+<span class="currsymbol">sourceDocs</span>
+<script>explorer.outline.addDecl('sourceDocs');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="GendocConfig.target"></span>string 
+<span class="currsymbol">target</span>
+<script>explorer.outline.addDecl('target');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="GendocConfig.excludePaths"></span>string[] 
+<span class="currsymbol">excludePaths</span>
+<script>explorer.outline.addDecl('excludePaths');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="GendocConfig.excludePatterns"></span>string[] 
+<span class="currsymbol">excludePatterns</span>
+<script>explorer.outline.addDecl('excludePatterns');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="GendocConfig.excludePackages"></span>string[] 
+<span class="currsymbol">excludePackages</span>
+<script>explorer.outline.addDecl('excludePackages');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="GendocConfig.excludePackagePatterns"></span>string[] 
+<span class="currsymbol">excludePackagePatterns</span>
+<script>explorer.outline.addDecl('excludePackagePatterns');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="GendocConfig.enableGenerateJSON"></span>bool 
+<span class="currsymbol">enableGenerateJSON</span>
+<script>explorer.outline.addDecl('enableGenerateJSON');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="GendocConfig.fixPath"></span>void 
+<span class="currsymbol">fixPath</span>
+<script>explorer.outline.addDecl('fixPath');</script>(string <span class="funcparam">dirPath</span>);
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="GendocConfig.loadConfig"></span>bool 
+<span class="currsymbol">loadConfig</span>
+<script>explorer.outline.addDecl('loadConfig');</script>(string <span class="funcparam">path</span>);
+<br>
+<span class="ddoc_anchor" id="GendocConfig.loadDefaultConfig"></span>bool 
+<span class="currsymbol">loadDefaultConfig</span>
+<script>explorer.outline.addDecl('loadDefaultConfig');</script>(string <span class="funcparam">root</span>);
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd"><section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Load configuration from specifiered <span class="funcparam">path</span>
+
+  </p>
+</div>
+
+</section>
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="GendocConfig.setup"></span>void 
+<span class="currsymbol">setup</span>
+<script>explorer.outline.addDecl('setup');</script>(string <span class="funcparam">root</span>, string <span class="funcparam">configFile</span>, string[] <span class="funcparam">optDdocs</span>, string[] <span class="funcparam">optSourceDocs</span>, string <span class="funcparam">optTarget</span>);
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+</dl>
+<script>explorer.outline.decSymbolLevel();</script>
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="Config"></span>struct 
+<span class="currsymbol">Config</span>
+<script>explorer.outline.addDecl('Config');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+
+<script>explorer.outline.incSymbolLevel();</script>
+<dl>
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="Config.compiler"></span>string 
+<span class="currsymbol">compiler</span>
+<script>explorer.outline.addDecl('compiler');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="Config.packageData"></span>PackageConfig 
+<span class="currsymbol">packageData</span>
+<script>explorer.outline.addDecl('packageData');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="Config.gendocData"></span>GendocConfig 
+<span class="currsymbol">gendocData</span>
+<script>explorer.outline.addDecl('gendocData');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="Config.singleFile"></span>bool 
+<span class="currsymbol">singleFile</span>
+<script>explorer.outline.addDecl('singleFile');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="Config.quiet"></span>bool 
+<span class="currsymbol">quiet</span>
+<script>explorer.outline.addDecl('quiet');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="Config.varbose"></span>bool 
+<span class="currsymbol">varbose</span>
+<script>explorer.outline.addDecl('varbose');</script>;
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+
+<script>explorer.outline.writeEnabled = true;</script>
+<dt><span class="decl"><span class="ddoc_anchor" id="Config.setup"></span>GetoptResult 
+<span class="currsymbol">setup</span>
+<script>explorer.outline.addDecl('setup');</script>(string[] <span class="funcparam">commandlineArgs</span>);
+</span></dt>
+<script>explorer.outline.writeEnabled = false;</script>
+<dd class="ddoc_decl_dd">
+</dd>
+</dl>
+<script>explorer.outline.decSymbolLevel();</script>
+</dd>
+</dl>
+<script>explorer.outline.decSymbolLevel();</script>
+  </div>
+</section>
+</td></tr>
+        <tr><td id="docfooter">
+            Page was generated with
+            <img src="candydoc/img/candydoc.gif" style="vertical-align:middle; position:relative; top:-1px">
+            on Tue Oct 22 07:26:41 2019
+
+        </td></tr>
+    </table>
+</div>
+
+<script>
+explorer.packageExplorer.addPage("index.html", "pages/gendoc");
+</script>
+<script>
+
+	
+	
+		
+		
+
+	explorer.packageExplorer.addModule("gendoc--gendoc.config.html", "gendoc.gendoc.config");
+
+
+
+	explorer.packageExplorer.addModule("gendoc--gendoc.generator.html", "gendoc.gendoc.generator");
+
+
+
+	explorer.packageExplorer.addModule("gendoc--gendoc.main.html", "gendoc.gendoc.main");
+
+
+
+	explorer.packageExplorer.addModule("gendoc--gendoc.misc.html", "gendoc.gendoc.misc");
+
+
+
+	explorer.packageExplorer.addModule("gendoc--gendoc.modmgr.html", "gendoc.gendoc.modmgr");
+
+
+
+	explorer.packageExplorer.addModule("gendoc--gendoc.ut.html", "gendoc.gendoc.ut");
+
+
+	
+
+
+
+
+
+
+	
+</script>
+</body></html>

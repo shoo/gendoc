@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+<html>    <head>        <META http-equiv="content-type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="css/proj_docs.css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="js/sidebar.js"></script>
+        <script type="text/javascript" src="js/listanchors.js"></script>
+        <title>gendoc.modmgr</title>
+        
+        
+    </head>
+    <body>        
+        <div class="container">            
+<div class="sidebar-underbar"></div>
+<div class="sidebar">    <div class="head">        <h2>gendoc</h2>
+        <p><span class="smallprint"><b>version:</b> 0.0.3+commit.18.g5af528c <span class="separator"><br></span>
+            </span>
+        </p>
+        <p><a href="index.html">overview</a></p>
+    </div>
+    
+    <ul>
+
+	
+	<li class="expand-container open"><a class='expand-toggle' href="#"><span >gendoc</span></a><ul>
+		
+		
+
+	<li><a title="Manage configs and commands" href="gendoc--gendoc.config.html"><span >config</span></a></li>
+
+
+
+	<li><a title="Document generator" href="gendoc--gendoc.generator.html"><span >generator</span></a></li>
+
+
+
+	<li><a title="Ddoc generator" href="gendoc--gendoc.main.html"><span >main</span></a></li>
+
+
+
+	<li><a title="Misc types or functions" href="gendoc--gendoc.misc.html"><span >misc</span></a></li>
+
+
+
+	<li><a title="D's Module manager" href="gendoc--gendoc.modmgr.html"><span >modmgr</span></a></li>
+
+
+
+	<li><a title="Features for unit testing" href="gendoc--gendoc.ut.html"><span >ut</span></a></li>
+
+
+	</ul></li>
+
+
+
+
+
+
+	
+</ul>
+</div>
+            <div class="content">                <h1>gendoc.modmgr</h1>
+                
+                <div class="quickindex" id="quickindex"></div>
+                
+                <div class="ddoc_summary">D's Module manager
+</div><div class="ddoc_description">Provides data structures and helper functions to manage
+ module paths, package names, and which dub package they belong to.</div>
+<dl class="ddoc_members"><div class="ddoc_module_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".ModInfo"></span><div class="quickindex" id="quickindex.ModInfo"></div>struct <code class="ddoc_psymbol">ModInfo</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Source file (D's module) information</div><dl class="ddoc_members"><div class="ddoc_struct_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".ModInfo.src"></span><div class="quickindex" id="quickindex.ModInfo.src"></div>string <code class="ddoc_psymbol">src</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Source file with relative path from source root path, or absolute path as external files.</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".ModInfo.dst"></span><div class="quickindex" id="quickindex.ModInfo.dst"></div>string <code class="ddoc_psymbol">dst</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Distination file with relative path from target.</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".ModInfo.dubPkgName"></span><div class="quickindex" id="quickindex.ModInfo.dubPkgName"></div>string <code class="ddoc_psymbol">dubPkgName</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Dub package name</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".ModInfo.pkgName"></span><div class="quickindex" id="quickindex.ModInfo.pkgName"></div>string <code class="ddoc_psymbol">pkgName</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">(D's) Package name (eg.  <span class="d_inlinecode donthyphenate notranslate">hoge/fuga/piyo.d</span> -&gt; <span class="d_inlinecode donthyphenate notranslate">hoge.fuga</span> )</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".ModInfo.modName"></span><div class="quickindex" id="quickindex.ModInfo.modName"></div>string <code class="ddoc_psymbol">modName</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Module name ( <span class="d_inlinecode donthyphenate notranslate">hoge/fuga/piyo.d</span> -&gt; <span class="d_inlinecode donthyphenate notranslate">piyo</span> )</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".ModInfo.title"></span><div class="quickindex" id="quickindex.ModInfo.title"></div>string <code class="ddoc_psymbol">title</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Title of module
+</div><div class="ddoc_description">First line of documented module comment.
+ Note that it is NOT strictly same from the DDoc's Sammery section.</div>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".ModInfo.fullModuleName"></span><div class="quickindex" id="quickindex.ModInfo.fullModuleName"></div>const @property @safe string <code class="ddoc_psymbol">fullModuleName</code>();
+<br></div></dt>
+<dd><div class="ddoc_summary">Concatinated package and module name (eg. <span class="d_inlinecode donthyphenate notranslate">hoge/fuga/piyo.d</span> -&gt; <span class="d_inlinecode donthyphenate notranslate">hoge.fuga.piyo</span> )</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".ModInfo.this"></span><div class="quickindex" id="quickindex.ModInfo.this"></div>@safe this(string <span class="ddoc_param">srcFile</span>);
+<br></div></dt>
+<dd><div class="ddoc_summary">Constructor</div></dd>
+</div></dl>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PkgInfo"></span><div class="quickindex" id="quickindex.PkgInfo"></div>struct <code class="ddoc_psymbol">PkgInfo</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Source file (D's package) information</div><dl class="ddoc_members"><div class="ddoc_struct_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".PkgInfo.name"></span><div class="quickindex" id="quickindex.PkgInfo.name"></div>string <code class="ddoc_psymbol">name</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary"><code class="ddoc_psymbol">name</code> of package (eg. <span class="d_inlinecode donthyphenate notranslate">hoge/fuga/piyo.d</span> -&gt; <span class="d_inlinecode donthyphenate notranslate">fuga</span> )</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PkgInfo.dubPkgName"></span><div class="quickindex" id="quickindex.PkgInfo.dubPkgName"></div>string <code class="ddoc_psymbol">dubPkgName</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">dub package name</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PkgInfo.pkgName"></span><div class="quickindex" id="quickindex.PkgInfo.pkgName"></div>string <code class="ddoc_psymbol">pkgName</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">full package name (eg. <span class="d_inlinecode donthyphenate notranslate">hoge/fuga/piyo.d</span> -&gt; <span class="d_inlinecode donthyphenate notranslate">hoge.fuga</span> )</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PkgInfo.packageD"></span><div class="quickindex" id="quickindex.PkgInfo.packageD"></div>ModInfo <code class="ddoc_psymbol">packageD</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">package.d module information if exists.</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PkgInfo.modules"></span><div class="quickindex" id="quickindex.PkgInfo.modules"></div>ModInfo[] <code class="ddoc_psymbol">modules</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">module informations of package children</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PkgInfo.packages"></span><div class="quickindex" id="quickindex.PkgInfo.packages"></div>PkgInfo[] <code class="ddoc_psymbol">packages</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">package informations of package children</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PkgInfo.hasPackageD"></span><div class="quickindex" id="quickindex.PkgInfo.hasPackageD"></div>const nothrow @nogc @property @safe bool <code class="ddoc_psymbol">hasPackageD</code>();
+<br></div></dt>
+<dd><div class="ddoc_summary"><code class="ddoc_keyword">true</code> if package.d module exists</div></dd>
+</div></dl>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageAndModuleData"></span><div class="quickindex" id="quickindex.PackageAndModuleData"></div>struct <code class="ddoc_psymbol">PackageAndModuleData</code>;
+<br></div></dt>
+<dd>
+<dl class="ddoc_members"><div class="ddoc_struct_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageAndModuleData.this"></span><div class="quickindex" id="quickindex.PackageAndModuleData.this"></div>@safe this(return ref ModInfo <span class="ddoc_param">modInfo</span>);
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageAndModuleData.this.2"></span><div class="quickindex" id="quickindex.PackageAndModuleData.this.2"></div>@safe this(return ref PkgInfo <span class="ddoc_param">d</span>);
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageAndModuleData.name"></span><div class="quickindex" id="quickindex.PackageAndModuleData.name"></div>const @property @safe string <code class="ddoc_psymbol">name</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageAndModuleData.isPackage"></span><div class="quickindex" id="quickindex.PackageAndModuleData.isPackage"></div>const @property @safe bool <code class="ddoc_psymbol">isPackage</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageAndModuleData.isModule"></span><div class="quickindex" id="quickindex.PackageAndModuleData.isModule"></div>const @property @safe bool <code class="ddoc_psymbol">isModule</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageAndModuleData.isPackageModule"></span><div class="quickindex" id="quickindex.PackageAndModuleData.isPackageModule"></div>const @property @safe bool <code class="ddoc_psymbol">isPackageModule</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageAndModuleData.packageInfo"></span><div class="quickindex" id="quickindex.PackageAndModuleData.packageInfo"></div>inout @property ref @safe inout(PkgInfo) <code class="ddoc_psymbol">packageInfo</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageAndModuleData.moduleInfo"></span><div class="quickindex" id="quickindex.PackageAndModuleData.moduleInfo"></div>inout @property ref @safe inout(ModInfo) <code class="ddoc_psymbol">moduleInfo</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageAndModuleData.children"></span><div class="quickindex" id="quickindex.PackageAndModuleData.children"></div>inout @property @trusted inout(PackageAndModuleData)[] <code class="ddoc_psymbol">children</code>();
+<br></div></dt>
+<dd>
+</dd>
+</div></dl>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageAndModuleRange"></span><div class="quickindex" id="quickindex.PackageAndModuleRange"></div>struct <code class="ddoc_psymbol">PackageAndModuleRange</code>;
+<br></div></dt>
+<dd>
+<dl class="ddoc_members"><div class="ddoc_struct_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageAndModuleRange.this"></span><div class="quickindex" id="quickindex.PackageAndModuleRange.this"></div>this(PackageAndModuleData[] <span class="ddoc_param">pkgs</span>);
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageAndModuleRange.this.2"></span><div class="quickindex" id="quickindex.PackageAndModuleRange.this.2"></div>this(PkgInfo[] <span class="ddoc_param">pkgs</span>);
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageAndModuleRange.front"></span><div class="quickindex" id="quickindex.PackageAndModuleRange.front"></div>inout @property inout(PackageAndModuleData) <code class="ddoc_psymbol">front</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageAndModuleRange.popFront"></span><div class="quickindex" id="quickindex.PackageAndModuleRange.popFront"></div>void <code class="ddoc_psymbol">popFront</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageAndModuleRange.empty"></span><div class="quickindex" id="quickindex.PackageAndModuleRange.empty"></div>const @property bool <code class="ddoc_psymbol">empty</code>();
+<br></div></dt>
+<dd>
+</dd>
+</div></dl>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DubPkgInfo"></span><div class="quickindex" id="quickindex.DubPkgInfo"></div>struct <code class="ddoc_psymbol">DubPkgInfo</code>;
+<br></div></dt>
+<dd>
+<dl class="ddoc_members"><div class="ddoc_struct_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".DubPkgInfo.name"></span><div class="quickindex" id="quickindex.DubPkgInfo.name"></div>string <code class="ddoc_psymbol">name</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DubPkgInfo.packageVersion"></span><div class="quickindex" id="quickindex.DubPkgInfo.packageVersion"></div>string <code class="ddoc_psymbol">packageVersion</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DubPkgInfo.root"></span><div class="quickindex" id="quickindex.DubPkgInfo.root"></div>PkgInfo <code class="ddoc_psymbol">root</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DubPkgInfo.dir"></span><div class="quickindex" id="quickindex.DubPkgInfo.dir"></div>string <code class="ddoc_psymbol">dir</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DubPkgInfo.options"></span><div class="quickindex" id="quickindex.DubPkgInfo.options"></div>string[] <code class="ddoc_psymbol">options</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DubPkgInfo.this"></span><div class="quickindex" id="quickindex.DubPkgInfo.this"></div>@safe this(string <span class="ddoc_param">dubPkgName</span>, string <span class="ddoc_param">ver</span>, string <span class="ddoc_param">rootDir</span>, string[] <span class="ddoc_param">opts</span>);
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DubPkgInfo.entries"></span><div class="quickindex" id="quickindex.DubPkgInfo.entries"></div>inout @trusted inout(PackageAndModuleRange) <code class="ddoc_psymbol">entries</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DubPkgInfo.children"></span><div class="quickindex" id="quickindex.DubPkgInfo.children"></div>inout @trusted inout(PackageAndModuleData)[] <code class="ddoc_psymbol">children</code>();
+<br></div></dt>
+<dd>
+</dd>
+</div></dl>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".moduleSort"></span><div class="quickindex" id="quickindex.moduleSort"></div>@safe void <code class="ddoc_psymbol">moduleSort</code>(ref PackageAndModuleData[] <span class="ddoc_param">datas</span>);
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".ModuleManager"></span><div class="quickindex" id="quickindex.ModuleManager"></div>struct <code class="ddoc_psymbol">ModuleManager</code>;
+<br></div></dt>
+<dd>
+<dl class="ddoc_members"><div class="ddoc_struct_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".ModuleManager.addSources"></span><div class="quickindex" id="quickindex.ModuleManager.addSources"></div>@safe void <code class="ddoc_psymbol">addSources</code>(string <span class="ddoc_param">dubPkgName</span>, string <span class="ddoc_param">pkgVer</span>, string <span class="ddoc_param">root</span>, in string[] <span class="ddoc_param">files</span>, in string[] <span class="ddoc_param">options</span>);
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".ModuleManager.hasPackage"></span><div class="quickindex" id="quickindex.ModuleManager.hasPackage"></div>const @safe bool <code class="ddoc_psymbol">hasPackage</code>(string <span class="ddoc_param">dubPkgName</span>);
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".ModuleManager.getPackageInfo"></span><div class="quickindex" id="quickindex.ModuleManager.getPackageInfo"></div>inout ref @safe inout(PkgInfo) <code class="ddoc_psymbol">getPackageInfo</code>(string <span class="ddoc_param">dubPkgName</span>);
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".ModuleManager.getDubPackageInfo"></span><div class="quickindex" id="quickindex.ModuleManager.getDubPackageInfo"></div>inout ref @safe inout(DubPkgInfo) <code class="ddoc_psymbol">getDubPackageInfo</code>(string <span class="ddoc_param">dubPkgName</span>);
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".ModuleManager.clearSources"></span><div class="quickindex" id="quickindex.ModuleManager.clearSources"></div>@safe void <code class="ddoc_psymbol">clearSources</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".ModuleManager.target"></span><div class="quickindex" id="quickindex.ModuleManager.target"></div>@property @safe void <code class="ddoc_psymbol">target</code>(string <span class="ddoc_param">dstDir</span>);
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".ModuleManager.exclude"></span><div class="quickindex" id="quickindex.ModuleManager.exclude"></div>void <code class="ddoc_psymbol">exclude</code>(in string[] <span class="ddoc_param">packages</span>, in string[] <span class="ddoc_param">packagePatterns</span>, in string[] <span class="ddoc_param">paths</span>, in string[] <span class="ddoc_param">patterns</span>);
+<br></div></dt>
+<dd>
+</dd>
+</div></dl>
+</dd>
+</div></dl>
+
+                
+            </div>
+        </div>
+        
+        <script type="text/javascript">jQuery(document).ready(listanchors);</script>
+        
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+     </body>
+</html>
