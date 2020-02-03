@@ -11,14 +11,14 @@ jobs:
       os: linux
       env: TEST_TARGET_ARCH=x86_64
       after_success:
-        - bash <(curl -s https://codecov.io/bash) -t ${CODECOV_TOKEN} -s .cov
+        - bash <(curl -s https://codecov.io/bash) -t ${CODECOV_TOKEN} -s cov
     - stage: test
       d: ldc
       os: linux
       env: TEST_TARGET_ARCH=x86_64
       script: TESTTYPE=integration ./.travis.sh
       after_success:
-        - bash <(curl -s https://codecov.io/bash) -t ${CODECOV_TOKEN} -s .cov
+        - bash <(curl -s https://codecov.io/bash) -t ${CODECOV_TOKEN} -s cov
     - d: ldc-latest-ci
       os: linux
       env: TEST_TARGET_ARCH=x86_64

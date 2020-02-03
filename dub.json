@@ -5,8 +5,8 @@
 	"license": "BSL-1.0",
 	"name": "gendoc",
 	"dependencies": {
-		"dub":        "~>1.16.0",
-		"mustache-d": "~>0.1.3"
+		"dub":        "~>1.19.0",
+		"mustache-d": "~>0.1.4"
 	},
 	"subConfigurations": {
 		"dub": "library"
@@ -27,6 +27,12 @@
 		{
 			"name": "library",
 			"targetType": "library"
+		},
+		{
+			"name": "unittest",
+			"targetType": "executable",
+			"targetPath": "build",
+			"versions": ["gendoc_app"]
 		}
 	],
 	"subPackages": [

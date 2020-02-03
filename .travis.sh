@@ -7,19 +7,18 @@ TESTTYPE=${TESTTYPE:-unittest}
 SCRIPT_DIR=$(cd $(dirname $0); pwd)
 DMD=${DMD:-dmd}
 
-echo "--coverage_dir=${COVERAGE_DIR:-.cov}">.coverageopt
-echo "--coverage_merge=${COVERAGE_MERGE:-true}">>.coverageopt
-
+mkdir -p cov
 if [ "$TESTTYPE" == "unittest" ] ; then
-	dub run -a=${TEST_TARGET_ARCH} -b=unittest-cov -c=default --compiler=${DMD} -- -a=${TEST_TARGET_ARCH}
-	dub run :candydoc -a=${TEST_TARGET_ARCH} -b=unittest-cov -c=default --compiler=${DMD} -- -a=${TEST_TARGET_ARCH} --gendocConfig=candydoc --gendocTarget=docs/candydoc
+	dub build -a=${TEST_TARGET_ARCH} -b=unittest-cov -c=unittest --compiler=${DMD}
+	${SCRIPT_DIR}/build/gendoc -a=${TEST_TARGET_ARCH} --DRT-covopt="merge:1 dstpath:${SCRIPT_DIR}/cov"
+	dub build :candydoc -a=${TEST_TARGET_ARCH} -b=unittest-cov -c=unittest --compiler=${DMD}
+	mkdir -p docs/candydoc
+	${SCRIPT_DIR}/candydoc/gendoc_candydoc -a=${TEST_TARGET_ARCH} --gendocConfig=candydoc --gendocTarget=docs/candydoc --DRT-covopt="merge:1 dstpath:${SCRIPT_DIR}/cov"
 elif [ "$TESTTYPE" == "integration" ]; then
 
 	function test_in_dir () {
 		pushd $1
-		echo "--coverage_dir=${SCRIPT_DIR}/.cov">.coverageopt
-		echo "--coverage_merge=true">>.coverageopt
-		${SCRIPT_DIR}/build/gendoc -a=${TEST_TARGET_ARCH} --root=$2
+		${SCRIPT_DIR}/build/gendoc -a=${TEST_TARGET_ARCH} --root=$2 --DRT-covopt="merge:1 dstpath:${SCRIPT_DIR}/cov"
 		popd
 	}
 	dub build -a=${TEST_TARGET_ARCH} -b=unittest-cov -c=default --compiler=${DMD}

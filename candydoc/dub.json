@@ -27,6 +27,16 @@
 				"ddoc",
 				"source_docs"
 			]
+		},
+		{
+			"name": "unittest",
+			"targetType": "executable",
+			"dependencies": {
+				"gendoc": {"path": ".."}
+			},
+			"subConfigurations": {
+				"gendoc": "library"
+			}
 		}
 	]
 }
