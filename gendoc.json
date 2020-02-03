@@ -2,7 +2,7 @@
  {
   "name" : "gendoc.config",
   "kind" : "module",
-  "file" : "/home/travis/build/shoo/gendoc/source/gendoc/config.d",
+  "file" : "/home/runner/work/gendoc/gendoc/source/gendoc/config.d",
   "comment" : " Manage configs and commands\n\n Mediation of gendoc configuration file and command line arguments.\n Also get dub package informations.\n",
   "members" : [
    {
@@ -526,7 +526,7 @@
  {
   "name" : "gendoc.generator",
   "kind" : "module",
-  "file" : "/home/travis/build/shoo/gendoc/source/gendoc/generator.d",
+  "file" : "/home/runner/work/gendoc/gendoc/source/gendoc/generator.d",
   "comment" : " Document generator\n\n Passes module information such as paths or compilation options to the compiler,\n and generate JSON and HTML files. And also convert mustache files.\n",
   "members" : [
    {
@@ -1455,7 +1455,7 @@
  {
   "name" : "gendoc.main",
   "kind" : "module",
-  "file" : "/home/travis/build/shoo/gendoc/source/gendoc/main.d",
+  "file" : "/home/runner/work/gendoc/gendoc/source/gendoc/main.d",
   "comment" : "\tDdoc generator\n\n\tThis is a program for simplifying ddoc generation.\n\n\tIt ensures that the names of the generated .html files include the full\n\tmodule path (with underscores instead of dots) rather than simply being\n\tnamed after the modules (since just using the module names results in\n\tconnflicts if any packages have modules with the same name).\n\n\tIt also provides an easy way to exclude files from ddoc generation. Any\n\tmodules or packages with the name internal are excluded as well as any\n\tfiles that are passed on the command line. And package.d files have their\n\tcorresponding .html files renamed to match the package name.\n\n\tAlso, the program generates a .ddoc file intended for use in a navigation\n\tbar on the side of the documentation (similar to what dlang.org has) uses\n\tit in the ddoc generation (it's deleted afterwards). The navigation bar\n\tcontains the full module hierarchy to allow for easy navigation among the\n\tmodules in the project. Of course, the other .ddoc files have to actually\n\tuse the MODULE_MENU macro in the generated .ddoc file, or the documentation\n\twon't end up with a navigation bar.\n\n\tThe program assumes a layout similar to dub in that the source files are\n\texpected to be in a directory called \"source\", and the generated\n\tdocumentation goes in the \"docs\" directory (which is deleted before\n\tdocumentation generation to ensure a clean build).\n\n\tIt's expected that any .ddoc files being used will be in the \"ddoc\"\n\tdirectory, which isn't a dub thing, but they have to go somewhere.\n\n\tIn addition, the program expects there to be a \"source_docs\" directory. Any\n\t.dd files that are there will have corresponding .html files generated for\n\tthem (e.g. for generating index.html), and any other files or directories\n\t(e.g. a \"css\" or \"js\" folder) will be copied over to the \"docs\" folder.\n\n\tNote that this program does assume that all module names match their file\n\tnames and that all package names match their folder names.\n\n\tCopyright: Copyright 2017 - 2018\n\tLicense:   $(WEB www.boost.org/LICENSE_1_0.txt, Boost License 1.0).\n\tAuthor:   Jonathan M Davis, SHOO\n",
   "members" : [
    {
@@ -1719,13 +1719,19 @@
     ],
     "endline" : 285,
     "endchar" : 1
+   },
+   {
+    "name" : "_d_cmain!()",
+    "kind" : "mixin",
+    "line" : 54,
+    "char" : 25
    }
   ]
  },
  {
   "name" : "gendoc.misc",
   "kind" : "module",
-  "file" : "/home/travis/build/shoo/gendoc/source/gendoc/misc.d",
+  "file" : "/home/runner/work/gendoc/gendoc/source/gendoc/misc.d",
   "comment" : " Misc types or functions\n\n Provides versatile misc functions.\n",
   "members" : [
    {
@@ -2027,7 +2033,7 @@
  {
   "name" : "gendoc.modmgr",
   "kind" : "module",
-  "file" : "/home/travis/build/shoo/gendoc/source/gendoc/modmgr.d",
+  "file" : "/home/runner/work/gendoc/gendoc/source/gendoc/modmgr.d",
   "comment" : " D's Module manager\n\n Provides data structures and helper functions to manage\n module paths, package names, and which dub package they belong to.\n",
   "members" : [
    {
@@ -2890,7 +2896,7 @@
  {
   "name" : "gendoc.ut",
   "kind" : "module",
-  "file" : "/home/travis/build/shoo/gendoc/source/gendoc/ut.d",
+  "file" : "/home/runner/work/gendoc/gendoc/source/gendoc/ut.d",
   "comment" : " Features for unit testing\n\n Fine-tune the output destination of coverage, etc.\n",
   "members" : [
    {
@@ -2901,220 +2907,8 @@
     "storageClass" : [
      "static"
     ],
-    "deco" : "FZv",
     "endline" : 12,
     "endchar" : 1
-   },
-   {
-    "name" : "_sharedStaticCtor_L8_C7",
-    "kind" : "function",
-    "line" : 8,
-    "char" : 7,
-    "storageClass" : [
-     "static"
-    ],
-    "deco" : "FZv",
-    "endline" : 12,
-    "endchar" : 1
-   },
-   {
-    "name" : "dmd_coverDestPath",
-    "kind" : "function",
-    "comment" : "\n",
-    "line" : 16,
-    "char" : 26,
-    "type" : "extern (C) void(string pathname)",
-    "parameters" : [
-     {
-      "name" : "pathname",
-      "type" : "string"
-     }
-    ]
-   },
-   {
-    "name" : "dmd_coverSetMerge",
-    "kind" : "function",
-    "comment" : "\n",
-    "line" : 17,
-    "char" : 26,
-    "type" : "extern (C) void(bool flag)",
-    "parameters" : [
-     {
-      "name" : "flag",
-      "deco" : "b"
-     }
-    ]
-   },
-   {
-    "name" : "CovOpt",
-    "kind" : "struct",
-    "comment" : "\n",
-    "line" : 19,
-    "char" : 10,
-    "members" : [
-     {
-      "name" : "dir",
-      "kind" : "variable",
-      "line" : 21,
-      "char" : 10,
-      "type" : "string"
-     },
-     {
-      "name" : "merge",
-      "kind" : "variable",
-      "line" : 22,
-      "char" : 10,
-      "deco" : "b"
-     }
-    ]
-   },
-   {
-    "name" : "getCovOptFromString",
-    "kind" : "function",
-    "comment" : "\n",
-    "line" : 25,
-    "char" : 17,
-    "type" : "CovOpt(string str)",
-    "parameters" : [
-     {
-      "name" : "str",
-      "type" : "string"
-     }
-    ],
-    "endline" : 37,
-    "endchar" : 2
-   },
-   {
-    "name" : "__unittest_L39_C10",
-    "kind" : "function",
-    "comment" : "\n",
-    "line" : 39,
-    "char" : 10,
-    "storageClass" : [
-     "@system"
-    ],
-    "endline" : 63,
-    "endchar" : 2
-   },
-   {
-    "name" : "getCovOpt",
-    "kind" : "function",
-    "comment" : "\n",
-    "line" : 63,
-    "char" : 17,
-    "type" : "CovOpt(string[] searchDirs = [\".\"], string[] searchFileNames = [\".coverageopt\"])",
-    "parameters" : [
-     {
-      "name" : "searchDirs",
-      "type" : "string[]",
-      "default" : "[\".\"]"
-     },
-     {
-      "name" : "searchFileNames",
-      "type" : "string[]",
-      "default" : "[\".coverageopt\"]"
-     }
-    ],
-    "endline" : 79,
-    "endchar" : 2
-   },
-   {
-    "name" : "__unittest_L81_C10",
-    "kind" : "function",
-    "comment" : "\n",
-    "line" : 81,
-    "char" : 10,
-    "storageClass" : [
-     "@system"
-    ],
-    "endline" : 99,
-    "endchar" : 2
-   },
-   {
-    "name" : "getCovOpt",
-    "kind" : "function",
-    "comment" : "\n",
-    "line" : 99,
-    "char" : 17,
-    "type" : "CovOpt(string[string] env)",
-    "parameters" : [
-     {
-      "name" : "env",
-      "type" : "string[string]"
-     }
-    ],
-    "endline" : 108,
-    "endchar" : 2
-   },
-   {
-    "name" : "__unittest_L110_C10",
-    "kind" : "function",
-    "comment" : "\n",
-    "line" : 110,
-    "char" : 10,
-    "storageClass" : [
-     "@system"
-    ],
-    "endline" : 128,
-    "endchar" : 2
-   },
-   {
-    "name" : "getCovOpt",
-    "kind" : "function",
-    "comment" : "\n",
-    "line" : 128,
-    "char" : 17,
-    "type" : "CovOpt(string[string] env, string[] searchDirs, string[] searchFileNames)",
-    "parameters" : [
-     {
-      "name" : "env",
-      "type" : "string[string]"
-     },
-     {
-      "name" : "searchDirs",
-      "type" : "string[]"
-     },
-     {
-      "name" : "searchFileNames",
-      "type" : "string[]"
-     }
-    ],
-    "endline" : 134,
-    "endchar" : 2
-   },
-   {
-    "name" : "__unittest_L136_C10",
-    "kind" : "function",
-    "comment" : "\n",
-    "line" : 136,
-    "char" : 10,
-    "storageClass" : [
-     "@system"
-    ],
-    "endline" : 145,
-    "endchar" : 2
-   },
-   {
-    "name" : "getCovOpt",
-    "kind" : "function",
-    "comment" : "\n",
-    "line" : 145,
-    "char" : 17,
-    "type" : "CovOpt()",
-    "endline" : 152,
-    "endchar" : 2
-   },
-   {
-    "name" : "_sharedStaticCtor_L154_C2",
-    "kind" : "function",
-    "comment" : "\n",
-    "line" : 154,
-    "char" : 2,
-    "storageClass" : [
-     "static"
-    ],
-    "endline" : 164,
-    "endchar" : 2
    }
   ]
  }
