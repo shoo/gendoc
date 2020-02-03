@@ -641,12 +641,12 @@ public:
 		
 		if (compiler.endsWith("ldc2", "ldc2.exe", "ldc") > 0)
 		{
-			auto dummyHtml = tempDir.buildPath(target.baseName ~ ".html");
+			auto dummyHtml = _tempDir.buildPath(target.baseName ~ ".html");
 			argsApp ~= ("-Dd" ~ dummyHtml);
 		}
 		else
 		{
-			auto dummyHtml = tempDir.buildPath(target.baseName ~ ".html");
+			auto dummyHtml = _tempDir.buildPath(target.baseName ~ ".html");
 			argsApp ~= ("-Df" ~ dummyHtml);
 		}
 		argsApp ~= dubpkg.options;
@@ -655,8 +655,8 @@ public:
 			argsApp ~= "-preview=markdown";
 		
 		auto result = execute(argsApp.data);
-		enforce(result.status == 0);
-		enforce(target.exists);
+		enforce(result.status == 0, format!"Generate json failed: %-(%-s %) -> %s"(argsApp.data, result.output));
+		enforce(target.exists, format!"Generate json failed: %s"(target));
 		
 		auto jsModDatas = getModuleDatas(target);
 		foreach(m; modules)
