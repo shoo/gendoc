@@ -1,0 +1,617 @@
+name: Test and Deploy pages for main stream
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  #  1. Windows x86     dmd        o   x   x   x
+  #  2. Windows x86     ldc        x   o   O   x
+  #  3. Windows x86     dmd-master x   x   x   x
+  #  4. Windows x86     ldc-master x   x   x   x
+  #  5. Windows x86_64  dmd        o   x   x   o
+  #  6. Windows x86_64  ldc        o   o   O   x
+  #  7. Windows x86_64  dmd-master x   x   x   x
+  #  8. Windows x86_64  ldc-master o   o   o   x
+  #  9. Ubuntu  x86     dmd        x   x   x   x
+  # 10. Ubuntu  x86     ldc        o   x   o   x
+  # 11. Ubuntu  x86     dmd-master x   x   x   x
+  # 12. Ubuntu  x86     ldc-master x   x   x   x
+  # 13. Ubuntu  x86_64  dmd        o   x   x   x
+  # 14. Ubuntu  x86_64  ldc        o   o   O   o
+  # 15. Ubuntu  x86_64  dmd-master o   o   o   x
+  # 16. Ubuntu  x86_64  ldc-master x   x   x   x
+  # 17. macOS   x86     dmd        x   x   x   x
+  # 18. macOS   x86     ldc        x   x   x   x
+  # 19. macOS   x86     dmd-master x   x   x   x
+  # 20. macOS   x86     ldc-master x   x   x   x
+  # 21. macOS   x86_64  dmd        o   x   x   x
+  # 22. macOS   x86_64  ldc        o   o   O   o
+  # 23. macOS   x86_64  dmd-master x   x   x   x
+  # 24. macOS   x86_64  ldc-master x   x   x   x
+
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  #  1. Windows x86     dmd        o   x   x   x
+  test-windows-x86-dmd-latest:
+    name: test-windows-x86-dmd-latest
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install D compiler
+        uses: mihails-strasuns/setup-dlang@v0.5.0
+        with:
+          compiler: dmd-latest
+      - name: Run unit tests
+        run: rdmd ./.github/runner.d -a=x86 --mode=unit-test --exdubopts=--build-mode=singleFile
+      #- name: Run integration tests
+      #  run: rdmd ./.github/runner.d -a=x86 --mode=integration-test
+      #- name: Build tests
+      #  run: dub build -a=x86 -b=release -c=default
+      #- name: Archive tests
+      #  id: create_archive
+      #  run: rdmd ./.github/runner.d -a=x86 --mode=create-archive
+      #- name: Generate document tests
+      #  run: rdmd ./.github/runner.d -a=x86 --mode=generate-document
+
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  #  2. Windows x86     ldc        x   o   O   x
+  test-windows-x86-ldc-latest:
+    name: test-windows-x86-ldc-latest
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install D compiler
+        uses: mihails-strasuns/setup-dlang@v0.5.0
+        with:
+          compiler: ldc-latest
+      #- name: Run unit tests
+      #  run: rdmd ./.github/runner.d -a=x86 --mode=unit-test
+      - name: Run integration tests
+        run: rdmd ./.github/runner.d -a=x86 --mode=integration-test
+      - name: Build tests
+        run: dub build -a=x86 -b=release -c=default
+      - name: Archive tests
+        id: create_archive
+        run: rdmd ./.github/runner.d -a=x86 --mode=create-archive
+      #- name: Generate document tests
+      #  run: rdmd ./.github/runner.d -a=x86 --mode=generate-document
+      - name: Upload generated archive
+        uses: actions/upload-artifact@v1
+        with:
+          name: windows-x86-binary
+          path: ${{ steps.create_archive.outputs.ARCNAME }}
+
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  #  3. Windows x86     dmd-master x   x   x   x
+  # do-nothing
+
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  #  4. Windows x86     ldc-master x   x   x   x
+  # do-nothing
+
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  #  5. Windows x86_64  dmd        o   x   x   o
+  test-windows-x86_64-dmd-latest:
+    name: test-windows-x86_64-dmd-latest
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install D compiler
+        uses: mihails-strasuns/setup-dlang@v0.5.0
+        with:
+          compiler: dmd-latest
+      - name: Run unit tests
+        run: rdmd ./.github/runner.d -a=x86_64 --mode=unit-test
+      #- name: Run integration tests
+      #  run: rdmd ./.github/runner.d -a=x86_64 --mode=integration-test
+      #- name: Build tests
+      #  run: dub build -a=x86_64 -b=release -c=default
+      #- name: Archive tests
+      #  id: create_archive
+      #  run: rdmd ./.github/runner.d -a=x86 --mode=create-archive
+      - name: Generate document tests
+        run: rdmd ./.github/runner.d -a=x86_64 --mode=generate-document
+
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  #  6. Windows x86_64  ldc        o   o   O   x
+  test-windows-x86_64-ldc-latest:
+    name: test-windows-x86_64-ldc-latest
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install D compiler
+        uses: mihails-strasuns/setup-dlang@v0.5.0
+        with:
+          compiler: ldc-latest
+      - name: Run unit tests
+        run: rdmd ./.github/runner.d -a=x86_64 --mode=unit-test
+      - name: Run integration tests
+        run: rdmd ./.github/runner.d -a=x86_64 --mode=integration-test
+      - name: Build tests
+        run: dub build -a=x86_64 -b=release -c=default
+      - name: Archive tests
+        id: create_archive
+        run: rdmd ./.github/runner.d -a=x86_64 --mode=create-archive
+      #- name: Generate document tests
+      #  run: rdmd ./.github/runner.d -a=x86_64 --mode=generate-document
+      - name: Upload generated archive
+        uses: actions/upload-artifact@v1
+        with:
+          name: windows-x86_64-binary
+          path: ${{ steps.create_archive.outputs.ARCNAME }}
+
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  #  7. Windows x86_64  dmd-master x   x   x   x
+  #test-windows-x86_64-dmd-master:
+  #  name: test-windows-x86-dmd-latest
+  #  runs-on: windows-latest
+  #  steps:
+  #    - uses: actions/checkout@v2
+  #    - name: Install D compiler
+  #      uses: mihails-strasuns/setup-dlang@v0.5.0
+  #      with:
+  #        compiler: dmd-master
+  #    - name: Run unit tests
+  #      run: rdmd ./.github/runner.d -a=x86_64 --mode=unit-test
+  #    - name: Run integration tests
+  #      run: rdmd ./.github/runner.d -a=x86_64 --mode=integration-test
+  #    - name: Build tests
+  #      run: dub build -a=x86_64 -b=release -c=default
+  #    - name: Archive tests
+  #      id: create_archive
+  #      run: rdmd ./.github/runner.d -a=x86_64 --mode=create-archive
+  #    - name: Generate document tests
+  #      run: rdmd ./.github/runner.d -a=x86_64 --mode=generate-document
+
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  #  8. Windows x86_64  ldc-master o   o   o   x
+  test-windows-x86_64-ldc-master:
+    name: test-windows-x86_64-ldc-master
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install D compiler
+        uses: mihails-strasuns/setup-dlang@v0.5.0
+        with:
+          compiler: ldc-master
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run unit tests
+        run: rdmd ./.github/runner.d -a=x86_64 --mode=unit-test
+      - name: Run integration tests
+        run: rdmd ./.github/runner.d -a=x86_64 --mode=integration-test
+      - name: Build tests
+        run: dub build -a=x86_64 -b=release -c=default
+      #- name: Archive tests
+      #  id: create_archive
+      #  run: rdmd ./.github/runner.d -a=x86_64 --mode=create-archive
+      #- name: Generate document tests
+      #  run: rdmd ./.github/runner.d -a=x86_64 --mode=generate-document
+
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  #  9. Ubuntu  x86     dmd        x   x   x   x
+  #test-linux-x86-dmd-latest:
+  #  name: test-linux-x86-dmd-latest
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - uses: actions/checkout@v2
+  #    - name: Install D compiler
+  #      uses: mihails-strasuns/setup-dlang@v0.5.0
+  #      with:
+  #        compiler: dmd-latest
+  #    - name: Run unit tests
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=unit-test
+  #    - name: Run integration tests
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=integration-test
+  #    - name: Build tests
+  #      run: dub build -a=x86 -b=release -c=default
+  #    - name: Archive tests
+  #      id: create_archive
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=create-archive
+  #    - name: Generate document tests
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=generate-document
+
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  # 10. Ubuntu  x86     ldc        o   x   o   x
+  test-linux-x86-ldc-latest:
+    name: test-linux-x86-ldc-latest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install D compiler
+        uses: mihails-strasuns/setup-dlang@v0.5.0
+        with:
+          compiler: ldc-latest
+      - name: Install gcc-multilib
+        run: sudo apt-get install gcc-multilib
+      - name: Run unit tests
+        run: rdmd ./.github/runner.d -a=x86 --mode=unit-test
+      #- name: Run integration tests
+      #  run: rdmd ./.github/runner.d -a=x86 --mode=integration-test
+      - name: Build tests
+        run: dub build -a=x86 -b=release -c=default
+      #- name: Archive tests
+      #  id: create_archive
+      #  run: rdmd ./.github/runner.d -a=x86 --mode=create-archive
+      #- name: Generate document tests
+      #  run: rdmd ./.github/runner.d -a=x86 --mode=generate-document
+
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  # 11. Ubuntu  x86     dmd-master x   x   x   x
+  #test-linux-x86-dmd-master:
+  #  name: test-linux-x86-dmd-master
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - uses: actions/checkout@v2
+  #    - name: Install D compiler
+  #      uses: mihails-strasuns/setup-dlang@v0.5.0
+  #      with:
+  #        compiler: dmd-master
+  #    - name: Run unit tests
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=unit-test
+  #    - name: Run integration tests
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=integration-test
+  #    - name: Build tests
+  #      run: dub build -a=x86 -b=release -c=default
+  #    - name: Archive tests
+  #      id: create_archive
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=create-archive
+  #    - name: Generate document tests
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=generate-document
+
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  # 12. Ubuntu  x86     ldc-master x   x   x   x
+  #test-linux-x86-ldc-master:
+  #  name: test-linux-x86-ldc-master
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - uses: actions/checkout@v2
+  #    - name: Install D compiler
+  #      uses: mihails-strasuns/setup-dlang@v0.5.0
+  #      with:
+  #        compiler: ldc-master
+  #        gh_token: ${{ secrets.GITHUB_TOKEN }}
+  #    - name: Run unit tests
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=unit-test
+  #    - name: Run integration tests
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=integration-test
+  #    - name: Build tests
+  #      run: dub build -a=x86 -b=release -c=default
+  #    - name: Archive tests
+  #      id: create_archive
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=create-archive
+  #    - name: Generate document tests
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=generate-document
+
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  # 13. Ubuntu  x86_64  dmd        o   x   x   x
+  test-linux-x86_64-dmd-latest:
+    name: test-linux-x86_64-dmd-latest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install D compiler
+        uses: mihails-strasuns/setup-dlang@v0.5.0
+        with:
+          compiler: dmd-latest
+      - name: Run unit tests
+        run: rdmd ./.github/runner.d -a=x86_64 --mode=unit-test
+      #- name: Run integration tests
+      #  run: rdmd ./.github/runner.d -a=x86_64 --mode=integration-test
+      #- name: Build tests
+      #  run: dub build -a=x86_64 -b=release -c=default
+      #- name: Archive tests
+      #  id: create_archive
+      #  run: rdmd ./.github/runner.d -a=x86_64 --mode=create-archive
+      #- name: Generate document tests
+      #  run: rdmd ./.github/runner.d -a=x86_64 --mode=generate-document
+
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  # 14. Ubuntu  x86_64  ldc        o   o   O   o
+  test-linux-x86_64-ldc-latest:
+    name: test-linux-x86_64-ldc-latest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install D compiler
+        uses: mihails-strasuns/setup-dlang@v0.5.0
+        with:
+          compiler: ldc-latest
+      - name: Run unit tests
+        run: rdmd ./.github/runner.d -a=x86_64 --mode=unit-test
+      - name: Run integration tests
+        run: rdmd ./.github/runner.d -a=x86_64 --mode=integration-test
+      - name: Build tests
+        run: dub build -a=x86_64 -b=release -c=default
+      - name: Archive tests
+        id: create_archive
+        run: rdmd ./.github/runner.d -a=x86_64 --mode=create-archive
+      - name: Generate document tests
+        run: rdmd ./.github/runner.d -a=x86_64 --mode=generate-document
+      - name: Upload generated pages
+        uses: actions/upload-artifact@v1
+        with:
+          name: docs
+          path: docs
+      - name: Upload coverage result
+        uses: actions/upload-artifact@v1
+        with:
+          name: cov
+          path: cov
+      - name: Upload generated archive
+        uses: actions/upload-artifact@v1
+        with:
+          name: linux-x86_64-binary
+          path: ${{ steps.create_archive.outputs.ARCNAME }}
+
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  # 15. Ubuntu  x86_64  dmd-master o   o   o   x
+  test-linux-x86_64-dmd-master:
+    name: test-linux-x86_64-dmd-master
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install D compiler
+        uses: mihails-strasuns/setup-dlang@v0.5.0
+        with:
+          compiler: dmd-master
+      - name: Run unit tests
+        run: rdmd ./.github/runner.d -a=x86_64 --mode=unit-test
+      - name: Run integration tests
+        run: rdmd ./.github/runner.d -a=x86_64 --mode=integration-test
+      - name: Build tests
+        run: dub build -a=x86_64 -b=release -c=default
+      - name: Archive tests
+        id: create_archive
+        run: rdmd ./.github/runner.d -a=x86_64 --mode=create-archive
+      #- name: Generate document tests
+      #  run: rdmd ./.github/runner.d -a=x86_64 --mode=generate-document
+
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  # 16. Ubuntu  x86_64  ldc-master x   x   x   x
+  #test-linux-x86_64-ldc-master:
+  #  name: test-linux-x86_64-ldc-master
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - uses: actions/checkout@v2
+  #    - name: Install D compiler
+  #      uses: mihails-strasuns/setup-dlang@v0.5.0
+  #      with:
+  #        compiler: ldc-master
+  #        gh_token: ${{ secrets.GITHUB_TOKEN }}
+  #    - name: Run unit tests
+  #      run: rdmd ./.github/runner.d -a=x86_64 --mode=unit-test
+  #    - name: Run integration tests
+  #      run: rdmd ./.github/runner.d -a=x86_64 --mode=integration-test
+  #    - name: Build tests
+  #      run: dub build -a=x86_64 -b=release -c=default
+  #    - name: Archive tests
+  #      id: create_archive
+  #      run: rdmd ./.github/runner.d -a=x86_64 --mode=create-archive
+  #    - name: Generate document tests
+  #      run: rdmd ./.github/runner.d -a=x86_64 --mode=generate-document
+
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  # 17. macOS   x86     dmd        x   x   x   x
+  #test-osx-x86-dmd-latest:
+  #  name: test-osx-x86-dmd-latest
+  #  runs-on: macOS-latest
+  #  steps:
+  #    - uses: actions/checkout@v2
+  #    - name: Install D compiler
+  #      uses: mihails-strasuns/setup-dlang@v0.5.0
+  #      with:
+  #        compiler: dmd-latest
+  #    - name: Run unit tests
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=unit-test
+  #    - name: Run integration tests
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=integration-test
+  #    - name: Build tests
+  #      run: dub build -a=x86 -b=release -c=default
+  #    - name: Archive tests
+  #      id: create_archive
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=create-archive
+  #    - name: Generate document tests
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=generate-document
+
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  # 18. macOS   x86     ldc        x   x   x   x
+  #test-osx-x86-ldc-latest:
+  #  name: test-osx-x86-ldc-latest
+  #  runs-on: macOS-latest
+  #  steps:
+  #    - uses: actions/checkout@v2
+  #    - name: Install D compiler
+  #      uses: mihails-strasuns/setup-dlang@v0.5.0
+  #      with:
+  #        compiler: ldc-latest
+  #    - name: Run unit tests
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=unit-test
+  #    - name: Run integration tests
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=integration-test
+  #    - name: Build tests
+  #      run: dub build -a=x86 -b=release -c=default
+  #    - name: Archive tests
+  #      id: create_archive
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=create-archive
+  #    - name: Generate document tests
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=generate-document
+
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  # 19. macOS   x86     dmd-master x   x   x   x
+  #test-osx-x86-dmd-master:
+  #  name: test-osx-x86-dmd-master
+  #  runs-on: macOS-latest
+  #  steps:
+  #    - uses: actions/checkout@v2
+  #    - name: Install D compiler
+  #      uses: mihails-strasuns/setup-dlang@v0.5.0
+  #      with:
+  #        compiler: dmd-master
+  #    - name: Run unit tests
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=unit-test
+  #    - name: Run integration tests
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=integration-test
+  #    - name: Build tests
+  #      run: dub build -a=x86 -b=release -c=default
+  #    - name: Archive tests
+  #      id: create_archive
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=create-archive
+  #    - name: Generate document tests
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=generate-document
+
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  # 20. macOS   x86     ldc-master x   x   x   x
+  #test-osx-x86-ldc-master:
+  #  name: test-osx-x86-dmd-master
+  #  runs-on: macOS-latest
+  #  steps:
+  #    - uses: actions/checkout@v2
+  #    - name: Install D compiler
+  #      uses: mihails-strasuns/setup-dlang@v0.5.0
+  #      with:
+  #        compiler: ldc-master
+  #        gh_token: ${{ secrets.GITHUB_TOKEN }}
+  #    - name: Run unit tests
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=unit-test
+  #    - name: Run integration tests
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=integration-test
+  #    - name: Build tests
+  #      run: dub build -a=x86 -b=release -c=default
+  #    - name: Archive tests
+  #      id: create_archive
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=create-archive
+  #    - name: Generate document tests
+  #      run: rdmd ./.github/runner.d -a=x86 --mode=generate-document
+
+
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  # 21. macOS   x86_64  dmd        o   x   x   x
+  test-osx-x86_64-dmd-latest:
+    name: test-osx-x86_64-dmd-latest
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install D compiler
+        uses: mihails-strasuns/setup-dlang@v0.5.0
+        with:
+          compiler: dmd-latest
+      - name: Run unit tests
+        run: rdmd ./.github/runner.d -a=x86_64 --mode=unit-test
+  #    - name: Run integration tests
+  #      run: rdmd ./.github/runner.d -a=x86_64 --mode=integration-test
+  #    - name: Build tests
+  #      run: dub build -a=x86_64 -b=release -c=default
+  #    - name: Archive tests
+  #      id: create_archive
+  #      run: rdmd ./.github/runner.d -a=x86_64 --mode=create-archive
+  #    - name: Generate document tests
+  #      run: rdmd ./.github/runner.d -a=x86_64 --mode=generate-document
+
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  # 22. macOS   x86_64  ldc        o   o   O   o
+  test-osx-x86_64-ldc-latest:
+    name: test-osx-x86_64-ldc-latest
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install D compiler
+        uses: mihails-strasuns/setup-dlang@v0.5.0
+        with:
+          compiler: ldc-latest
+      - name: Run unit tests
+        run: rdmd ./.github/runner.d -a=x86_64 --mode=unit-test
+      - name: Run integration tests
+        run: rdmd ./.github/runner.d -a=x86_64 --mode=integration-test
+      - name: Build tests
+        run: dub build -a=x86_64 -b=release -c=default
+      - name: Archive tests
+        id: create_archive
+        run: rdmd ./.github/runner.d -a=x86_64 --mode=create-archive
+      - name: Generate document tests
+        run: rdmd ./.github/runner.d -a=x86_64 --mode=generate-document
+      - name: Upload generated archive
+        uses: actions/upload-artifact@v1
+        with:
+          name: osx-x86_64-bainary
+          path: ${{ steps.create_archive.outputs.ARCNAME }}
+
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  # 23. macOS   x86_64  dmd-master x   x   x   x
+  #test-osx-x86_64-dmd-master:
+  #  name: test-osx-x86_64-dmd-master
+  #  runs-on: macOS-latest
+  #  steps:
+  #    - uses: actions/checkout@v2
+  #    - name: Install D compiler
+  #      uses: mihails-strasuns/setup-dlang@v0.5.0
+  #      with:
+  #        compiler: dmd-master
+  #    - name: Run unit tests
+  #      run: rdmd ./.github/runner.d -a=x86_64 --mode=unit-test
+  #    - name: Run integration tests
+  #      run: rdmd ./.github/runner.d -a=x86_64 --mode=integration-test
+  #    - name: Build tests
+  #      run: dub build -a=x86_64 -b=release -c=default
+  #    - name: Archive tests
+  #      id: create_archive
+  #      run: rdmd ./.github/runner.d -a=x86_64 --mode=create-archive
+  #    - name: Generate document tests
+  #      run: rdmd ./.github/runner.d -a=x86_64 --mode=generate-document
+
+  # No. OS      ARCH    COMPILER   UT  TT  BLD DOC
+  # 24. macOS   x86_64  ldc-master x   x   x   x
+  #test-osx-x86_64-ldc-master:
+  #  name: test-osx-x86_64-ldc-master
+  #  runs-on: macOS-latest
+  #  steps:
+  #    - uses: actions/checkout@v2
+  #    - name: Install D compiler
+  #      uses: mihails-strasuns/setup-dlang@v0.5.0
+  #      with:
+  #        compiler: ldc-master
+  #        gh_token: ${{ secrets.GITHUB_TOKEN }}
+  #    - name: Run unit tests
+  #      run: rdmd ./.github/runner.d -a=x86_64 --mode=unit-test
+  #    - name: Run integration tests
+  #      run: rdmd ./.github/runner.d -a=x86_64 --mode=integration-test
+  #    - name: Build tests
+  #      run: dub build -a=x86_64 -b=release -c=default
+  #    - name: Archive tests
+  #      id: create_archive
+  #      run: rdmd ./.github/runner.d -a=x86_64 --mode=create-archive
+  #    - name: Generate document tests
+  #      run: rdmd ./.github/runner.d -a=x86_64 --mode=generate-document
+  
+  # Upload coverage to Codecov
+  upload-codecov:
+    name: upload-codecov
+    needs: [test-windows-x86-dmd-latest, test-windows-x86-ldc-latest, test-windows-x86_64-dmd-latest, test-windows-x86_64-ldc-latest, test-windows-x86_64-ldc-master, test-linux-x86-ldc-latest, test-linux-x86_64-dmd-latest, test-linux-x86_64-ldc-latest, test-linux-x86_64-dmd-master, test-osx-x86_64-dmd-latest, test-osx-x86_64-ldc-latest]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download coverage result
+        uses: actions/download-artifact@v1
+        with:
+          name: cov
+      - name: Upload coverage to Codecov
+        run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }} -s cov
+  
+  # Deploy Pages
+  deproy-pages:
+    name: deploy-pages
+    needs: upload-codecov
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download generated pages
+        uses: actions/download-artifact@v1
+        with:
+          name: docs
+      - name: Deploy pages
+        uses: peaceiris/actions-gh-pages@v2
+        env:
+          ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: docs
+        with:
+          emptyCommits: false
