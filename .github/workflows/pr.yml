@@ -1,4 +1,4 @@
-name: PullRequest testing flow
+name: PullRequest
 on:
   pull_request:
 
@@ -335,7 +335,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: cov
-          path: cov
+          path: .cov
       - name: Upload generated archive
         uses: actions/upload-artifact@v1
         with:
@@ -587,9 +587,11 @@ jobs:
     needs: [test-windows-x86-dmd-latest, test-windows-x86-ldc-latest, test-windows-x86_64-dmd-latest, test-windows-x86_64-ldc-latest, test-windows-x86_64-ldc-master, test-linux-x86-ldc-latest, test-linux-x86_64-dmd-latest, test-linux-x86_64-ldc-latest, test-linux-x86_64-dmd-master, test-osx-x86_64-dmd-latest, test-osx-x86_64-ldc-latest]
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Download coverage result
         uses: actions/download-artifact@v1
         with:
           name: cov
+          path: .cov
       - name: Upload coverage to Codecov
-        run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }} -s cov
+        run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }} -s .cov

@@ -32,7 +32,8 @@
 			"name": "unittest",
 			"targetType": "executable",
 			"targetPath": "build",
-			"versions": ["gendoc_app"]
+			"versions": ["gendoc_app"],
+			"sourceFiles": [".github/ut.d"]
 		}
 	],
 	"subPackages": [

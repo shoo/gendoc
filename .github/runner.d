@@ -4,10 +4,12 @@ import std;
 struct Defines
 {
 static:
-	///
+	/// ドキュメントジェネレータを指定します。
+	/// gendocのバージョンが更新されたら変更してください。
 	immutable integrationTestCaseDir = "testcases";
 	
-	///
+	/// テスト対象にするサブパッケージを指定します。
+	/// サブパッケージが追加されたらここにも追加してください。
 	immutable documentGenerator = "gendoc@0.0.4";
 }
 
@@ -144,24 +146,40 @@ int main(string[] args)
 ///
 void unitTest(string[] exDubOpts = null)
 {
-	auto covdir = config.scriptDir.buildNormalizedPath("../cov");
+	auto covdir = config.scriptDir.buildNormalizedPath("../.cov");
 	if (!covdir.exists)
 		mkdirRecurse(covdir);
+	string[string] env;
+	// Win64の場合はlibcurl.dllの64bit版を使うため、dmdのbin64にパスを通す
+	if (config.os == "windows" && config.targetArch == "x86_64" && config.hostCompiler == "dmd")
+	{
+		auto bin64dir = searchDCompiler().dirName.buildPath("../bin64");
+		if (bin64dir.exists && bin64dir.isDir)
+			env["Path"] = bin64dir ~ ";" ~ environment.get("Path");
+	}
 	exec(["dub",
 		"build",
 		"-a",              config.hostArch,
 		"-b=unittest-cov",
 		"-c=default",
 		"--compiler",      config.hostCompiler] ~ exDubOpts);
-	exec(["build/gendoc", format!`--DRT-covopt=merge:1 dstpath:%s`(covdir)]);
+	exec(["build/gendoc", format!`--DRT-covopt=merge:1 dstpath:%s`(covdir)], null, env);
 }
 
 ///
 void generateDocument()
 {
+	string[string] env;
+	// Win64の場合はlibcurl.dllの64bit版を使うため、dmdのbin64にパスを通す
+	if (config.os == "windows" && config.targetArch == "x86_64" && config.hostCompiler == "dmd")
+	{
+		auto bin64dir = searchDCompiler().dirName.buildPath("../bin64");
+		if (bin64dir.exists && bin64dir.isDir)
+			env["Path"] = bin64dir ~ ";" ~ environment.get("Path");
+	}
 	exec(["dub", "run", Defines.documentGenerator, "-y",
 		"--",
-		"-a=x86_64", "-b=release", "-c=default"]);
+		"-a=x86_64", "-b=release", "-c=default"], null, env);
 }
 
 ///
@@ -179,7 +197,15 @@ void createReleaseBuild(string[] exDubOpts = null)
 ///
 void integrationTest(string[] exDubOpts = null)
 {
-	auto covdir = config.scriptDir.buildNormalizedPath("../cov").absolutePath();
+	string[string] env;
+	// Win64の場合はlibcurl.dllの64bit版を使うため、dmdのbin64にパスを通す
+	if (config.os == "windows" && config.targetArch == "x86_64" && config.hostCompiler == "dmd")
+	{
+		auto bin64dir = searchDCompiler().dirName.buildPath("../bin64");
+		if (bin64dir.exists && bin64dir.isDir)
+			env["Path"] = bin64dir ~ ";" ~ environment.get("Path");
+	}
+	auto covdir = config.scriptDir.buildNormalizedPath("../.cov").absolutePath();
 	if (!covdir.exists)
 		mkdirRecurse(covdir);
 	void test(string workDir, string rootDir)
@@ -189,7 +215,7 @@ void integrationTest(string[] exDubOpts = null)
 			"--compiler", config.targetCompiler,
 			"--root",     rootDir,
 			format!`--DRT-covopt=merge:1 dstpath:%s`(covdir)],
-			workDir);
+			workDir, env);
 	}
 	
 	exec(["dub", "build", "-a", config.hostArch, "-b=cov", "-c=default", "--compiler", config.hostCompiler] ~ exDubOpts);
@@ -283,4 +309,44 @@ string getRefName()
 	if (ghref.startsWith(keyPull))
 		return "pr" ~ ghref[keyPull.length..$];
 	return cmd(["git", "describe", "--tags", "--always"]).chomp;
+}
+
+///
+string searchPath(string name, string[] dirs = null)
+{
+	if (name.length == 0)
+		return name;
+	if (name.isAbsolute())
+		return name;
+	foreach (dir; dirs.chain(environment.get("Path").split(";")))
+	{
+		version (Windows)
+			auto bin = dir.buildPath(name).setExtension(".exe");
+		else
+			auto bin = dir.buildPath(name);
+		if (bin.exists)
+			return bin;
+	}
+	return name;
+}
+
+///
+string searchDCompiler()
+{
+	auto compiler = config.compiler;
+	if (compiler.absolutePath.exists)
+		return compiler.absolutePath;
+	compiler = compiler.searchPath();
+	if (compiler.exists)
+		return compiler;
+	
+	auto dc = searchPath(environment.get("DC"));
+	if (dc.exists)
+		return dc;
+	
+	auto dmd = searchPath(environment.get("DMD"));
+	if (dmd.exists)
+		return dmd;
+	
+	return "dmd";
 }
