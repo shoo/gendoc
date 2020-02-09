@@ -2892,24 +2892,5 @@
     ]
    }
   ]
- },
- {
-  "name" : "gendoc.ut",
-  "kind" : "module",
-  "file" : "/home/runner/work/gendoc/gendoc/source/gendoc/ut.d",
-  "comment" : " Features for unit testing\n\n Fine-tune the output destination of coverage, etc.\n",
-  "members" : [
-   {
-    "name" : "_sharedStaticCtor_L8_C7",
-    "kind" : "function",
-    "line" : 8,
-    "char" : 7,
-    "storageClass" : [
-     "static"
-    ],
-    "endline" : 12,
-    "endchar" : 1
-   }
-  ]
  }
 ]
