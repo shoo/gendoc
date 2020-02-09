@@ -36,7 +36,8 @@
 			},
 			"subConfigurations": {
 				"gendoc": "library"
-			}
+			},
+			"sourceFiles": ["../.github/ut.d"]
 		}
 	]
 }

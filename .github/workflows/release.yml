@@ -1,4 +1,4 @@
-name: Release and Deploy assets
+name: Release
 on:
   push:
     tags:
