@@ -51,11 +51,6 @@ import gendoc.generator;
 import gendoc.modmgr;
 alias Config = gendoc.config.Config;
 
-version(gendoc_app) int main(string[] args)
-{
-	return gendocMain(args);
-}
-
 /*******************************************************************************
  * Main routine of gendoc
  */

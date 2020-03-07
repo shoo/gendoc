@@ -1,0 +1,30 @@
+{
+	"authors": ["SHOO"],
+	"copyright": "Copyright © 2019, SHOO",
+	"description": "A minimal D application.",
+	"license": "public domain",
+	"name": "case005",
+	"subPackages": [
+		{
+			"name": "subpkg1",
+			"targetType": "executable",
+			"authors": ["SHOO"],
+			"copyright": "Copyright © 2019, SHOO",
+			"description": "A minimal D application.",
+			"license": "public domain",
+			"sourcePaths": ["subpkg1"],
+			"importPaths": ["subpkg1"]
+		},
+		{
+			"name": "subpkg2",
+			"targetType": "executable",
+			"authors": ["SHOO"],
+			"copyright": "Copyright © 2019, SHOO",
+			"description": "A minimal D application.",
+			"license": "public domain",
+			"sourcePaths": ["subpkg2"],
+			"importPaths": ["subpkg2"]
+		},
+		"subpkg3"
+	]
+}

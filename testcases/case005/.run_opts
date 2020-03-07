@@ -1,0 +1,19 @@
+[
+	{
+		"name": "normal",
+		"workdir": ".",
+		"dubExArgs": [
+			"--root=../.."
+		]
+	},
+	{
+		"name": "extra",
+		"workdir": "../..",
+		"dubExArgs": [
+			"--root=."
+		],
+		"args": [
+			"--root=testcases/case005"
+		]
+	}
+]

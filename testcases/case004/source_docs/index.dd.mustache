@@ -1,0 +1,16 @@
+Ddoc
+
+{{# environment }}PATH{{/ environment }}
+{{# command }}echo TEST{{/ command }}
+{{# command }}
+    git
+    config
+    --get
+    remote.origin.url
+{{/ command }}
+$(PROJECT_SRC_ROOT)
+
+$(MODULE_INDEX)
+
+Macros:
+    TITLE=Documentation for $(PROJECT_NAME)

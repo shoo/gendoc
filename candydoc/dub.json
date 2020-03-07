@@ -13,6 +13,7 @@
 			"dependencies": {
 				"gendoc": {"path": ".."}
 			},
+			"mainSourceFile": "source/app.d",
 			"subConfigurations": {
 				"gendoc": "library"
 			}
@@ -37,6 +38,7 @@
 			"subConfigurations": {
 				"gendoc": "library"
 			},
+			"mainSourceFile": "source/app.d",
 			"sourceFiles": ["../.github/ut.d"]
 		}
 	]
