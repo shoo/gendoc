@@ -5,13 +5,17 @@
  */
 module ut;
 
+// dub specifies the directory to store the coverage in the source code
+// By importing, determine the execution order of module constructor and overwrite settings
+import dub.dub;
+
 debug shared static this()
 {
 	import core.stdc.stdio;
 	setvbuf(stdout, null, _IONBF, 0);
 }
 ///
-version (D_Coverage) version(unittest)
+version (D_Coverage)
 {
 	private extern (C) void dmd_coverDestPath( string pathname );
 	private extern (C) void dmd_coverSourcePath( string pathname );
@@ -164,7 +168,7 @@ version (D_Coverage) version(unittest)
 		auto covopt = getCovOpt();
 		if (covopt.dir.length > 0)
 		{
-			enum rootDir = __FILE__.dirName.dirName.buildNormalizedPath();
+			enum rootDir = __FILE_FULL_PATH__.dirName.dirName.buildNormalizedPath();
 			if (!covopt.dir.exists) mkdirRecurse(covopt.dir);
 			dmd_coverSetMerge(covopt.merge);
 			dmd_coverSourcePath(rootDir);

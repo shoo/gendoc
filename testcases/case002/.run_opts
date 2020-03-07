@@ -1,19 +1,21 @@
 [
 	{
 		"name": "normal",
-		"workdir": ".",
-		"dubExArgs": [
-			"--root=../.."
-		]
+		"dubWorkDir": "${project_root}",
+		"dubArgs": [
+			"-c=unittest"
+		],
+		"workDir": "${test_dir}"
 	},
 	{
 		"name": "extra",
-		"workdir": "../..",
-		"dubExArgs": [
-			"--root=."
+		"dubWorkDir": "${project_root}",
+		"dubArgs": [
+			"-c=unittest"
 		],
+		"workDir": "${project_root}",
 		"args": [
-			"--root=testcases/case002"
+			"--root=${test_dir}"
 		]
 	}
 ]
