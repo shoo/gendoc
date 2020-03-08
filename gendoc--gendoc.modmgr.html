@@ -1,6 +1,7 @@
 
 <!DOCTYPE html>
-<html>    <head>        <META http-equiv="content-type" content="text/html; charset=utf-8">
+<html>    <head>        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <link rel="stylesheet" type="text/css" href="css/proj_docs.css">
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script type="text/javascript" src="js/sidebar.js"></script>
@@ -22,9 +23,14 @@
     <ul>
 
 	
-	<li class="expand-container open"><a class='expand-toggle' href="#"><span >gendoc</span></a><ul>
-		
-		
+
+	<li><a title="" href="gendoc--app.html"><span >app</span></a></li>
+
+
+	
+	
+		<li class="expand-container open"><a class='expand-toggle' href="#"><span >gendoc</span></a><ul>
+			
 
 	<li><a title="Manage configs and commands" href="gendoc--gendoc.config.html"><span >config</span></a></li>
 
@@ -45,7 +51,9 @@
 	<li><a title="D's Module manager" href="gendoc--gendoc.modmgr.html"><span >modmgr</span></a></li>
 
 
-	</ul></li>
+		</ul></li>
+	
+
 
 
 
@@ -75,10 +83,10 @@
 <dd><div class="ddoc_summary">Dub package name</div></dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".ModInfo.pkgName"></span><div class="quickindex" id="quickindex.ModInfo.pkgName"></div>string <code class="ddoc_psymbol">pkgName</code>;
 <br></div></dt>
-<dd><div class="ddoc_summary">(D's) Package name (eg.  <span class="d_inlinecode donthyphenate notranslate">hoge/fuga/piyo.d</span> -&gt; <span class="d_inlinecode donthyphenate notranslate">hoge.fuga</span> )</div></dd>
+<dd><div class="ddoc_summary">(D's) Package name (eg.  <code class="d_inlinecode donthyphenate notranslate">hoge/fuga/piyo.d</code> -&gt; <code class="d_inlinecode donthyphenate notranslate">hoge.fuga</code> )</div></dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".ModInfo.modName"></span><div class="quickindex" id="quickindex.ModInfo.modName"></div>string <code class="ddoc_psymbol">modName</code>;
 <br></div></dt>
-<dd><div class="ddoc_summary">Module name ( <span class="d_inlinecode donthyphenate notranslate">hoge/fuga/piyo.d</span> -&gt; <span class="d_inlinecode donthyphenate notranslate">piyo</span> )</div></dd>
+<dd><div class="ddoc_summary">Module name ( <code class="d_inlinecode donthyphenate notranslate">hoge/fuga/piyo.d</code> -&gt; <code class="d_inlinecode donthyphenate notranslate">piyo</code> )</div></dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".ModInfo.title"></span><div class="quickindex" id="quickindex.ModInfo.title"></div>string <code class="ddoc_psymbol">title</code>;
 <br></div></dt>
 <dd><div class="ddoc_summary">Title of module
@@ -87,7 +95,7 @@
 </dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".ModInfo.fullModuleName"></span><div class="quickindex" id="quickindex.ModInfo.fullModuleName"></div>const @property @safe string <code class="ddoc_psymbol">fullModuleName</code>();
 <br></div></dt>
-<dd><div class="ddoc_summary">Concatinated package and module name (eg. <span class="d_inlinecode donthyphenate notranslate">hoge/fuga/piyo.d</span> -&gt; <span class="d_inlinecode donthyphenate notranslate">hoge.fuga.piyo</span> )</div></dd>
+<dd><div class="ddoc_summary">Concatinated package and module name (eg. <code class="d_inlinecode donthyphenate notranslate">hoge/fuga/piyo.d</code> -&gt; <code class="d_inlinecode donthyphenate notranslate">hoge.fuga.piyo</code> )</div></dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".ModInfo.this"></span><div class="quickindex" id="quickindex.ModInfo.this"></div>@safe this(string <span class="ddoc_param">srcFile</span>);
 <br></div></dt>
 <dd><div class="ddoc_summary">Constructor</div></dd>
@@ -97,13 +105,13 @@
 <br></div></dt>
 <dd><div class="ddoc_summary">Source file (D's package) information</div><dl class="ddoc_members"><div class="ddoc_struct_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".PkgInfo.name"></span><div class="quickindex" id="quickindex.PkgInfo.name"></div>string <code class="ddoc_psymbol">name</code>;
 <br></div></dt>
-<dd><div class="ddoc_summary"><code class="ddoc_psymbol">name</code> of package (eg. <span class="d_inlinecode donthyphenate notranslate">hoge/fuga/piyo.d</span> -&gt; <span class="d_inlinecode donthyphenate notranslate">fuga</span> )</div></dd>
+<dd><div class="ddoc_summary"><code class="ddoc_psymbol">name</code> of package (eg. <code class="d_inlinecode donthyphenate notranslate">hoge/fuga/piyo.d</code> -&gt; <code class="d_inlinecode donthyphenate notranslate">fuga</code> )</div></dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".PkgInfo.dubPkgName"></span><div class="quickindex" id="quickindex.PkgInfo.dubPkgName"></div>string <code class="ddoc_psymbol">dubPkgName</code>;
 <br></div></dt>
 <dd><div class="ddoc_summary">dub package name</div></dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".PkgInfo.pkgName"></span><div class="quickindex" id="quickindex.PkgInfo.pkgName"></div>string <code class="ddoc_psymbol">pkgName</code>;
 <br></div></dt>
-<dd><div class="ddoc_summary">full package name (eg. <span class="d_inlinecode donthyphenate notranslate">hoge/fuga/piyo.d</span> -&gt; <span class="d_inlinecode donthyphenate notranslate">hoge.fuga</span> )</div></dd>
+<dd><div class="ddoc_summary">full package name (eg. <code class="d_inlinecode donthyphenate notranslate">hoge/fuga/piyo.d</code> -&gt; <code class="d_inlinecode donthyphenate notranslate">hoge.fuga</code> )</div></dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".PkgInfo.packageD"></span><div class="quickindex" id="quickindex.PkgInfo.packageD"></div>ModInfo <code class="ddoc_psymbol">packageD</code>;
 <br></div></dt>
 <dd><div class="ddoc_summary">package.d module information if exists.</div></dd>
