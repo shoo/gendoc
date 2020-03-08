@@ -1,0 +1,12 @@
+{
+	"authors": [
+		"SHOO"
+	],
+	"copyright": "Copyright © 2019, SHOO",
+	"description": "A minimal D application.",
+	"license": "public domain",
+	"name": "subpkg3",
+	"targetType": "executable",
+	"mainSourceFile": "app.d",
+	"importPaths": ["."]
+}

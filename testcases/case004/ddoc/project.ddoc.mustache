@@ -1,0 +1,24 @@
+PROJECT_NAME     ={{ project_name }}
+PROJECT_VERSION  ={{ project_version }}
+PROJECT_SRC_ROOT ={{# rdmd }}
+	auto res = execute(["git", "config", "--get", "remote.origin.url"]);
+	if (res.status == 0 )
+	{
+		auto url = res.output.chomp;
+		bool writeReplacedIfMatch(string str, string ptn, string fmt)
+		{
+			auto r = regex(ptn);
+			if (str.match(r))
+			{
+				writeln(str.replace(r, fmt));
+				return true;
+			}
+			return false;
+		}
+		if (writeReplacedIfMatch(url, "https://github.com/(.+)/(.+)\\.git", "https://github.com/$1/$2/tree/master/"))
+			return;
+		if (writeReplacedIfMatch(url, "git@github.com:(.+)/(.+)\\.git", "https://github.com/$1/$2/tree/master/"))
+			return;
+	}
+	writeln("SRC");
+{{/ rdmd }}

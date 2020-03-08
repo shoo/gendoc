@@ -13,10 +13,13 @@ ADEF=<span class="def-anchor" id="$0"></span>
 AHTTP=<a href="http://$1">$+</a>
 AHTTPS=<a class="https" href="https://$1">$+</a>
 ALOCAL=<a href="#$1">$+</a>
+ATITLE=<a title='$1'>$+</a>
 BIG=$(EMC big, $0)
 BR=<br>
 CAPTION=$(T caption, $0)
 CHECKMARK=&#10004;
+CODE=$(T code, $0)
+CODEC=$(TC code, $1, $+)
 DD=$(T dd, $0)
 DDC=$(TC dd, $1, $+)
 DIV=<div $1>$+</div>

@@ -1,0 +1,16 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/case005
+case005.so
+case005.dylib
+case005.dll
+case005.a
+case005.lib
+case005-test-*
+case005_subpkg*
+*.exe
+*.o
+*.obj
+*.lst

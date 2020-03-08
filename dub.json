@@ -17,6 +17,7 @@
 			"targetPath": "build",
 			"targetType": "executable",
 			"versions": ["gendoc_app"],
+			"mainSourceFile": "source/app.d",
 			"copyFiles": ["source_docs", "ddoc", "README.md", "LICENSE"]
 		},
 		{
@@ -26,6 +27,7 @@
 		},
 		{
 			"name": "library",
+			"excludedSourceFiles": ["source/app.d"],
 			"targetType": "library"
 		},
 		{
@@ -33,6 +35,7 @@
 			"targetType": "executable",
 			"targetPath": "build",
 			"versions": ["gendoc_app"],
+			"mainSourceFile": "source/app.d",
 			"sourceFiles": [".github/ut.d"]
 		}
 	],
