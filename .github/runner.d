@@ -174,6 +174,16 @@ void unitTest(string[] exDubOpts = null)
 		"--coverage",
 		"--compiler",      config.hostCompiler] ~ exDubOpts,
 		null, env);
+	foreach (pkgName; Defines.subPkgs)
+	{
+		exec(["dub",
+			"test",
+			":" ~ pkgName,
+			"-a",              config.hostArch,
+			"--coverage",
+			"--compiler",      config.hostCompiler] ~ exDubOpts,
+			null, env);
+	}
 }
 
 ///
@@ -478,6 +488,7 @@ void integrationTest(string[] exDubOpts = null)
 		writeln("## Integration Test Summary          ##");
 		writeln("#######################################");
 	}
+	bool failed;
 	if (dirTests.length > 0)
 	{
 		writeln("##### Test Summary of Directory Entries");
@@ -489,6 +500,7 @@ void integrationTest(string[] exDubOpts = null)
 			if (res.exception)
 			{
 				writefln("[X] %s: %s", res.name, res.exception.msg);
+				failed = true;
 			}
 			else if (res.executed)
 			{
@@ -510,6 +522,7 @@ void integrationTest(string[] exDubOpts = null)
 		{
 			if (res.exception)
 			{
+				failed = true;
 				writefln("[X] %s: %s", res.name, res.exception.msg);
 			}
 			else if (res.executed)
@@ -522,7 +535,7 @@ void integrationTest(string[] exDubOpts = null)
 			}
 		}
 	}
-	
+	enforce(!failed, "Integration test was failed.");
 }
 
 
