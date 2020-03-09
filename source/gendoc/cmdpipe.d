@@ -5,7 +5,7 @@
  */
 module gendoc.cmdpipe;
 
-import core.sync.mutex, core.sync.condition;
+import std.string, std.path, std.parallelism, std.process;
 import std.exception, std.algorithm, std.array, std.range;
 import dub.internal.vibecompat.data.json;
 import gendoc.config, gendoc.modmgr;
@@ -44,7 +44,6 @@ import gendoc.config, gendoc.modmgr;
 struct CommandPipe
 {
 private:
-	import std.string, std.path, std.parallelism, std.process;
 	alias Config = gendoc.config.Config;
 	string[]            _result;
 	string[]            _stderr;
@@ -204,11 +203,11 @@ struct ReqInfo
 struct ResInfo
 {
 	///
-	Config       config;
+	gendoc.config.Config config;
 	///
 	DubPkgInfo[] dubPkgInfos;
 	///
-	this(in ref Config cfg, in DubPkgInfo[] dpi)
+	this(in ref gendoc.config.Config cfg, in DubPkgInfo[] dpi)
 	{
 		config = cast()cfg;
 		dubPkgInfos = (cast(DubPkgInfo[])dpi[]).dup;
