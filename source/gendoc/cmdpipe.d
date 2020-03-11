@@ -20,6 +20,11 @@ import gendoc.config, gendoc.modmgr;
  * Guest program requests are passed line by line to the standard error output.
  * gendoc responds to requests with one line.
  * The request starts with `::gendoc-request::`, followed by a JSON string.
+ * 
+ * ```
+ * ::gendoc-request::{ "type": "ReqEcho", "value": {"msg": "test"} }
+ * ```
+ * 
  * The response type corresponds to the request type.
  * 
  * | Request Type          | Response Type        |
@@ -35,9 +40,7 @@ import gendoc.config, gendoc.modmgr;
  * ```
  * {
  *  "type":  "ReqInfo",
- *  "value": {
- *    ....
- *  }
+ *  "value": { }
  * }
  * ```
  */
@@ -179,34 +182,57 @@ public:
 
 
 
-///
+/*******************************************************************************
+ * Test request to return the specified msg without processing.
+ * 
+ * The main return value is ResEcho.
+ * ResErr will be returned if something goes wrong.
+ * 
+ * Returns:
+ * - ResEcho
+ * - ResErr
+ */
 struct ReqEcho
 {
 	///
 	string msg;
 }
 
-///
+/*******************************************************************************
+ * Main return value of ReqEcho
+ */
 struct ResEcho
 {
 	///
 	string msg;
 }
 
-///
+/*******************************************************************************
+ * Request information that gendoc has.
+ * 
+ * The main return value is ResInfo.
+ * ResErr will be returned if something goes wrong.
+ * 
+ * Returns:
+ * - ResInfo
+ * - ResErr
+ */
 struct ReqInfo
 {
 	
 }
 
-///
+/*******************************************************************************
+ * Main return value of ReqInfo
+ */
 struct ResInfo
 {
-	///
-	gendoc.config.Config config;
-	///
+	private alias Config = gendoc.config.Config;
+	/// $(REF Config, gendoc, _config)
+	Config config;
+	/// $(REF DubPkgInfo, gendoc, modmgr)
 	DubPkgInfo[] dubPkgInfos;
-	///
+private:
 	this(in ref gendoc.config.Config cfg, in DubPkgInfo[] dpi)
 	{
 		config = cast()cfg;
@@ -214,7 +240,9 @@ struct ResInfo
 	}
 }
 
-///
+/*******************************************************************************
+ * Return-value when something wrong.
+ */
 struct ResErr
 {
 	///
