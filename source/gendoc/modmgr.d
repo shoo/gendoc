@@ -59,11 +59,11 @@ struct PkgInfo
 	string    dubPkgName;
 	/// full package name (eg. `hoge/fuga/piyo.d` -> `hoge.fuga` )
 	string    pkgName;
-	/// package.d module information if exists.
+	/// package.d module information if exists. $(LREF ModInfo)
 	ModInfo   packageD;
-	/// module informations of package children
+	/// module informations of package children. $(LREF ModInfo)
 	ModInfo[] modules;
-	/// package informations of package children
+	/// package informations of package children.
 	PkgInfo[] packages;
 	/// true if package.d module exists
 	bool hasPackageD() @safe @nogc nothrow const @property
@@ -235,7 +235,7 @@ struct DubPkgInfo
 	string   name;
 	///
 	string   packageVersion;
-	///
+	/// $(LREF PkgInfo)
 	PkgInfo  root;
 	///
 	string   dir;

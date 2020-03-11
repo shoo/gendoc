@@ -49,6 +49,7 @@ module gendoc.main;
 import gendoc.config;
 import gendoc.generator;
 import gendoc.modmgr;
+import gendoc.cmdpipe;
 alias Config = gendoc.config.Config;
 
 /*******************************************************************************
@@ -192,7 +193,7 @@ void setup(ref DocumentGenerator generator, Config cfg, ModuleManager modmgr)
 private void setupDocumentGenerator(
 	ref DocumentGenerator generator, const ref Config cfg, const ref ModuleManager modmgr)
 {
-	import std.stdio, std.path;
+	import std.stdio, std.path, std.string;
 	if (!cfg.quiet)
 	{
 		generator.preGenerateCallback = (string pkgName, ModInfo[] modInfo, string[] args)
@@ -250,6 +251,19 @@ private void setupDocumentGenerator(
 		};
 	}
 	
+	generator.commandProcessor = (string args, string workDir, string[string] env)
+	{
+		auto pipe = CommandPipe(cfg, modmgr.dubPackages);
+		pipe.run(args, workDir, env);
+		return pipe.result.join("\n");
+	};
+	
+	generator.executeProcessor = (string[] args, string workDir, string[string] env)
+	{
+		auto pipe = CommandPipe(cfg, modmgr.dubPackages);
+		pipe.run(args, workDir, env);
+		return pipe.result.join("\n");
+	};
 	generator.compiler  = cfg.compiler;
 	generator.targetDir = cfg.gendocData.target.absolutePath.buildNormalizedPath;
 	

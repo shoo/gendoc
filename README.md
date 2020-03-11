@@ -175,13 +175,13 @@ Save it with the extension `*.ddoc.mustache`, `*.dd.mustache`, such as `module_l
 ```mustache
 MODULE_MENU={{# dub_pkg_info }}
 $(MENU_DUBPKG {{ name }}, {{ version }},
-	{{# children }}{
-		"file": "_module_info",
-		"map": {
-			"tag_pkg":"MENU_PKG",
-			"tag_mod":"MENU_MOD"
-		}
-	}{{/ children }}
+  {{# children }}{
+    "file": "_module_info",
+    "map": {
+      "tag_pkg":"MENU_PKG",
+      "tag_mod":"MENU_MOD"
+    }
+  }{{/ children }}
 )
 {{/ dub_pkg_info }}
 ```
@@ -230,36 +230,101 @@ Available tags are as below:
 |     7.2.8. is_module         | rdmd             | Lambdas      | Execute dlang code with rdmd --eval and store the result to standard output. |
 |     7.2.9. is_module         | environemnt      | Lambdas      | Expand and store environment variables.                                      |
 
+### **{{ children }}**
 As it appears above, `{{# children }} {{/ children }}` is special.
 Recursive embedding is done to represent the package tree structure.
 At that time, it is possible to change the contents with the information described inside. The information is in JSON format or mustache format.
 
 - If the literal start token of `{`, `[`, `"` is included in the same line with `{{# children }}` start tag, it is treated as JSON format.
   - In the case of JSON format, it is possible to take one of three types: string, array, or object.
-    - string: treat the string as "mustache".
-    - array: Interpret as command line.
-    
+    - string: Treat the string as "mustache".    
+      Example:
+      ```
+      {{# children }}"foo{{ xxx }}bar"{{/ children }}
+      ```
+    - array: Interpret as like command line arguments.
       |  Options           | Type             | Description                                   |
       |:-------------------|:----------------:|:----------------------------------------------|
       | (first argumenet)  | string           | file name or path of mustache                 |
       | `-i` / `--import`  | string\[\]       | search path of mustache file (first argument) |
       | `-m` / `--map`     | string\[stirng\] | define additional variable                    |
       | `-u` / `--use`     | string\[\]       | usable section                                |
-    
+      Example:
+      ```
+      {{# children }}[
+        "_module_info",
+        "-m=tag_pkg=INFO_PKG",
+        "-m=tag_mod=INFO_MOD"
+      ]{{/ children }}
+      ```
     - object: Interpret the data structure.
     
       |  Field        | Type             | Description                               |
       |:--------------|:----------------:|:------------------------------------------|
       | `file`        | string           | file name or path of mustache             |
-      | `imports`     | string\[stirng\] | search path of mustache file (file field) |
+      | `imports`     | string\[\]       | search path of mustache file (file field) |
       | `contents`    | string           | mustache (File field takes precedence)    |
       | `map`         | string\[stirng\] | define additional variable                |
       | `useSections` | string\[\]       | usable section                            |
-  
+      Example:
+      ```
+      {{# children }}{
+        "file": "_module_info",
+        "map": {
+          "tag_pkg":"INFO_PKG",
+          "tag_mod":"INFO_MOD"
+        }
+      }{{/ children }}
+      ```
   - If the file is specified above, rendering will be performed with the target file.
 - If none of the above, JSON parsing fails, or a muctache string is specified even in JSON format, treat it as a mustache string.
   - If a mustache-style string is specified in either way, the string is rendered directly as mustache instead of a file.
 
+### **{{ rdmd }}** and **{{ command }}**
+`{{# rdmd}} {{/ rdmd}}` and `{{# command}} {{/ command}}` are also special. The result is replaced with the contents of stdout and stderr after the program is executed.
+
+**{{ rdmd }}** executes the string contained inside as dlang source code with `rdmd --eval`
+```
+{{# rdmd }}
+  writeln("Hello, world!");
+{{/ rdmd }}
+```
+
+**{{ command }}** executes the contained string as a single command line. Line breaks are interpreted as delimiters for arguments. In the case of a line break delimited, invoke the process directly. In the case of one line, the command is invoked in the shell.
+```
+{{# command }}
+  dmd
+  -ofbuild directory/foo
+  main.d
+{{/ command }} {{# command}}echo "xxx"{{/ command}}
+```
+
+In either case of **{{ rdmd }}** or **{{ command }}**, the invoked program can interact with gendoc through stdio.
+
+gendoc responds to requests from the launched guest program.
+One request or response communicates via a JSON object without lines.
+Guest program requests are passed line by line to the stderr.
+gendoc responds to requests with one line.
+The request starts with `::gendoc-request::`, followed by a JSON string.
+```
+::gendoc-request::{ "type": "ReqEcho", "value": {"msg": "test"} }
+```
+The response type corresponds to the request type.
+
+| Request Type          | Response Type        |
+|:----------------------|:---------------------|
+| [ReqEcho](https://shoo.github.io/gendoc/shoo.github.io/gendoc/gendoc--gendoc.cmdpipe.html#.ReqEcho)           | [ResEcho](https://shoo.github.io/gendoc/shoo.github.io/gendoc/gendoc--gendoc.cmdpipe.html#.ResEcho), [ResErr](https://shoo.github.io/gendoc/shoo.github.io/gendoc/gendoc--gendoc.cmdpipe.html#.ResErr)  |
+| [ReqInfo](https://shoo.github.io/gendoc/shoo.github.io/gendoc/gendoc--gendoc.cmdpipe.html#.ReqInfo)           | [ResInfo](https://shoo.github.io/gendoc/shoo.github.io/gendoc/gendoc--gendoc.cmdpipe.html#.ResInfo), [ResErr](https://shoo.github.io/gendoc/shoo.github.io/gendoc/gendoc--gendoc.cmdpipe.html#.ResErr)  |
+
+Each piece of information is composed of a JSON object composed of `type` and `value` as follows, and the `value` includes a payload.
+The following examples include line breaks and indents for readability, but do not break lines in the data actually used.
+
+```
+{
+ "type":  "ReqInfo",
+ "value": { }
+}
+```
 
 # License
 gendoc is licensed by [Boost Software License 1.0](LICENSE)

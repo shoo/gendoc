@@ -328,26 +328,19 @@ private:
 		// コマンド呼び出し
 		if (opt.args.length == 1)
 		{
-			auto res = executeShell(opt.args[0], opt.env, std.process.Config.none, size_t.max, opt.workDir);
-			enforce(res.status == 0, "External program was failed: " ~ res.output);
-			ret = res.output.strip;
+			ret = commandProcessor(opt.args[0], opt.workDir, opt.env);
 		}
 		else
 		{
-			auto res = execute(opt.args, opt.env, std.process.Config.none, size_t.max, opt.workDir);
-			enforce(res.status == 0, "External program was failed: " ~ res.output);
-			ret = res.output.chomp;
+			ret = executeProcessor(opt.args, opt.workDir, opt.env);
 		}
 		return ret;
 	}
 	
 	string _mustacheRenderEvalD(string caller, string dsrc)
 	{
-		import std.process, std.string;
 		// rdmd呼び出し
-		auto res = execute(["rdmd", "--eval", dsrc], null, std.process.Config.none, size_t.max, caller.dirName);
-		enforce(res.status == 0, "External D program was failed: " ~ res.output);
-		return res.output.chomp;
+		return executeProcessor(["rdmd", "--eval", dsrc], caller.dirName, null);
 	}
 	
 	string _mustacheRenderEnv(string caller, string key)
@@ -560,6 +553,10 @@ public:
 	void delegate(string dubPkgName, ModInfo[] modInfo, int result, string output) postGenerateCallback;
 	///
 	void delegate(string src, string dst) postCopyCallback;
+	///
+	string delegate(string[] args, string workdir, string[string] env) executeProcessor;
+	///
+	string delegate(string args, string workdir, string[string] env) commandProcessor;
 	
 	///
 	void createTemporaryDir()

@@ -14,7 +14,7 @@ enum MacroType
 {
 	/// $xxx, ${xxx}
 	str,
-	/// $(xxx)
+	/// $(DOLLAR)(xxx)
 	expr
 }
 
