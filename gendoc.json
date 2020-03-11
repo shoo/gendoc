@@ -3,18 +3,19 @@
   "name" : "app",
   "kind" : "module",
   "file" : "/home/runner/work/gendoc/gendoc/source/app.d",
+  "comment" : " Main source file\n",
   "members" : [
    {
     "name" : "gendoc.main",
     "kind" : "import",
-    "line" : 3,
+    "line" : 6,
     "char" : 8,
     "protection" : "private"
    },
    {
     "name" : "main",
     "kind" : "function",
-    "line" : 5,
+    "line" : 8,
     "char" : 25,
     "deco" : "FAAyaZi",
     "parameters" : [
@@ -23,13 +24,13 @@
       "deco" : "AAya"
      }
     ],
-    "endline" : 8,
+    "endline" : 11,
     "endchar" : 1
    },
    {
     "name" : "main",
     "kind" : "function",
-    "line" : 5,
+    "line" : 8,
     "char" : 25,
     "deco" : "FAAyaZi",
     "parameters" : [
@@ -38,14 +39,449 @@
       "deco" : "AAya"
      }
     ],
-    "endline" : 8,
+    "endline" : 11,
     "endchar" : 1
    },
    {
     "name" : "_d_cmain!()",
     "kind" : "mixin",
-    "line" : 5,
+    "line" : 8,
     "char" : 25
+   }
+  ]
+ },
+ {
+  "name" : "gendoc.cmdpipe",
+  "kind" : "module",
+  "file" : "/home/runner/work/gendoc/gendoc/source/gendoc/cmdpipe.d",
+  "comment" : " Command pipe\n\n Communicate with the launched program commands through stdio pipes.\n",
+  "members" : [
+   {
+    "name" : "std.string",
+    "kind" : "import",
+    "line" : 8,
+    "char" : 8,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.path",
+    "kind" : "import",
+    "line" : 8,
+    "char" : 20,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.parallelism",
+    "kind" : "import",
+    "line" : 8,
+    "char" : 30,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.process",
+    "kind" : "import",
+    "line" : 8,
+    "char" : 47,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.exception",
+    "kind" : "import",
+    "line" : 9,
+    "char" : 8,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.algorithm",
+    "kind" : "import",
+    "line" : 9,
+    "char" : 23,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.array",
+    "kind" : "import",
+    "line" : 9,
+    "char" : 38,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.range",
+    "kind" : "import",
+    "line" : 9,
+    "char" : 49,
+    "protection" : "private"
+   },
+   {
+    "name" : "dub.internal.vibecompat.data.json",
+    "kind" : "import",
+    "line" : 10,
+    "char" : 8,
+    "protection" : "private"
+   },
+   {
+    "name" : "gendoc.config",
+    "kind" : "import",
+    "line" : 11,
+    "char" : 8,
+    "protection" : "private"
+   },
+   {
+    "name" : "gendoc.modmgr",
+    "kind" : "import",
+    "line" : 11,
+    "char" : 23,
+    "protection" : "private"
+   },
+   {
+    "name" : "CommandPipe",
+    "kind" : "struct",
+    "comment" : " Communicate with the launched program through stdio pipes.\n\n gendoc responds to requests from the launched guest program.\n One request or response communicates via a JSON object without lines.\n Guest program requests are passed line by line to the standard error output.\n gendoc responds to requests with one line.\n The request starts with `::gendoc-request::`, followed by a JSON string.\n\n ```\n ::gendoc-request::{ \"type\": \"ReqEcho\", \"value\": {\"msg\": \"test\"} }\n ```\n\n The response type corresponds to the request type.\n\n | Request Type          | Response Type        |\n |:----------------------|:---------------------|\n | ReqEcho               | ResEcho, ResErr      |\n | ReqInfo               | ResInfo, ResErr      |\n\n Each piece of information is composed of a JSON object composed of `type` and `value` as follows,\n and the `value` includes a payload.\n The following examples include line breaks and indents for readability,\n but do not break lines in the data actually used.\n\n ```\n {\n  \"type\":  \"ReqInfo\",\n  \"value\": { }\n }\n ```\n",
+    "line" : 47,
+    "char" : 1,
+    "members" : [
+     {
+      "name" : "Config",
+      "kind" : "alias",
+      "protection" : "private",
+      "line" : 50,
+      "char" : 2,
+      "deco" : "S6gendoc6config6Config"
+     },
+     {
+      "name" : "_result",
+      "kind" : "variable",
+      "protection" : "private",
+      "line" : 51,
+      "char" : 22,
+      "deco" : "AAya",
+      "offset" : 0
+     },
+     {
+      "name" : "_stderr",
+      "kind" : "variable",
+      "protection" : "private",
+      "line" : 52,
+      "char" : 22,
+      "deco" : "AAya",
+      "offset" : 16
+     },
+     {
+      "name" : "_stdout",
+      "kind" : "variable",
+      "protection" : "private",
+      "line" : 53,
+      "char" : 22,
+      "deco" : "AAya",
+      "offset" : 32
+     },
+     {
+      "name" : "_status",
+      "kind" : "variable",
+      "protection" : "private",
+      "line" : 54,
+      "char" : 22,
+      "deco" : "i",
+      "offset" : 48
+     },
+     {
+      "name" : "_config",
+      "kind" : "variable",
+      "protection" : "private",
+      "line" : 55,
+      "char" : 22,
+      "deco" : "PxS6gendoc6config6Config",
+      "offset" : 56
+     },
+     {
+      "name" : "_pkgInfo",
+      "kind" : "variable",
+      "protection" : "private",
+      "line" : 56,
+      "char" : 22,
+      "deco" : "AxS6gendoc6modmgr10DubPkgInfo",
+      "offset" : 64
+     },
+     {
+      "name" : "processing",
+      "kind" : "function",
+      "protection" : "private",
+      "line" : 58,
+      "char" : 7,
+      "deco" : "FS3std7process12ProcessPipesZv",
+      "parameters" : [
+       {
+        "name" : "pipe",
+        "deco" : "S3std7process12ProcessPipes"
+       }
+      ],
+      "endline" : 109,
+      "endchar" : 2
+     },
+     {
+      "name" : "this",
+      "kind" : "constructor",
+      "comment" : "\n",
+      "line" : 113,
+      "char" : 2,
+      "deco" : "FNcKxS6gendoc6config6ConfigxASQy6modmgr10DubPkgInfoZSQBv7cmdpipe11CommandPipe",
+      "originalType" : "ref (ref Config cfg, in DubPkgInfo[] pkgInfo)",
+      "parameters" : [
+       {
+        "name" : "cfg",
+        "deco" : "xS6gendoc6config6Config",
+        "storageClass" : [
+         "ref"
+        ]
+       },
+       {
+        "name" : "pkgInfo",
+        "deco" : "xAS6gendoc6modmgr10DubPkgInfo"
+       }
+      ],
+      "endline" : 117,
+      "endchar" : 2
+     },
+     {
+      "name" : "run",
+      "kind" : "function",
+      "comment" : "\n",
+      "line" : 119,
+      "char" : 7,
+      "deco" : "FAAyaQdHQgQiZv",
+      "originalType" : "void(string[] args, string workDir = null, string[string] env = null)",
+      "parameters" : [
+       {
+        "name" : "args",
+        "deco" : "AAya"
+       },
+       {
+        "name" : "workDir",
+        "deco" : "Aya",
+        "default" : "null"
+       },
+       {
+        "name" : "env",
+        "deco" : "HAyaQd",
+        "default" : "cast(string[string])null"
+       }
+      ],
+      "endline" : 122,
+      "endchar" : 2
+     },
+     {
+      "name" : "run",
+      "kind" : "function",
+      "comment" : "ditto\n",
+      "line" : 124,
+      "char" : 7,
+      "deco" : "FAyaQdHQgQiZv",
+      "originalType" : "void(string args, string workDir = null, string[string] env = null)",
+      "parameters" : [
+       {
+        "name" : "args",
+        "deco" : "Aya"
+       },
+       {
+        "name" : "workDir",
+        "deco" : "Aya",
+        "default" : "null"
+       },
+       {
+        "name" : "env",
+        "deco" : "HAyaQd",
+        "default" : "cast(string[string])null"
+       }
+      ],
+      "endline" : 127,
+      "endchar" : 2
+     },
+     {
+      "name" : "result",
+      "kind" : "function",
+      "comment" : "\n",
+      "line" : 129,
+      "char" : 7,
+      "storageClass" : [
+       "auto"
+      ],
+      "deco" : "xFNaNbNdNiNfZAxAya",
+      "originalType" : "const @property ()",
+      "endline" : 133,
+      "endchar" : 2
+     },
+     {
+      "name" : "stdout",
+      "kind" : "function",
+      "comment" : "\n",
+      "line" : 135,
+      "char" : 7,
+      "storageClass" : [
+       "auto"
+      ],
+      "deco" : "xFNaNbNdNiNfZAxAya",
+      "originalType" : "const @property ()",
+      "endline" : 139,
+      "endchar" : 2
+     },
+     {
+      "name" : "stderr",
+      "kind" : "function",
+      "comment" : "\n",
+      "line" : 141,
+      "char" : 7,
+      "storageClass" : [
+       "auto"
+      ],
+      "deco" : "xFNaNbNdNiNfZAxAya",
+      "originalType" : "const @property ()",
+      "endline" : 145,
+      "endchar" : 2
+     },
+     {
+      "name" : "status",
+      "kind" : "function",
+      "comment" : "\n",
+      "line" : 147,
+      "char" : 6,
+      "deco" : "xFNdZi",
+      "endline" : 150,
+      "endchar" : 2
+     }
+    ]
+   },
+   {
+    "name" : "__unittest_L154_C9",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 154,
+    "char" : 9,
+    "storageClass" : [
+     "@system"
+    ],
+    "endline" : 195,
+    "endchar" : 1
+   },
+   {
+    "name" : "ReqEcho",
+    "kind" : "struct",
+    "comment" : " Test request to return the specified msg without processing.\n\n The main return value is ResEcho.\n ResErr will be returned if something goes wrong.\n\n Returns:\n - ResEcho\n - ResErr\n",
+    "line" : 195,
+    "char" : 1,
+    "members" : [
+     {
+      "name" : "msg",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 198,
+      "char" : 9,
+      "deco" : "Aya",
+      "offset" : 0
+     }
+    ]
+   },
+   {
+    "name" : "ResEcho",
+    "kind" : "struct",
+    "comment" : " Main return value of ReqEcho\n",
+    "line" : 204,
+    "char" : 1,
+    "members" : [
+     {
+      "name" : "msg",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 207,
+      "char" : 9,
+      "deco" : "Aya",
+      "offset" : 0
+     }
+    ]
+   },
+   {
+    "name" : "ReqInfo",
+    "kind" : "struct",
+    "comment" : " Request information that gendoc has.\n\n The main return value is ResInfo.\n ResErr will be returned if something goes wrong.\n\n Returns:\n - ResInfo\n - ResErr\n",
+    "line" : 220,
+    "char" : 1,
+    "members" : []
+   },
+   {
+    "name" : "ResInfo",
+    "kind" : "struct",
+    "comment" : " Main return value of ReqInfo\n",
+    "line" : 228,
+    "char" : 1,
+    "members" : [
+     {
+      "name" : "Config",
+      "kind" : "alias",
+      "protection" : "private",
+      "line" : 230,
+      "char" : 10,
+      "deco" : "S6gendoc6config6Config"
+     },
+     {
+      "name" : "config",
+      "kind" : "variable",
+      "comment" : "$(REF Config, gendoc, _config)\n",
+      "line" : 232,
+      "char" : 9,
+      "deco" : "S6gendoc6config6Config",
+      "offset" : 0
+     },
+     {
+      "name" : "dubPkgInfos",
+      "kind" : "variable",
+      "comment" : "$(REF DubPkgInfo, gendoc, modmgr)\n",
+      "line" : 234,
+      "char" : 15,
+      "deco" : "AS6gendoc6modmgr10DubPkgInfo",
+      "offset" : 240
+     },
+     {
+      "name" : "this",
+      "kind" : "constructor",
+      "protection" : "private",
+      "line" : 236,
+      "char" : 2,
+      "deco" : "FNcKxS6gendoc6config6ConfigxASQy6modmgr10DubPkgInfoZSQBv7cmdpipe7ResInfo",
+      "originalType" : "ref (ref gendoc.config.Config cfg, in DubPkgInfo[] dpi)",
+      "parameters" : [
+       {
+        "name" : "cfg",
+        "deco" : "xS6gendoc6config6Config",
+        "storageClass" : [
+         "ref"
+        ]
+       },
+       {
+        "name" : "dpi",
+        "deco" : "xAS6gendoc6modmgr10DubPkgInfo"
+       }
+      ],
+      "endline" : 240,
+      "endchar" : 2
+     }
+    ]
+   },
+   {
+    "name" : "ResErr",
+    "kind" : "struct",
+    "comment" : " Return-value when something wrong.\n",
+    "line" : 246,
+    "char" : 1,
+    "members" : [
+     {
+      "name" : "msg",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 249,
+      "char" : 9,
+      "deco" : "Aya",
+      "offset" : 0
+     }
+    ]
    }
   ]
  },
@@ -1009,14 +1445,14 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 342,
+      "endline" : 338,
       "endchar" : 2
      },
      {
       "name" : "_mustacheRenderEvalD",
       "kind" : "function",
       "protection" : "private",
-      "line" : 344,
+      "line" : 340,
       "char" : 9,
       "deco" : "FAyaQdZQg",
       "parameters" : [
@@ -1029,14 +1465,14 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 351,
+      "endline" : 344,
       "endchar" : 2
      },
      {
       "name" : "_mustacheRenderEnv",
       "kind" : "function",
       "protection" : "private",
-      "line" : 353,
+      "line" : 346,
       "char" : 9,
       "deco" : "FAyaQdZQg",
       "parameters" : [
@@ -1049,14 +1485,14 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 357,
+      "endline" : 350,
       "endchar" : 2
      },
      {
       "name" : "_mustacheRenderDubPackages",
       "kind" : "function",
       "protection" : "private",
-      "line" : 359,
+      "line" : 352,
       "char" : 9,
       "deco" : "FAS6gendoc6modmgr10DubPkgInfoAyaQdZQg",
       "parameters" : [
@@ -1073,14 +1509,14 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 388,
+      "endline" : 381,
       "endchar" : 2
      },
      {
       "name" : "_fixAbs",
       "kind" : "function",
       "protection" : "private",
-      "line" : 390,
+      "line" : 383,
       "char" : 16,
       "storageClass" : [
        "static"
@@ -1096,14 +1532,14 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 393,
+      "endline" : 386,
       "endchar" : 2
      },
      {
       "name" : "_copyFile",
       "kind" : "function",
       "protection" : "private",
-      "line" : 394,
+      "line" : 387,
       "char" : 7,
       "deco" : "FAyaQdZv",
       "parameters" : [
@@ -1116,14 +1552,14 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 403,
+      "endline" : 396,
       "endchar" : 2
      },
      {
       "name" : "_singleFileCompilation",
       "kind" : "function",
       "protection" : "private",
-      "line" : 405,
+      "line" : 398,
       "char" : 7,
       "deco" : "FS6gendoc6modmgr10DubPkgInfoZv",
       "parameters" : [
@@ -1132,14 +1568,30 @@
         "deco" : "S6gendoc6modmgr10DubPkgInfo"
        }
       ],
-      "endline" : 411,
+      "endline" : 404,
       "endchar" : 2
      },
      {
       "name" : "_defaultCompilation",
       "kind" : "function",
       "protection" : "private",
-      "line" : 413,
+      "line" : 406,
+      "char" : 7,
+      "deco" : "FS6gendoc6modmgr10DubPkgInfoZv",
+      "parameters" : [
+       {
+        "name" : "dubpkg",
+        "deco" : "S6gendoc6modmgr10DubPkgInfo"
+       }
+      ],
+      "endline" : 415,
+      "endchar" : 2
+     },
+     {
+      "name" : "_ldcCompilation",
+      "kind" : "function",
+      "protection" : "private",
+      "line" : 417,
       "char" : 7,
       "deco" : "FS6gendoc6modmgr10DubPkgInfoZv",
       "parameters" : [
@@ -1152,26 +1604,10 @@
       "endchar" : 2
      },
      {
-      "name" : "_ldcCompilation",
-      "kind" : "function",
-      "protection" : "private",
-      "line" : 424,
-      "char" : 7,
-      "deco" : "FS6gendoc6modmgr10DubPkgInfoZv",
-      "parameters" : [
-       {
-        "name" : "dubpkg",
-        "deco" : "S6gendoc6modmgr10DubPkgInfo"
-       }
-      ],
-      "endline" : 429,
-      "endchar" : 2
-     },
-     {
       "name" : "_copyTempDsrcs",
       "kind" : "function",
       "protection" : "private",
-      "line" : 431,
+      "line" : 424,
       "char" : 11,
       "deco" : "FAyaAS6gendoc6modmgr7ModInfoZAQBd",
       "parameters" : [
@@ -1184,14 +1620,14 @@
         "deco" : "AS6gendoc6modmgr7ModInfo"
        }
       ],
-      "endline" : 441,
+      "endline" : 434,
       "endchar" : 2
      },
      {
       "name" : "_generateD",
       "kind" : "function",
       "protection" : "private",
-      "line" : 443,
+      "line" : 436,
       "char" : 7,
       "deco" : "FAyaQdQfAQiZv",
       "parameters" : [
@@ -1212,14 +1648,14 @@
         "deco" : "AAya"
        }
       ],
-      "endline" : 463,
+      "endline" : 456,
       "endchar" : 2
      },
      {
       "name" : "_generateD",
       "kind" : "function",
       "protection" : "private",
-      "line" : 465,
+      "line" : 458,
       "char" : 7,
       "deco" : "FAyaAS6gendoc6modmgr7ModInfoAQBcZv",
       "parameters" : [
@@ -1236,14 +1672,14 @@
         "deco" : "AAya"
        }
       ],
-      "endline" : 492,
+      "endline" : 485,
       "endchar" : 2
      },
      {
       "name" : "_generateD_ldc",
       "kind" : "function",
       "protection" : "private",
-      "line" : 494,
+      "line" : 487,
       "char" : 7,
       "deco" : "FAyaAS6gendoc6modmgr7ModInfoAQBcZv",
       "parameters" : [
@@ -1260,14 +1696,14 @@
         "deco" : "AAya"
        }
       ],
-      "endline" : 544,
+      "endline" : 537,
       "endchar" : 2
      },
      {
       "name" : "compiler",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 547,
+      "line" : 540,
       "char" : 11,
       "deco" : "Aya",
       "offset" : 96
@@ -1276,7 +1712,7 @@
       "name" : "ddocFiles",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 549,
+      "line" : 542,
       "char" : 11,
       "deco" : "AAya",
       "offset" : 112
@@ -1285,7 +1721,7 @@
       "name" : "disableMarkdown",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 551,
+      "line" : 544,
       "char" : 11,
       "deco" : "b",
       "offset" : 128
@@ -1294,7 +1730,7 @@
       "name" : "targetDir",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 553,
+      "line" : 546,
       "char" : 11,
       "deco" : "Aya",
       "offset" : 136
@@ -1303,7 +1739,7 @@
       "name" : "rootDir",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 555,
+      "line" : 548,
       "char" : 11,
       "deco" : "Aya",
       "offset" : 152
@@ -1312,7 +1748,7 @@
       "name" : "preGenerateCallback",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 558,
+      "line" : 551,
       "char" : 69,
       "deco" : "DFAyaAS6gendoc6modmgr7ModInfoAQBcZv",
       "offset" : 168
@@ -1321,7 +1757,7 @@
       "name" : "postGenerateCallback",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 560,
+      "line" : 553,
       "char" : 81,
       "deco" : "DFAyaAS6gendoc6modmgr7ModInfoiQBcZv",
       "offset" : 184
@@ -1330,46 +1766,64 @@
       "name" : "postCopyCallback",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 562,
+      "line" : 555,
       "char" : 40,
       "deco" : "DFAyaQdZv",
       "offset" : 200
      },
      {
+      "name" : "executeProcessor",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 557,
+      "char" : 69,
+      "deco" : "DFAAyaQdHQgQiZQl",
+      "offset" : 216
+     },
+     {
+      "name" : "commandProcessor",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 559,
+      "char" : 67,
+      "deco" : "DFAyaQdHQgQiZQl",
+      "offset" : 232
+     },
+     {
       "name" : "createTemporaryDir",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 565,
+      "line" : 562,
       "char" : 7,
       "deco" : "FZv",
-      "endline" : 570,
+      "endline" : 567,
       "endchar" : 2
      },
      {
       "name" : "removeTemporaryDir",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 573,
+      "line" : 570,
       "char" : 7,
       "deco" : "FZv",
-      "endline" : 577,
+      "endline" : 574,
       "endchar" : 2
      },
      {
       "name" : "temporaryDir",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 580,
+      "line" : 577,
       "char" : 9,
       "deco" : "xFNaNbNdNiNfZAya",
-      "endline" : 583,
+      "endline" : 580,
       "endchar" : 2
      },
      {
       "name" : "convertFromMustache",
       "kind" : "function",
       "comment" : " Convert from mustache file\n\n Returns:\n     Converted file contents\n",
-      "line" : 591,
+      "line" : 588,
       "char" : 9,
       "deco" : "FAS6gendoc6modmgr10DubPkgInfoAyaQdZQg",
       "parameters" : [
@@ -1386,14 +1840,14 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 594,
+      "endline" : 591,
       "endchar" : 2
      },
      {
       "name" : "generateFromMustache",
       "kind" : "function",
       "comment" : " Generate file from mustache file\n\n Returns:\n     File name of generated\n",
-      "line" : 602,
+      "line" : 599,
       "char" : 9,
       "deco" : "FAS6gendoc6modmgr10DubPkgInfoAyaQdZQg",
       "parameters" : [
@@ -1410,14 +1864,14 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 608,
+      "endline" : 605,
       "endchar" : 2
      },
      {
       "name" : "generateDdoc",
       "kind" : "function",
       "comment" : " Generate ddoc file from mustache file\n\n The generated ddoc file is added automatically\n",
-      "line" : 615,
+      "line" : 612,
       "char" : 7,
       "deco" : "FAS6gendoc6modmgr10DubPkgInfoAyaQdZv",
       "parameters" : [
@@ -1434,14 +1888,14 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 619,
+      "endline" : 616,
       "endchar" : 2
      },
      {
       "name" : "generateJson",
       "kind" : "function",
       "comment" : " Generate JSON file from d source file through syntax compilation\n",
-      "line" : 624,
+      "line" : 621,
       "char" : 7,
       "deco" : "FS6gendoc6modmgr10DubPkgInfoZv",
       "parameters" : [
@@ -1450,14 +1904,14 @@
         "deco" : "S6gendoc6modmgr10DubPkgInfo"
        }
       ],
-      "endline" : 676,
+      "endline" : 673,
       "endchar" : 2
      },
      {
       "name" : "generate",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 679,
+      "line" : 676,
       "char" : 7,
       "deco" : "FAyaQdAQgZv",
       "parameters" : [
@@ -1474,14 +1928,14 @@
         "deco" : "AAya"
        }
       ],
-      "endline" : 694,
+      "endline" : 691,
       "endchar" : 2
      },
      {
       "name" : "generate",
       "kind" : "function",
       "comment" : "ditto\n",
-      "line" : 697,
+      "line" : 694,
       "char" : 7,
       "deco" : "FS6gendoc6modmgr10DubPkgInfobZv",
       "parameters" : [
@@ -1495,7 +1949,7 @@
         "default" : "false"
        }
       ],
-      "endline" : 727,
+      "endline" : 724,
       "endchar" : 2
      }
     ]
@@ -1530,9 +1984,16 @@
     "protection" : "private"
    },
    {
+    "name" : "gendoc.cmdpipe",
+    "kind" : "import",
+    "line" : 52,
+    "char" : 8,
+    "protection" : "private"
+   },
+   {
     "name" : "Config",
     "kind" : "alias",
-    "line" : 52,
+    "line" : 53,
     "char" : 1,
     "deco" : "S6gendoc6config6Config"
    },
@@ -1540,7 +2001,7 @@
     "name" : "gendocMain",
     "kind" : "function",
     "comment" : " Main routine of gendoc\n",
-    "line" : 57,
+    "line" : 58,
     "char" : 5,
     "deco" : "FAAyaZi",
     "parameters" : [
@@ -1549,14 +2010,14 @@
       "deco" : "AAya"
      }
     ],
-    "endline" : 139,
+    "endline" : 140,
     "endchar" : 1
    },
    {
     "name" : "setup",
     "kind" : "function",
     "comment" : " setup the module manager\n",
-    "line" : 144,
+    "line" : 145,
     "char" : 6,
     "deco" : "FKS6gendoc6modmgr13ModuleManagerKxSQBg6config6ConfigZv",
     "originalType" : "void(ref ModuleManager modmgr, ref const Config cfg)",
@@ -1576,14 +2037,14 @@
       ]
      }
     ],
-    "endline" : 147,
+    "endline" : 148,
     "endchar" : 1
    },
    {
     "name" : "setup",
     "kind" : "function",
     "comment" : "ditto\n",
-    "line" : 149,
+    "line" : 150,
     "char" : 6,
     "deco" : "FKS6gendoc6modmgr13ModuleManagerSQBe6config6ConfigZv",
     "parameters" : [
@@ -1599,14 +2060,14 @@
       "deco" : "S6gendoc6config6Config"
      }
     ],
-    "endline" : 152,
+    "endline" : 153,
     "endchar" : 1
    },
    {
     "name" : "setupModuleManagerImpl",
     "kind" : "function",
     "protection" : "private",
-    "line" : 154,
+    "line" : 155,
     "char" : 14,
     "deco" : "FKS6gendoc6modmgr13ModuleManagerKxSQBg6config6ConfigZv",
     "originalType" : "void(ref ModuleManager modmgr, ref const Config cfg)",
@@ -1626,14 +2087,14 @@
       ]
      }
     ],
-    "endline" : 176,
+    "endline" : 177,
     "endchar" : 1
    },
    {
     "name" : "setup",
     "kind" : "function",
     "comment" : " setup the module manager\n",
-    "line" : 181,
+    "line" : 182,
     "char" : 6,
     "deco" : "FKS6gendoc9generator17DocumentGeneratorKxSQBn6config6ConfigKxSQCh6modmgr13ModuleManagerZv",
     "originalType" : "void(ref DocumentGenerator generator, ref const Config cfg, ref const ModuleManager modmgr)",
@@ -1660,14 +2121,14 @@
       ]
      }
     ],
-    "endline" : 184,
+    "endline" : 185,
     "endchar" : 1
    },
    {
     "name" : "setup",
     "kind" : "function",
     "comment" : "ditto\n",
-    "line" : 186,
+    "line" : 187,
     "char" : 6,
     "deco" : "FKS6gendoc9generator17DocumentGeneratorSQBl6config6ConfigSQCd6modmgr13ModuleManagerZv",
     "parameters" : [
@@ -1687,14 +2148,14 @@
       "deco" : "S6gendoc6modmgr13ModuleManager"
      }
     ],
-    "endline" : 189,
+    "endline" : 190,
     "endchar" : 1
    },
    {
     "name" : "setupDocumentGenerator",
     "kind" : "function",
     "protection" : "private",
-    "line" : 192,
+    "line" : 193,
     "char" : 14,
     "deco" : "FKS6gendoc9generator17DocumentGeneratorKxSQBn6config6ConfigKxSQCh6modmgr13ModuleManagerZv",
     "originalType" : "void(ref DocumentGenerator generator, ref const Config cfg, ref const ModuleManager modmgr)",
@@ -1721,14 +2182,14 @@
       ]
      }
     ],
-    "endline" : 256,
+    "endline" : 270,
     "endchar" : 1
    },
    {
     "name" : "initializeDocsDirecotry",
     "kind" : "function",
     "comment" : " Setup docs directory\n",
-    "line" : 262,
+    "line" : 276,
     "char" : 6,
     "deco" : "FAyaZv",
     "parameters" : [
@@ -1737,7 +2198,7 @@
       "deco" : "Aya"
      }
     ],
-    "endline" : 280,
+    "endline" : 294,
     "endchar" : 1
    }
   ]
@@ -1775,7 +2236,7 @@
       "name" : "expr",
       "kind" : "enum member",
       "value" : "1",
-      "comment" : "$(xxx)\n",
+      "comment" : "$(DOLLAR)(xxx)\n",
       "line" : 18,
       "char" : 2
      }
@@ -2198,7 +2659,7 @@
      {
       "name" : "packageD",
       "kind" : "variable",
-      "comment" : "package.d module information if exists.\n",
+      "comment" : "package.d module information if exists. $(LREF ModInfo)\n",
       "line" : 63,
       "char" : 12,
       "deco" : "S6gendoc6modmgr7ModInfo",
@@ -2207,7 +2668,7 @@
      {
       "name" : "modules",
       "kind" : "variable",
-      "comment" : "module informations of package children\n",
+      "comment" : "module informations of package children. $(LREF ModInfo)\n",
       "line" : 65,
       "char" : 12,
       "deco" : "AS6gendoc6modmgr7ModInfo",
@@ -2216,7 +2677,7 @@
      {
       "name" : "packages",
       "kind" : "variable",
-      "comment" : "package informations of package children\n",
+      "comment" : "package informations of package children.\n",
       "line" : 67,
       "char" : 12,
       "deco" : "AS6gendoc6modmgr7PkgInfo",
@@ -2495,7 +2956,7 @@
      {
       "name" : "root",
       "kind" : "variable",
-      "comment" : "\n",
+      "comment" : "$(LREF PkgInfo)\n",
       "line" : 239,
       "char" : 11,
       "deco" : "S6gendoc6modmgr7PkgInfo",

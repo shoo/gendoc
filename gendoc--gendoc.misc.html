@@ -24,13 +24,17 @@
 
 	
 
-	<li><a title="" href="gendoc--app.html"><span >app</span></a></li>
+	<li><a title="Main source file" href="gendoc--app.html"><span >app</span></a></li>
 
 
 	
 	
 		<li class="expand-container open"><a class='expand-toggle' href="#"><span >gendoc</span></a><ul>
 			
+
+	<li><a title="Command pipe" href="gendoc--gendoc.cmdpipe.html"><span >cmdpipe</span></a></li>
+
+
 
 	<li><a title="Manage configs and commands" href="gendoc--gendoc.config.html"><span >config</span></a></li>
 
@@ -75,7 +79,7 @@
 <dl class="ddoc_members"><div class="ddoc_enum_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".MacroType.str"></span><div class="quickindex" id="quickindex.MacroType.str"></div><code class="ddoc_psymbol">str</code><br></div></dt>
 <dd><div class="ddoc_summary">$xxx, ${xxx}</div></dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".MacroType.expr"></span><div class="quickindex" id="quickindex.MacroType.expr"></div><code class="ddoc_psymbol">expr</code><br></div></dt>
-<dd><div class="ddoc_summary"><span style="color:red">!!!!! UNDEFINED MACRO: "xxx" !!!!!!</span></div></dd>
+<dd><div class="ddoc_summary">$(xxx)</div></dd>
 </div></dl>
 </dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".expandMacro"></span><div class="quickindex" id="quickindex.expandMacro"></div>T <code class="ddoc_psymbol">expandMacro</code><span class="ddoc_template_param_list" title="Template parameter list">(T, Func)</span>(in T <span class="ddoc_param">str</span>, Func <span class="ddoc_param">mapFunc</span>)<br><span class="ddoc_constraint">if(isSomeString!T &amp;&amp; isCallable!Func &amp;&amp; is(ReturnType!Func : bool) &amp;&amp; (ParameterTypeTuple!Func.length &gt;= 1) &amp;&amp; is(T : ParameterTypeTuple!Func[0]) &amp;&amp; ((ParameterStorageClassTuple!Func[0] &amp; ParameterStorageClass.ref_) == ParameterStorageClass.ref_))</span>;

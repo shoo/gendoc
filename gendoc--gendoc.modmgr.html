@@ -24,13 +24,17 @@
 
 	
 
-	<li><a title="" href="gendoc--app.html"><span >app</span></a></li>
+	<li><a title="Main source file" href="gendoc--app.html"><span >app</span></a></li>
 
 
 	
 	
 		<li class="expand-container open"><a class='expand-toggle' href="#"><span >gendoc</span></a><ul>
 			
+
+	<li><a title="Command pipe" href="gendoc--gendoc.cmdpipe.html"><span >cmdpipe</span></a></li>
+
+
 
 	<li><a title="Manage configs and commands" href="gendoc--gendoc.config.html"><span >config</span></a></li>
 
@@ -114,13 +118,13 @@
 <dd><div class="ddoc_summary">full package name (eg. <code class="d_inlinecode donthyphenate notranslate">hoge/fuga/piyo.d</code> -&gt; <code class="d_inlinecode donthyphenate notranslate">hoge.fuga</code> )</div></dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".PkgInfo.packageD"></span><div class="quickindex" id="quickindex.PkgInfo.packageD"></div>ModInfo <code class="ddoc_psymbol">packageD</code>;
 <br></div></dt>
-<dd><div class="ddoc_summary">package.d module information if exists.</div></dd>
+<dd><div class="ddoc_summary">package.d module information if exists. <a href="#.ModInfo"><code class="d_inlinecode donthyphenate notranslate">ModInfo</code></a></div></dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".PkgInfo.modules"></span><div class="quickindex" id="quickindex.PkgInfo.modules"></div>ModInfo[] <code class="ddoc_psymbol">modules</code>;
 <br></div></dt>
-<dd><div class="ddoc_summary">module informations of package children</div></dd>
+<dd><div class="ddoc_summary">module informations of package children. <a href="#.ModInfo"><code class="d_inlinecode donthyphenate notranslate">ModInfo</code></a></div></dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".PkgInfo.packages"></span><div class="quickindex" id="quickindex.PkgInfo.packages"></div>PkgInfo[] <code class="ddoc_psymbol">packages</code>;
 <br></div></dt>
-<dd><div class="ddoc_summary">package informations of package children</div></dd>
+<dd><div class="ddoc_summary">package informations of package children.</div></dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".PkgInfo.hasPackageD"></span><div class="quickindex" id="quickindex.PkgInfo.hasPackageD"></div>const nothrow @nogc @property @safe bool <code class="ddoc_psymbol">hasPackageD</code>();
 <br></div></dt>
 <dd><div class="ddoc_summary"><code class="ddoc_keyword">true</code> if package.d module exists</div></dd>
@@ -205,8 +209,7 @@
 </dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".DubPkgInfo.root"></span><div class="quickindex" id="quickindex.DubPkgInfo.root"></div>PkgInfo <code class="ddoc_psymbol">root</code>;
 <br></div></dt>
-<dd>
-</dd>
+<dd><div class="ddoc_summary"><a href="#.PkgInfo"><code class="d_inlinecode donthyphenate notranslate">PkgInfo</code></a></div></dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".DubPkgInfo.dir"></span><div class="quickindex" id="quickindex.DubPkgInfo.dir"></div>string <code class="ddoc_psymbol">dir</code>;
 <br></div></dt>
 <dd>

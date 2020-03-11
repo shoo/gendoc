@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<html>    <head>        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="css/proj_docs.css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="js/sidebar.js"></script>
+        <script type="text/javascript" src="js/listanchors.js"></script>
+        <title>gendoc.cmdpipe</title>
+        
+        
+    </head>
+    <body>        
+        <div class="container">            
+<div class="sidebar-underbar"></div>
+<div class="sidebar">    <div class="head">        <h2>gendoc</h2>
+        <p><span class="smallprint"><b>version:</b> ~master <span class="separator"><br></span>
+            </span>
+        </p>
+        <p><a href="index.html">overview</a></p>
+    </div>
+    
+    <ul>
+
+	
+
+	<li><a title="Main source file" href="gendoc--app.html"><span >app</span></a></li>
+
+
+	
+	
+		<li class="expand-container open"><a class='expand-toggle' href="#"><span >gendoc</span></a><ul>
+			
+
+	<li><a title="Command pipe" href="gendoc--gendoc.cmdpipe.html"><span >cmdpipe</span></a></li>
+
+
+
+	<li><a title="Manage configs and commands" href="gendoc--gendoc.config.html"><span >config</span></a></li>
+
+
+
+	<li><a title="Document generator" href="gendoc--gendoc.generator.html"><span >generator</span></a></li>
+
+
+
+	<li><a title="Ddoc generator" href="gendoc--gendoc.main.html"><span >main</span></a></li>
+
+
+
+	<li><a title="Misc types or functions" href="gendoc--gendoc.misc.html"><span >misc</span></a></li>
+
+
+
+	<li><a title="D's Module manager" href="gendoc--gendoc.modmgr.html"><span >modmgr</span></a></li>
+
+
+		</ul></li>
+	
+
+
+
+
+
+
+
+	
+</ul>
+</div>
+            <div class="content">                <h1>gendoc.cmdpipe</h1>
+                
+                <div class="quickindex" id="quickindex"></div>
+                
+                <div class="ddoc_summary">Command pipe
+</div><div class="ddoc_description">Communicate with the launched program commands through stdio pipes.</div>
+<dl class="ddoc_members"><div class="ddoc_module_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".CommandPipe"></span><div class="quickindex" id="quickindex.CommandPipe"></div>struct <code class="ddoc_psymbol">CommandPipe</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Communicate with the launched program through stdio pipes.
+</div><div class="ddoc_description"> gendoc responds to requests from the launched guest program.
+ One request or response communicates via a JSON object without lines.
+ Guest program requests are passed line by line to the standard error output.
+ gendoc responds to requests with one line.
+ The request starts with <code class="d_inlinecode donthyphenate notranslate">::gendoc-request::</code>, followed by a JSON string.
+<div class="ddoc_blankline"></div>
+
+<pre class="d_code notranslate">::gendoc-request::{ <span class="d_string">"type"</span>: <span class="d_string">"ReqEcho"</span>, <span class="d_string">"value"</span>: {<span class="d_string">"msg"</span>: <span class="d_string">"test"</span>} }
+</pre>
+<div class="ddoc_blankline"></div>
+
+ The response type corresponds to the request type.
+<div class="ddoc_blankline"></div>
+
+<table> <tr><th><tr><th align="left">Request Type</th><th align="left">Response Type</th></tr></th></tr><tbody> <tr><td align="left">ReqEcho</td><td align="left">ResEcho, ResErr</td></tr>
+ <tr><td align="left">ReqInfo</td><td align="left">ResInfo, ResErr</td></tr>
+</tbody></table>
+ Each piece of information is composed of a JSON object composed of <code class="d_inlinecode donthyphenate notranslate">type</code> and <code class="d_inlinecode donthyphenate notranslate">value</code> as follows,
+ and the <code class="d_inlinecode donthyphenate notranslate">value</code> includes a payload.
+ The following examples include line breaks and indents for readability,
+ but do not break lines in the data actually used.
+<div class="ddoc_blankline"></div>
+
+<pre class="d_code notranslate">{
+ <span class="d_string">"type"</span>:  <span class="d_string">"ReqInfo"</span>,
+ <span class="d_string">"value"</span>: { }
+}
+</pre>
+</div>
+<div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+ <pre class="d_code notranslate"><span class="d_keyword">import</span> std.path;
+gendoc.config.Config cfg;
+ModuleManager modmgr;
+modmgr.addSources(<span class="d_string">"root"</span>, <span class="d_string">"v1.2.3"</span>, <span class="d_keyword">__FILE_FULL_PATH__</span>.buildNormalizedPath(<span class="d_string">"../.."</span>), [<span class="d_keyword">__FILE__</span>], <span class="d_keyword">null</span>);
+<span class="d_keyword">auto</span> pipe = <span class="d_psymbol">CommandPipe</span>(cfg, modmgr.dubPackages);
+pipe.run(<span class="d_string">"echo xxx"</span>);
+pipe.run([<span class="d_string">"rdmd"</span>, <span class="d_string">"--eval"</span>, <span class="d_string">q{
+	stderr.writeln(`test1`);
+	stderr.writeln(`::gendoc-request::{ "type": "ReqEcho", "value": {"msg": "test-echo"} }`);
+	stderr.writeln(`test2`);
+	auto res = stdin.readln();
+	writeln(parseJSON(res)["value"]["msg"].str);
+	
+	stderr.writeln(`::gendoc-request::{ "type": "XXXXX", "value": {"msg": "test"} }`);
+	res = stdin.readln();
+	writeln(parseJSON(res)["value"]["msg"].str);
+	
+	stderr.writeln(`::gendoc-request::{ "type": "ReqInfo", "value": {} }`);
+	res = stdin.readln();
+	writeln(parseJSON(res)["value"]["dubPkgInfos"][0]["packageVersion"].str);
+}</span>]);
+<span class="d_keyword">assert</span>(pipe.stderr.equal([<span class="d_string">"test1"</span>, <span class="d_string">"test2"</span>]));
+<span class="d_keyword">assert</span>(pipe.stdout.equal([<span class="d_string">"xxx"</span>, <span class="d_string">"test-echo"</span>, <span class="d_string">"Unknown request type."</span>, <span class="d_string">"v1.2.3"</span>]));
+<span class="d_keyword">assert</span>(pipe.result.equal([<span class="d_string">"xxx"</span>, <span class="d_string">"test1"</span>, <span class="d_string">"test2"</span>, <span class="d_string">"test-echo"</span>, <span class="d_string">"Unknown request type."</span>, <span class="d_string">"v1.2.3"</span>]));
+<span class="d_keyword">assert</span>(pipe.status == 0);
+</pre>
+</div>
+<dl class="ddoc_members"><div class="ddoc_struct_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".CommandPipe.this"></span><div class="quickindex" id="quickindex.CommandPipe.this"></div>this(ref Config <span class="ddoc_param">cfg</span>, in DubPkgInfo[] <span class="ddoc_param">pkgInfo</span>);
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".CommandPipe.run"></span><div class="quickindex" id="quickindex.CommandPipe.run"></div>void <code class="ddoc_psymbol">run</code>(string[] <span class="ddoc_param">args</span>, string <span class="ddoc_param">workDir</span> = null, string[string] <span class="ddoc_param">env</span> = null);
+<br>
+void <code class="ddoc_psymbol">run</code>(string <span class="ddoc_param">args</span>, string <span class="ddoc_param">workDir</span> = null, string[string] <span class="ddoc_param">env</span> = null);
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".CommandPipe.result"></span><div class="quickindex" id="quickindex.CommandPipe.result"></div>const @property auto <code class="ddoc_psymbol">result</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".CommandPipe.stdout"></span><div class="quickindex" id="quickindex.CommandPipe.stdout"></div>const @property auto <code class="ddoc_psymbol">stdout</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".CommandPipe.stderr"></span><div class="quickindex" id="quickindex.CommandPipe.stderr"></div>const @property auto <code class="ddoc_psymbol">stderr</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".CommandPipe.status"></span><div class="quickindex" id="quickindex.CommandPipe.status"></div>const @property int <code class="ddoc_psymbol">status</code>();
+<br></div></dt>
+<dd>
+</dd>
+</div></dl>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".ReqEcho"></span><div class="quickindex" id="quickindex.ReqEcho"></div>struct <code class="ddoc_psymbol">ReqEcho</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Test request to return the specified msg without processing.
+</div><div class="ddoc_description">The main return value is ResEcho.
+ ResErr will be returned if something goes wrong.
+
+</div>
+<div class="ddoc_returns"><span class="ddoc_returns_header">Returns:</span>
+ 
+<ul><li>ResEcho</li>
+<li>ResErr</li>
+</ul></div>
+<dl class="ddoc_members"><div class="ddoc_struct_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".ReqEcho.msg"></span><div class="quickindex" id="quickindex.ReqEcho.msg"></div>string <code class="ddoc_psymbol">msg</code>;
+<br></div></dt>
+<dd>
+</dd>
+</div></dl>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".ResEcho"></span><div class="quickindex" id="quickindex.ResEcho"></div>struct <code class="ddoc_psymbol">ResEcho</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Main return value of ReqEcho</div><dl class="ddoc_members"><div class="ddoc_struct_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".ResEcho.msg"></span><div class="quickindex" id="quickindex.ResEcho.msg"></div>string <code class="ddoc_psymbol">msg</code>;
+<br></div></dt>
+<dd>
+</dd>
+</div></dl>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".ReqInfo"></span><div class="quickindex" id="quickindex.ReqInfo"></div>struct <code class="ddoc_psymbol">ReqInfo</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Request information that gendoc has.
+</div><div class="ddoc_description">The main return value is ResInfo.
+ ResErr will be returned if something goes wrong.
+
+</div>
+<div class="ddoc_returns"><span class="ddoc_returns_header">Returns:</span>
+ 
+<ul><li>ResInfo</li>
+<li>ResErr</li>
+</ul></div>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".ResInfo"></span><div class="quickindex" id="quickindex.ResInfo"></div>struct <code class="ddoc_psymbol">ResInfo</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Main return value of ReqInfo</div><dl class="ddoc_members"><div class="ddoc_struct_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".ResInfo.config"></span><div class="quickindex" id="quickindex.ResInfo.config"></div>Config <code class="ddoc_psymbol">config</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary"><a href="gendoc--gendoc.config.html#.Config"><code class="d_inlinecode donthyphenate notranslate">gendoc.config.Config</code></a></div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".ResInfo.dubPkgInfos"></span><div class="quickindex" id="quickindex.ResInfo.dubPkgInfos"></div>DubPkgInfo[] <code class="ddoc_psymbol">dubPkgInfos</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary"><a href="gendoc--gendoc.modmgr.html#.DubPkgInfo"><code class="d_inlinecode donthyphenate notranslate">gendoc.modmgr.DubPkgInfo</code></a></div></dd>
+</div></dl>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".ResErr"></span><div class="quickindex" id="quickindex.ResErr"></div>struct <code class="ddoc_psymbol">ResErr</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Return-value when something wrong.</div><dl class="ddoc_members"><div class="ddoc_struct_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".ResErr.msg"></span><div class="quickindex" id="quickindex.ResErr.msg"></div>string <code class="ddoc_psymbol">msg</code>;
+<br></div></dt>
+<dd>
+</dd>
+</div></dl>
+</dd>
+</div></dl>
+
+                
+            </div>
+        </div>
+        
+        <script type="text/javascript">jQuery(document).ready(listanchors);</script>
+        
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+     </body>
+</html>
