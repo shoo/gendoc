@@ -313,8 +313,8 @@ The response type corresponds to the request type.
 
 | Request Type          | Response Type        |
 |:----------------------|:---------------------|
-| [ReqEcho](https://shoo.github.io/gendoc/shoo.github.io/gendoc/gendoc--gendoc.cmdpipe.html#.ReqEcho)           | [ResEcho](https://shoo.github.io/gendoc/shoo.github.io/gendoc/gendoc--gendoc.cmdpipe.html#.ResEcho), [ResErr](https://shoo.github.io/gendoc/shoo.github.io/gendoc/gendoc--gendoc.cmdpipe.html#.ResErr)  |
-| [ReqInfo](https://shoo.github.io/gendoc/shoo.github.io/gendoc/gendoc--gendoc.cmdpipe.html#.ReqInfo)           | [ResInfo](https://shoo.github.io/gendoc/shoo.github.io/gendoc/gendoc--gendoc.cmdpipe.html#.ResInfo), [ResErr](https://shoo.github.io/gendoc/shoo.github.io/gendoc/gendoc--gendoc.cmdpipe.html#.ResErr)  |
+| [ReqEcho](https://shoo.github.io/gendoc/gendoc--gendoc.cmdpipe.html#.ReqEcho)           | [ResEcho](https://shoo.github.io/gendoc/gendoc--gendoc.cmdpipe.html#.ResEcho), [ResErr](https://shoo.github.io/gendoc/gendoc--gendoc.cmdpipe.html#.ResErr)  |
+| [ReqInfo](https://shoo.github.io/gendoc/gendoc--gendoc.cmdpipe.html#.ReqInfo)           | [ResInfo](https://shoo.github.io/gendoc/gendoc--gendoc.cmdpipe.html#.ResInfo), [ResErr](https://shoo.github.io/gendoc/gendoc--gendoc.cmdpipe.html#.ResErr)  |
 
 Each piece of information is composed of a JSON object composed of `type` and `value` as follows, and the `value` includes a payload.
 The following examples include line breaks and indents for readability, but do not break lines in the data actually used.
