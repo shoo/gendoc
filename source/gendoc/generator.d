@@ -7,7 +7,8 @@
 module gendoc.generator;
 
 
-import std.file, std.path, std.algorithm, std.range, std.array, std.exception;
+import std.file, std.path, std.algorithm, std.range, std.array, std.exception,
+       std.regex;
 
 import dub.internal.vibecompat.inet.path;
 import dub.internal.vibecompat.data.json;
@@ -202,6 +203,8 @@ private:
 	
 	Mustache _mustache;
 	
+	Regex!char[][string] _combinedDubPackagePatterns;
+	
 	string _mustacheFindPath(string name, string[] dirs)
 	{
 		string _makeFileBasename(string n)
@@ -349,7 +352,7 @@ private:
 		return environment.get(key);
 	}
 	
-	string _mustacheRenderDubPackages(DubPkgInfo[] projects, string dir, string name)
+	string _mustacheRenderDubPackages(in DubPkgInfo[] projects, string dir, string name)
 	{
 		if (projects.length == 0)
 			return null;
@@ -363,7 +366,7 @@ private:
 		
 		foreach (p; projects)
 		() {
-			auto children  = p.children.dup;
+			auto children  = p.dup.children;
 			children.moduleSort();
 			auto sc = ctx.addSubContext("dub_pkg_info");
 			sc["name"]        = p.name;
@@ -378,6 +381,42 @@ private:
 		_mustache.path = dir;
 		_mustache.findPath = null;
 		return _mustache.render(name, ctx);
+	}
+	
+	
+	string _getDubPkgInfoName(in DubPkgInfo dubPkgInfo)
+	{
+		foreach (pair; _combinedDubPackagePatterns.byPair)
+		{
+			foreach (pattern; pair.value)
+			{
+				if (dubPkgInfo.name.matchFirst(pattern))
+					return pair.key;
+			}
+		}
+		return dubPkgInfo.name;
+	}
+	
+	DubPkgInfo[] _getCombinedDubPkgInfo(in DubPkgInfo[] info)
+	{
+		DubPkgInfo[] ret;
+		foreach (pkgInfo; info)
+		{
+			auto pkgInfoName = _getDubPkgInfoName(pkgInfo);
+			auto found = ret.countUntil!(a => a.name == pkgInfoName);
+			if (found == -1)
+			{
+				auto newInfo = pkgInfo.dup;
+				newInfo.name = pkgInfoName;
+				ret ~= newInfo;
+			}
+			else
+			{
+				ret[found].root.append(pkgInfo.root.modules);
+				ret[found].root.append(pkgInfo.root.packages);
+			}
+		}
+		return ret;
 	}
 	
 	static string _fixAbs(string base, string path)
@@ -395,7 +434,7 @@ private:
 			postCopyCallback(source.relativePath(rootDir), target.relativePath(targetDir));
 	}
 	
-	void _singleFileCompilation(DubPkgInfo dubpkg)
+	void _singleFileCompilation(ref DubPkgInfo dubpkg)
 	{
 		auto modules = dubpkg.entries.filter!(
 			a => (a.isModule() || a.isPackageModule) && a.moduleInfo.src.extension.startsWith(".d"));
@@ -403,7 +442,7 @@ private:
 			_generateD(dubpkg.name, _fixAbs(targetDir, m.dst), _fixAbs(rootDir, m.src), dubpkg.options);
 	}
 	
-	void _defaultCompilation(DubPkgInfo dubpkg)
+	void _defaultCompilation(ref DubPkgInfo dubpkg)
 	{
 		auto modules = dubpkg.entries.filter!(
 			a => a.isModule() && a.moduleInfo.src.extension.startsWith(".d"));
@@ -414,7 +453,7 @@ private:
 			_generateD(dubpkg.name, _fixAbs(targetDir, m.dst), _fixAbs(rootDir, m.src), dubpkg.options);
 	}
 	
-	void _ldcCompilation(DubPkgInfo dubpkg)
+	void _ldcCompilation(ref DubPkgInfo dubpkg)
 	{
 		auto modules = dubpkg.entries.filter!(
 			a => (a.isModule() || a.isPackageModule()) && a.moduleInfo.src.extension.startsWith(".d"));
@@ -548,9 +587,9 @@ public:
 	string   rootDir;
 	
 	///
-	void delegate(string dubPkgName, ModInfo[] modInfo, string[] args) preGenerateCallback;
+	void delegate(string dubPkgName, in ModInfo[] modInfo, string[] args) preGenerateCallback;
 	///
-	void delegate(string dubPkgName, ModInfo[] modInfo, int result, string output) postGenerateCallback;
+	void delegate(string dubPkgName, in ModInfo[] modInfo, int result, string output) postGenerateCallback;
 	///
 	void delegate(string src, string dst) postCopyCallback;
 	///
@@ -579,15 +618,25 @@ public:
 		return _tempDir;
 	}
 	
+	///
+	void combinedDubPackagePatterns(in string[][string] patternMap) @safe @property
+	{
+		foreach (pair; patternMap.byPair)
+		{
+			foreach (pattern; pair.value)
+				_combinedDubPackagePatterns[pair.key] ~= regex(pattern);
+		}
+	}
+	
 	/***************************************************************************
 	 * Convert from mustache file
 	 * 
 	 * Returns:
 	 *     Converted file contents
 	 */
-	string convertFromMustache(DubPkgInfo[] info, string dir, string mustacheName)
+	string convertFromMustache(in DubPkgInfo[] info, string dir, string mustacheName)
 	{
-		return _mustacheRenderDubPackages(info, dir, mustacheName);
+		return _mustacheRenderDubPackages(_getCombinedDubPkgInfo(info), dir, mustacheName);
 	}
 	
 	/***************************************************************************
@@ -596,7 +645,7 @@ public:
 	 * Returns:
 	 *     File name of generated
 	 */
-	string generateFromMustache(DubPkgInfo[] info, string dir, string mustacheName)
+	string generateFromMustache(in DubPkgInfo[] info, string dir, string mustacheName)
 	{
 		auto converted = convertFromMustache(info, dir, mustacheName);
 		auto filename = _tempDir.buildPath(mustacheName);
@@ -609,7 +658,7 @@ public:
 	 * 
 	 * The generated ddoc file is added automatically
 	 */
-	void generateDdoc(DubPkgInfo[] info, string dir, string mustacheName)
+	void generateDdoc(in DubPkgInfo[] info, string dir, string mustacheName)
 		in (mustacheName.extension == ".ddoc")
 	{
 		ddocFiles ~= generateFromMustache(info, dir, mustacheName);
@@ -618,7 +667,7 @@ public:
 	/***************************************************************************
 	 * Generate JSON file from d source file through syntax compilation
 	 */
-	void generateJson(DubPkgInfo dubpkg)
+	void generateJson(ref DubPkgInfo dubpkg)
 	{
 		import std.algorithm;
 		import std.string;
@@ -691,7 +740,7 @@ public:
 	}
 	
 	/// ditto
-	void generate(DubPkgInfo dubpkg, bool singleFile = false)
+	void generate(ref DubPkgInfo dubpkg, bool singleFile = false)
 	{
 		rootDir = dubpkg.dir;
 		

@@ -170,7 +170,7 @@ private string _getHomeDirectory()
 }
 
 /*******************************************************************************
- * 
+ * Gendoc's configuration data structure
  */
 struct GendocConfig
 {
@@ -195,6 +195,9 @@ struct GendocConfig
 	///
 	@optional
 	string[] excludePackages;
+	/// {"keyName": ["dub_package_name_regex_pattern1", "dub_package_name_regex_pattern2"]}
+	@optional
+	string[][string] combinedDubPackagePatterns;
 	///
 	@optional
 	string[] excludePackagePatterns = [
