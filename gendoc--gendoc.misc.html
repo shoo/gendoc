@@ -82,16 +82,18 @@
 <dd><div class="ddoc_summary">$(xxx)</div></dd>
 </div></dl>
 </dd>
-<dt class="ddoc_decl"><div ><span class="def-anchor" id=".expandMacro"></span><div class="quickindex" id="quickindex.expandMacro"></div>T <code class="ddoc_psymbol">expandMacro</code><span class="ddoc_template_param_list" title="Template parameter list">(T, Func)</span>(in T <span class="ddoc_param">str</span>, Func <span class="ddoc_param">mapFunc</span>)<br><span class="ddoc_constraint">if(isSomeString!T &amp;&amp; isCallable!Func &amp;&amp; is(ReturnType!Func : bool) &amp;&amp; (ParameterTypeTuple!Func.length &gt;= 1) &amp;&amp; is(T : ParameterTypeTuple!Func[0]) &amp;&amp; ((ParameterStorageClassTuple!Func[0] &amp; ParameterStorageClass.ref_) == ParameterStorageClass.ref_))</span>;
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".expandMacro"></span><div class="quickindex" id="quickindex.expandMacro"></div>T <code class="ddoc_psymbol">expandMacro</code><span class="ddoc_template_param_list" title="Template parameter list">(bool keepUnmatched, T, Func)</span>(in T <span class="ddoc_param">str</span>, Func <span class="ddoc_param">mapFunc</span>)<br><span class="ddoc_constraint">if(isSomeString!T &amp;&amp; isCallable!Func &amp;&amp; is(ReturnType!Func : bool) &amp;&amp; (ParameterTypeTuple!Func.length &gt;= 1) &amp;&amp; is(T : ParameterTypeTuple!Func[0]) &amp;&amp; ((ParameterStorageClassTuple!Func[0] &amp; ParameterStorageClass.ref_) == ParameterStorageClass.ref_))</span>;
 <br>
-T <code class="ddoc_psymbol">expandMacro</code><span class="ddoc_template_param_list" title="Template parameter list">(T, Func)</span>(in T <span class="ddoc_param">str</span>, Func <span class="ddoc_param">mapFunc</span>)<br><span class="ddoc_constraint">if(isSomeString!T &amp;&amp; isCallable!Func &amp;&amp; is(ReturnType!Func : T) &amp;&amp; (ParameterTypeTuple!Func.length &gt;= 1) &amp;&amp; is(T : ParameterTypeTuple!Func[0]))</span>;
+T <code class="ddoc_psymbol">expandMacro</code><span class="ddoc_template_param_list" title="Template parameter list">(bool keepUnmatched, T, Func)</span>(in T <span class="ddoc_param">str</span>, Func <span class="ddoc_param">mapFunc</span>)<br><span class="ddoc_constraint">if(isSomeString!T &amp;&amp; isCallable!Func &amp;&amp; is(ReturnType!Func : T) &amp;&amp; (ParameterTypeTuple!Func.length &gt;= 1) &amp;&amp; is(T : ParameterTypeTuple!Func[0]))</span>;
 <br>
-T <code class="ddoc_psymbol">expandMacro</code><span class="ddoc_template_param_list" title="Template parameter list">(T, MAP)</span>(in T <span class="ddoc_param">str</span>, MAP <span class="ddoc_param">map</span>)<br><span class="ddoc_constraint">if(isSomeString!T &amp;&amp; is(typeof(()
+T <code class="ddoc_psymbol">expandMacro</code><span class="ddoc_template_param_list" title="Template parameter list">(bool keepUnmatched, T, MAP)</span>(in T <span class="ddoc_param">str</span>, MAP <span class="ddoc_param">map</span>)<br><span class="ddoc_constraint">if(isSomeString!T &amp;&amp; is(typeof(()
 {
 auto p = T.init in <span class="ddoc_param">map</span>;
 T tmp = *p;
 }
 )))</span>;
+<br>
+alias <code class="ddoc_psymbol">expandMacro</code> = __lambda5;
 <br></div></dt>
 <dd><div class="ddoc_summary">Expands macro variables contained within a <span class="ddoc_param">str</span></div></dd>
 </div></dl>

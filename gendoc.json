@@ -437,7 +437,7 @@
       "line" : 234,
       "char" : 15,
       "deco" : "AS6gendoc6modmgr10DubPkgInfo",
-      "offset" : 240
+      "offset" : 248
      },
      {
       "name" : "this",
@@ -705,7 +705,7 @@
    {
     "name" : "GendocConfig",
     "kind" : "struct",
-    "comment" : "\n",
+    "comment" : " Gendoc's configuration data structure\n",
     "line" : 175,
     "char" : 1,
     "members" : [
@@ -765,30 +765,39 @@
       "offset" : 80
      },
      {
+      "name" : "combinedDubPackagePatterns",
+      "kind" : "variable",
+      "comment" : "{\"keyName\": [\"dub_package_name_regex_pattern1\", \"dub_package_name_regex_pattern2\"]}\n",
+      "line" : 200,
+      "char" : 19,
+      "deco" : "HAyaAQe",
+      "offset" : 96
+     },
+     {
       "name" : "excludePackagePatterns",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 200,
+      "line" : 203,
       "char" : 11,
       "deco" : "AAya",
       "init" : "[\"(?:(?<=[^:]+/)|^)_[^/]+$\", \":docs?$\"]",
-      "offset" : 96
+      "offset" : 104
      },
      {
       "name" : "enableGenerateJSON",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 206,
+      "line" : 209,
       "char" : 7,
       "deco" : "b",
       "init" : "true",
-      "offset" : 112
+      "offset" : 120
      },
      {
       "name" : "fixPath",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 209,
+      "line" : 212,
       "char" : 7,
       "deco" : "FAyaZv",
       "parameters" : [
@@ -797,7 +806,7 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 226,
+      "endline" : 254,
       "endchar" : 2
      },
      {
@@ -805,7 +814,7 @@
       "kind" : "function",
       "protection" : "private",
       "comment" : "\n",
-      "line" : 229,
+      "line" : 257,
       "char" : 15,
       "deco" : "FAyaZb",
       "parameters" : [
@@ -814,7 +823,7 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 240,
+      "endline" : 268,
       "endchar" : 2
      },
      {
@@ -822,7 +831,7 @@
       "kind" : "function",
       "protection" : "private",
       "comment" : "\n",
-      "line" : 243,
+      "line" : 271,
       "char" : 15,
       "deco" : "FAyaZb",
       "parameters" : [
@@ -831,7 +840,7 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 247,
+      "endline" : 275,
       "endchar" : 2
      },
      {
@@ -839,7 +848,7 @@
       "kind" : "function",
       "protection" : "private",
       "comment" : "\n",
-      "line" : 250,
+      "line" : 278,
       "char" : 15,
       "deco" : "FAyabZb",
       "parameters" : [
@@ -852,14 +861,14 @@
         "deco" : "b"
        }
       ],
-      "endline" : 278,
+      "endline" : 306,
       "endchar" : 2
      },
      {
       "name" : "loadConfig",
       "kind" : "function",
       "comment" : " Load configuration from specifiered path\n\n",
-      "line" : 284,
+      "line" : 312,
       "char" : 7,
       "deco" : "FAyaZb",
       "parameters" : [
@@ -868,14 +877,14 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 305,
+      "endline" : 333,
       "endchar" : 2
      },
      {
       "name" : "loadDefaultConfig",
       "kind" : "function",
       "comment" : "ditto\n",
-      "line" : 308,
+      "line" : 336,
       "char" : 7,
       "deco" : "FAyaZb",
       "parameters" : [
@@ -884,14 +893,14 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 413,
+      "endline" : 441,
       "endchar" : 2
      },
      {
       "name" : "setup",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 416,
+      "line" : 444,
       "char" : 7,
       "deco" : "FAyaQdAQgQdQkZv",
       "parameters" : [
@@ -916,7 +925,7 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 462,
+      "endline" : 494,
       "endchar" : 2
      }
     ]
@@ -925,13 +934,13 @@
     "name" : "Config",
     "kind" : "struct",
     "comment" : "\n",
-    "line" : 470,
+    "line" : 502,
     "char" : 1,
     "members" : [
      {
       "name" : "std.getopt",
       "kind" : "import",
-      "line" : 472,
+      "line" : 504,
       "char" : 9,
       "protection" : "private"
      },
@@ -939,7 +948,7 @@
       "name" : "compiler",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 474,
+      "line" : 506,
       "char" : 9,
       "deco" : "Aya",
       "offset" : 0
@@ -948,7 +957,7 @@
       "name" : "packageData",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 476,
+      "line" : 508,
       "char" : 16,
       "deco" : "S6gendoc6config13PackageConfig",
       "offset" : 16
@@ -957,7 +966,7 @@
       "name" : "gendocData",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 478,
+      "line" : 510,
       "char" : 15,
       "deco" : "S6gendoc6config12GendocConfig",
       "offset" : 112
@@ -966,34 +975,34 @@
       "name" : "singleFile",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 480,
+      "line" : 512,
       "char" : 7,
       "deco" : "b",
-      "offset" : 232
+      "offset" : 240
      },
      {
       "name" : "quiet",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 482,
+      "line" : 514,
       "char" : 7,
       "deco" : "b",
-      "offset" : 233
+      "offset" : 241
      },
      {
       "name" : "varbose",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 484,
+      "line" : 516,
       "char" : 7,
       "deco" : "b",
-      "offset" : 234
+      "offset" : 242
      },
      {
       "name" : "setup",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 488,
+      "line" : 520,
       "char" : 15,
       "deco" : "FAAyaZS3std6getopt12GetoptResult",
       "parameters" : [
@@ -1002,7 +1011,7 @@
         "deco" : "AAya"
        }
       ],
-      "endline" : 526,
+      "endline" : 558,
       "endchar" : 2
      }
     ]
@@ -1058,30 +1067,37 @@
     "protection" : "private"
    },
    {
-    "name" : "dub.internal.vibecompat.inet.path",
+    "name" : "std.regex",
     "kind" : "import",
-    "line" : 12,
+    "line" : 11,
     "char" : 8,
     "protection" : "private"
    },
    {
-    "name" : "dub.internal.vibecompat.data.json",
+    "name" : "dub.internal.vibecompat.inet.path",
     "kind" : "import",
     "line" : 13,
     "char" : 8,
     "protection" : "private"
    },
    {
-    "name" : "dub.internal.utils",
+    "name" : "dub.internal.vibecompat.data.json",
     "kind" : "import",
     "line" : 14,
     "char" : 8,
     "protection" : "private"
    },
    {
+    "name" : "dub.internal.utils",
+    "kind" : "import",
+    "line" : 15,
+    "char" : 8,
+    "protection" : "private"
+   },
+   {
     "name" : "gendoc.modmgr",
     "kind" : "import",
-    "line" : 16,
+    "line" : 17,
     "char" : 8,
     "protection" : "private"
    },
@@ -1090,14 +1106,14 @@
     "kind" : "struct",
     "protection" : "private",
     "comment" : "\n",
-    "line" : 23,
+    "line" : 24,
     "char" : 9,
     "members" : [
      {
       "name" : "name",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 27,
+      "line" : 28,
       "char" : 9,
       "deco" : "Aya",
       "offset" : 0
@@ -1106,7 +1122,7 @@
       "name" : "file",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 29,
+      "line" : 30,
       "char" : 9,
       "deco" : "Aya",
       "offset" : 16
@@ -1115,7 +1131,7 @@
       "name" : "comment",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 32,
+      "line" : 33,
       "char" : 9,
       "deco" : "Aya",
       "offset" : 32
@@ -1127,7 +1143,7 @@
     "kind" : "function",
     "protection" : "private",
     "comment" : "\n",
-    "line" : 38,
+    "line" : 39,
     "char" : 26,
     "deco" : "FAyaZAS6gendoc9generator14JsonModuleData",
     "parameters" : [
@@ -1136,21 +1152,21 @@
       "deco" : "Aya"
      }
     ],
-    "endline" : 44,
+    "endline" : 45,
     "endchar" : 1
    },
    {
     "name" : "MustashImportOptions",
     "kind" : "struct",
     "comment" : "\n",
-    "line" : 50,
+    "line" : 51,
     "char" : 1,
     "members" : [
      {
       "name" : "file",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 54,
+      "line" : 55,
       "char" : 17,
       "deco" : "Aya",
       "offset" : 0
@@ -1159,7 +1175,7 @@
       "name" : "imports",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 57,
+      "line" : 58,
       "char" : 17,
       "deco" : "AAya",
       "offset" : 16
@@ -1168,7 +1184,7 @@
       "name" : "contents",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 60,
+      "line" : 61,
       "char" : 17,
       "deco" : "Aya",
       "offset" : 32
@@ -1177,7 +1193,7 @@
       "name" : "map",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 63,
+      "line" : 64,
       "char" : 17,
       "deco" : "HAyaQd",
       "offset" : 48
@@ -1186,7 +1202,7 @@
       "name" : "useSections",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 66,
+      "line" : 67,
       "char" : 17,
       "deco" : "AAya",
       "offset" : 56
@@ -1198,7 +1214,7 @@
     "kind" : "function",
     "protection" : "private",
     "comment" : "\n",
-    "line" : 72,
+    "line" : 73,
     "char" : 14,
     "deco" : "FAyaZS3dub8internal10vibecompat4data4json4Json",
     "parameters" : [
@@ -1207,7 +1223,7 @@
       "deco" : "Aya"
      }
     ],
-    "endline" : 87,
+    "endline" : 88,
     "endchar" : 1
    },
    {
@@ -1215,7 +1231,7 @@
     "kind" : "function",
     "protection" : "private",
     "comment" : "\n",
-    "line" : 92,
+    "line" : 93,
     "char" : 30,
     "deco" : "FS3dub8internal10vibecompat4data4json4JsonZS6gendoc9generator20MustashImportOptions",
     "parameters" : [
@@ -1224,7 +1240,7 @@
       "deco" : "S3dub8internal10vibecompat4data4json4Json"
      }
     ],
-    "endline" : 122,
+    "endline" : 123,
     "endchar" : 1
    },
    {
@@ -1232,7 +1248,7 @@
     "kind" : "function",
     "protection" : "private",
     "comment" : "ditto\n",
-    "line" : 125,
+    "line" : 126,
     "char" : 30,
     "deco" : "FAyaZS6gendoc9generator20MustashImportOptions",
     "parameters" : [
@@ -1241,21 +1257,21 @@
       "deco" : "Aya"
      }
     ],
-    "endline" : 128,
+    "endline" : 129,
     "endchar" : 1
    },
    {
     "name" : "MustashCommandOptions",
     "kind" : "struct",
     "comment" : "\n",
-    "line" : 135,
+    "line" : 136,
     "char" : 1,
     "members" : [
      {
       "name" : "args",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 139,
+      "line" : 140,
       "char" : 17,
       "deco" : "AAya",
       "offset" : 0
@@ -1264,7 +1280,7 @@
       "name" : "env",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 142,
+      "line" : 143,
       "char" : 17,
       "deco" : "HAyaQd",
       "offset" : 16
@@ -1273,7 +1289,7 @@
       "name" : "workDir",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 145,
+      "line" : 146,
       "char" : 17,
       "deco" : "Aya",
       "offset" : 24
@@ -1285,7 +1301,7 @@
     "kind" : "function",
     "protection" : "private",
     "comment" : "\n",
-    "line" : 151,
+    "line" : 152,
     "char" : 31,
     "deco" : "FS3dub8internal10vibecompat4data4json4JsonZS6gendoc9generator21MustashCommandOptions",
     "parameters" : [
@@ -1294,7 +1310,7 @@
       "deco" : "S3dub8internal10vibecompat4data4json4Json"
      }
     ],
-    "endline" : 181,
+    "endline" : 182,
     "endchar" : 1
    },
    {
@@ -1302,7 +1318,7 @@
     "kind" : "function",
     "protection" : "private",
     "comment" : "ditto\n",
-    "line" : 184,
+    "line" : 185,
     "char" : 31,
     "deco" : "FAyaZS6gendoc9generator21MustashCommandOptions",
     "parameters" : [
@@ -1311,41 +1327,41 @@
       "deco" : "Aya"
      }
     ],
-    "endline" : 187,
+    "endline" : 188,
     "endchar" : 1
    },
    {
     "name" : "DocumentGenerator",
     "kind" : "struct",
     "comment" : "\n",
-    "line" : 192,
+    "line" : 193,
     "char" : 1,
     "members" : [
      {
       "name" : "std.file",
       "kind" : "import",
-      "line" : 195,
+      "line" : 196,
       "char" : 9,
       "protection" : "private"
      },
      {
       "name" : "std.path",
       "kind" : "import",
-      "line" : 195,
+      "line" : 196,
       "char" : 19,
       "protection" : "private"
      },
      {
       "name" : "std.algorithm",
       "kind" : "import",
-      "line" : 195,
+      "line" : 196,
       "char" : 29,
       "protection" : "private"
      },
      {
       "name" : "mustache",
       "kind" : "import",
-      "line" : 196,
+      "line" : 197,
       "char" : 9,
       "protection" : "private"
      },
@@ -1353,7 +1369,7 @@
       "name" : "Mustache",
       "kind" : "alias",
       "protection" : "private",
-      "line" : 198,
+      "line" : 199,
       "char" : 2,
       "deco" : "S8mustache__T14MustacheEngineTAyaZQv"
      },
@@ -1361,7 +1377,7 @@
       "name" : "MustacheContext",
       "kind" : "alias",
       "protection" : "private",
-      "line" : 199,
+      "line" : 200,
       "char" : 2,
       "deco" : "C8mustache__T14MustacheEngineTAyaZQv7Context"
      },
@@ -1369,7 +1385,7 @@
       "name" : "_tempDir",
       "kind" : "variable",
       "protection" : "private",
-      "line" : 201,
+      "line" : 202,
       "char" : 9,
       "deco" : "Aya",
       "offset" : 0
@@ -1378,17 +1394,26 @@
       "name" : "_mustache",
       "kind" : "variable",
       "protection" : "private",
-      "line" : 203,
+      "line" : 204,
       "char" : 11,
       "deco" : "S8mustache__T14MustacheEngineTAyaZQv",
       "originalType" : "Mustache",
       "offset" : 16
      },
      {
+      "name" : "_combinedDubPackagePatterns",
+      "kind" : "variable",
+      "protection" : "private",
+      "line" : 206,
+      "char" : 23,
+      "deco" : "HAyaAS3std5regex8internal2ir__T5RegexTaZQj",
+      "offset" : 96
+     },
+     {
       "name" : "_mustacheFindPath",
       "kind" : "function",
       "protection" : "private",
-      "line" : 205,
+      "line" : 208,
       "char" : 9,
       "deco" : "FAyaAQeZQh",
       "parameters" : [
@@ -1401,14 +1426,14 @@
         "deco" : "AAya"
        }
       ],
-      "endline" : 222,
+      "endline" : 225,
       "endchar" : 2
      },
      {
       "name" : "_mustacheRenderChildren",
       "kind" : "function",
       "protection" : "private",
-      "line" : 224,
+      "line" : 227,
       "char" : 9,
       "deco" : "FAS6gendoc6modmgr20PackageAndModuleDataAyaQdZQg",
       "parameters" : [
@@ -1425,14 +1450,14 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 302,
+      "endline" : 305,
       "endchar" : 2
      },
      {
       "name" : "_mustacheRenderCommand",
       "kind" : "function",
       "protection" : "private",
-      "line" : 304,
+      "line" : 307,
       "char" : 9,
       "deco" : "FAyaQdZQg",
       "parameters" : [
@@ -1445,14 +1470,14 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 338,
+      "endline" : 341,
       "endchar" : 2
      },
      {
       "name" : "_mustacheRenderEvalD",
       "kind" : "function",
       "protection" : "private",
-      "line" : 340,
+      "line" : 343,
       "char" : 9,
       "deco" : "FAyaQdZQg",
       "parameters" : [
@@ -1465,14 +1490,14 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 344,
+      "endline" : 347,
       "endchar" : 2
      },
      {
       "name" : "_mustacheRenderEnv",
       "kind" : "function",
       "protection" : "private",
-      "line" : 346,
+      "line" : 349,
       "char" : 9,
       "deco" : "FAyaQdZQg",
       "parameters" : [
@@ -1485,20 +1510,21 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 350,
+      "endline" : 353,
       "endchar" : 2
      },
      {
       "name" : "_mustacheRenderDubPackages",
       "kind" : "function",
       "protection" : "private",
-      "line" : 352,
+      "line" : 355,
       "char" : 9,
-      "deco" : "FAS6gendoc6modmgr10DubPkgInfoAyaQdZQg",
+      "deco" : "FxAS6gendoc6modmgr10DubPkgInfoAyaQdZQg",
+      "originalType" : "string(in DubPkgInfo[] projects, string dir, string name)",
       "parameters" : [
        {
         "name" : "projects",
-        "deco" : "AS6gendoc6modmgr10DubPkgInfo"
+        "deco" : "xAS6gendoc6modmgr10DubPkgInfo"
        },
        {
         "name" : "dir",
@@ -1509,14 +1535,48 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 381,
+      "endline" : 384,
+      "endchar" : 2
+     },
+     {
+      "name" : "_getDubPkgInfoName",
+      "kind" : "function",
+      "protection" : "private",
+      "line" : 387,
+      "char" : 9,
+      "deco" : "FxS6gendoc6modmgr10DubPkgInfoZAya",
+      "originalType" : "string(in DubPkgInfo dubPkgInfo)",
+      "parameters" : [
+       {
+        "name" : "dubPkgInfo",
+        "deco" : "xS6gendoc6modmgr10DubPkgInfo"
+       }
+      ],
+      "endline" : 398,
+      "endchar" : 2
+     },
+     {
+      "name" : "_getCombinedDubPkgInfo",
+      "kind" : "function",
+      "protection" : "private",
+      "line" : 400,
+      "char" : 15,
+      "deco" : "FxAS6gendoc6modmgr10DubPkgInfoZASQBdQzQu",
+      "originalType" : "DubPkgInfo[](in DubPkgInfo[] info)",
+      "parameters" : [
+       {
+        "name" : "info",
+        "deco" : "xAS6gendoc6modmgr10DubPkgInfo"
+       }
+      ],
+      "endline" : 420,
       "endchar" : 2
      },
      {
       "name" : "_fixAbs",
       "kind" : "function",
       "protection" : "private",
-      "line" : 383,
+      "line" : 422,
       "char" : 16,
       "storageClass" : [
        "static"
@@ -1532,14 +1592,14 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 386,
+      "endline" : 425,
       "endchar" : 2
      },
      {
       "name" : "_copyFile",
       "kind" : "function",
       "protection" : "private",
-      "line" : 387,
+      "line" : 426,
       "char" : 7,
       "deco" : "FAyaQdZv",
       "parameters" : [
@@ -1552,62 +1612,71 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 396,
+      "endline" : 435,
       "endchar" : 2
      },
      {
       "name" : "_singleFileCompilation",
       "kind" : "function",
       "protection" : "private",
-      "line" : 398,
+      "line" : 437,
       "char" : 7,
-      "deco" : "FS6gendoc6modmgr10DubPkgInfoZv",
+      "deco" : "FKS6gendoc6modmgr10DubPkgInfoZv",
       "parameters" : [
        {
         "name" : "dubpkg",
-        "deco" : "S6gendoc6modmgr10DubPkgInfo"
+        "deco" : "S6gendoc6modmgr10DubPkgInfo",
+        "storageClass" : [
+         "ref"
+        ]
        }
       ],
-      "endline" : 404,
+      "endline" : 443,
       "endchar" : 2
      },
      {
       "name" : "_defaultCompilation",
       "kind" : "function",
       "protection" : "private",
-      "line" : 406,
+      "line" : 445,
       "char" : 7,
-      "deco" : "FS6gendoc6modmgr10DubPkgInfoZv",
+      "deco" : "FKS6gendoc6modmgr10DubPkgInfoZv",
       "parameters" : [
        {
         "name" : "dubpkg",
-        "deco" : "S6gendoc6modmgr10DubPkgInfo"
+        "deco" : "S6gendoc6modmgr10DubPkgInfo",
+        "storageClass" : [
+         "ref"
+        ]
        }
       ],
-      "endline" : 415,
+      "endline" : 454,
       "endchar" : 2
      },
      {
       "name" : "_ldcCompilation",
       "kind" : "function",
       "protection" : "private",
-      "line" : 417,
+      "line" : 456,
       "char" : 7,
-      "deco" : "FS6gendoc6modmgr10DubPkgInfoZv",
+      "deco" : "FKS6gendoc6modmgr10DubPkgInfoZv",
       "parameters" : [
        {
         "name" : "dubpkg",
-        "deco" : "S6gendoc6modmgr10DubPkgInfo"
+        "deco" : "S6gendoc6modmgr10DubPkgInfo",
+        "storageClass" : [
+         "ref"
+        ]
        }
       ],
-      "endline" : 422,
+      "endline" : 461,
       "endchar" : 2
      },
      {
       "name" : "_copyTempDsrcs",
       "kind" : "function",
       "protection" : "private",
-      "line" : 424,
+      "line" : 463,
       "char" : 11,
       "deco" : "FAyaAS6gendoc6modmgr7ModInfoZAQBd",
       "parameters" : [
@@ -1620,14 +1689,14 @@
         "deco" : "AS6gendoc6modmgr7ModInfo"
        }
       ],
-      "endline" : 434,
+      "endline" : 473,
       "endchar" : 2
      },
      {
       "name" : "_generateD",
       "kind" : "function",
       "protection" : "private",
-      "line" : 436,
+      "line" : 475,
       "char" : 7,
       "deco" : "FAyaQdQfAQiZv",
       "parameters" : [
@@ -1648,14 +1717,14 @@
         "deco" : "AAya"
        }
       ],
-      "endline" : 456,
+      "endline" : 495,
       "endchar" : 2
      },
      {
       "name" : "_generateD",
       "kind" : "function",
       "protection" : "private",
-      "line" : 458,
+      "line" : 497,
       "char" : 7,
       "deco" : "FAyaAS6gendoc6modmgr7ModInfoAQBcZv",
       "parameters" : [
@@ -1672,14 +1741,14 @@
         "deco" : "AAya"
        }
       ],
-      "endline" : 485,
+      "endline" : 524,
       "endchar" : 2
      },
      {
       "name" : "_generateD_ldc",
       "kind" : "function",
       "protection" : "private",
-      "line" : 487,
+      "line" : 526,
       "char" : 7,
       "deco" : "FAyaAS6gendoc6modmgr7ModInfoAQBcZv",
       "parameters" : [
@@ -1696,140 +1765,160 @@
         "deco" : "AAya"
        }
       ],
-      "endline" : 537,
+      "endline" : 576,
       "endchar" : 2
      },
      {
       "name" : "compiler",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 540,
+      "line" : 579,
       "char" : 11,
       "deco" : "Aya",
-      "offset" : 96
+      "offset" : 104
      },
      {
       "name" : "ddocFiles",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 542,
+      "line" : 581,
       "char" : 11,
       "deco" : "AAya",
-      "offset" : 112
+      "offset" : 120
      },
      {
       "name" : "disableMarkdown",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 544,
+      "line" : 583,
       "char" : 11,
       "deco" : "b",
-      "offset" : 128
+      "offset" : 136
      },
      {
       "name" : "targetDir",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 546,
+      "line" : 585,
       "char" : 11,
       "deco" : "Aya",
-      "offset" : 136
+      "offset" : 144
      },
      {
       "name" : "rootDir",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 548,
+      "line" : 587,
       "char" : 11,
       "deco" : "Aya",
-      "offset" : 152
+      "offset" : 160
      },
      {
       "name" : "preGenerateCallback",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 551,
-      "char" : 69,
-      "deco" : "DFAyaAS6gendoc6modmgr7ModInfoAQBcZv",
-      "offset" : 168
+      "line" : 590,
+      "char" : 72,
+      "deco" : "DFAyaxAS6gendoc6modmgr7ModInfoAQBdZv",
+      "originalType" : "void delegate(string dubPkgName, in ModInfo[] modInfo, string[] args)",
+      "offset" : 176
      },
      {
       "name" : "postGenerateCallback",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 553,
-      "char" : 81,
-      "deco" : "DFAyaAS6gendoc6modmgr7ModInfoiQBcZv",
-      "offset" : 184
+      "line" : 592,
+      "char" : 84,
+      "deco" : "DFAyaxAS6gendoc6modmgr7ModInfoiQBdZv",
+      "originalType" : "void delegate(string dubPkgName, in ModInfo[] modInfo, int result, string output)",
+      "offset" : 192
      },
      {
       "name" : "postCopyCallback",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 555,
+      "line" : 594,
       "char" : 40,
       "deco" : "DFAyaQdZv",
-      "offset" : 200
+      "offset" : 208
      },
      {
       "name" : "executeProcessor",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 557,
+      "line" : 596,
       "char" : 69,
       "deco" : "DFAAyaQdHQgQiZQl",
-      "offset" : 216
+      "offset" : 224
      },
      {
       "name" : "commandProcessor",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 559,
+      "line" : 598,
       "char" : 67,
       "deco" : "DFAyaQdHQgQiZQl",
-      "offset" : 232
+      "offset" : 240
      },
      {
       "name" : "createTemporaryDir",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 562,
+      "line" : 601,
       "char" : 7,
       "deco" : "FZv",
-      "endline" : 567,
+      "endline" : 606,
       "endchar" : 2
      },
      {
       "name" : "removeTemporaryDir",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 570,
+      "line" : 609,
       "char" : 7,
       "deco" : "FZv",
-      "endline" : 574,
+      "endline" : 613,
       "endchar" : 2
      },
      {
       "name" : "temporaryDir",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 577,
+      "line" : 616,
       "char" : 9,
       "deco" : "xFNaNbNdNiNfZAya",
-      "endline" : 580,
+      "endline" : 619,
+      "endchar" : 2
+     },
+     {
+      "name" : "combinedDubPackagePatterns",
+      "kind" : "function",
+      "comment" : "\n",
+      "line" : 622,
+      "char" : 7,
+      "deco" : "FNdNfxHAyaAAyaZv",
+      "originalType" : "@property @safe void(in string[][string] patternMap)",
+      "parameters" : [
+       {
+        "name" : "patternMap",
+        "deco" : "xHAyaAAya"
+       }
+      ],
+      "endline" : 629,
       "endchar" : 2
      },
      {
       "name" : "convertFromMustache",
       "kind" : "function",
       "comment" : " Convert from mustache file\n\n Returns:\n     Converted file contents\n",
-      "line" : 588,
+      "line" : 637,
       "char" : 9,
-      "deco" : "FAS6gendoc6modmgr10DubPkgInfoAyaQdZQg",
+      "deco" : "FxAS6gendoc6modmgr10DubPkgInfoAyaQdZQg",
+      "originalType" : "string(in DubPkgInfo[] info, string dir, string mustacheName)",
       "parameters" : [
        {
         "name" : "info",
-        "deco" : "AS6gendoc6modmgr10DubPkgInfo"
+        "deco" : "xAS6gendoc6modmgr10DubPkgInfo"
        },
        {
         "name" : "dir",
@@ -1840,20 +1929,21 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 591,
+      "endline" : 640,
       "endchar" : 2
      },
      {
       "name" : "generateFromMustache",
       "kind" : "function",
       "comment" : " Generate file from mustache file\n\n Returns:\n     File name of generated\n",
-      "line" : 599,
+      "line" : 648,
       "char" : 9,
-      "deco" : "FAS6gendoc6modmgr10DubPkgInfoAyaQdZQg",
+      "deco" : "FxAS6gendoc6modmgr10DubPkgInfoAyaQdZQg",
+      "originalType" : "string(in DubPkgInfo[] info, string dir, string mustacheName)",
       "parameters" : [
        {
         "name" : "info",
-        "deco" : "AS6gendoc6modmgr10DubPkgInfo"
+        "deco" : "xAS6gendoc6modmgr10DubPkgInfo"
        },
        {
         "name" : "dir",
@@ -1864,20 +1954,21 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 605,
+      "endline" : 654,
       "endchar" : 2
      },
      {
       "name" : "generateDdoc",
       "kind" : "function",
       "comment" : " Generate ddoc file from mustache file\n\n The generated ddoc file is added automatically\n",
-      "line" : 612,
+      "line" : 661,
       "char" : 7,
-      "deco" : "FAS6gendoc6modmgr10DubPkgInfoAyaQdZv",
+      "deco" : "FxAS6gendoc6modmgr10DubPkgInfoAyaQdZv",
+      "originalType" : "void(in DubPkgInfo[] info, string dir, string mustacheName)",
       "parameters" : [
        {
         "name" : "info",
-        "deco" : "AS6gendoc6modmgr10DubPkgInfo"
+        "deco" : "xAS6gendoc6modmgr10DubPkgInfo"
        },
        {
         "name" : "dir",
@@ -1888,30 +1979,33 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 616,
+      "endline" : 665,
       "endchar" : 2
      },
      {
       "name" : "generateJson",
       "kind" : "function",
       "comment" : " Generate JSON file from d source file through syntax compilation\n",
-      "line" : 621,
+      "line" : 670,
       "char" : 7,
-      "deco" : "FS6gendoc6modmgr10DubPkgInfoZv",
+      "deco" : "FKS6gendoc6modmgr10DubPkgInfoZv",
       "parameters" : [
        {
         "name" : "dubpkg",
-        "deco" : "S6gendoc6modmgr10DubPkgInfo"
+        "deco" : "S6gendoc6modmgr10DubPkgInfo",
+        "storageClass" : [
+         "ref"
+        ]
        }
       ],
-      "endline" : 673,
+      "endline" : 722,
       "endchar" : 2
      },
      {
       "name" : "generate",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 676,
+      "line" : 725,
       "char" : 7,
       "deco" : "FAyaQdAQgZv",
       "parameters" : [
@@ -1928,20 +2022,23 @@
         "deco" : "AAya"
        }
       ],
-      "endline" : 691,
+      "endline" : 740,
       "endchar" : 2
      },
      {
       "name" : "generate",
       "kind" : "function",
       "comment" : "ditto\n",
-      "line" : 694,
+      "line" : 743,
       "char" : 7,
-      "deco" : "FS6gendoc6modmgr10DubPkgInfobZv",
+      "deco" : "FKS6gendoc6modmgr10DubPkgInfobZv",
       "parameters" : [
        {
         "name" : "dubpkg",
-        "deco" : "S6gendoc6modmgr10DubPkgInfo"
+        "deco" : "S6gendoc6modmgr10DubPkgInfo",
+        "storageClass" : [
+         "ref"
+        ]
        },
        {
         "name" : "singleFile",
@@ -1949,7 +2046,7 @@
         "default" : "false"
        }
       ],
-      "endline" : 724,
+      "endline" : 773,
       "endchar" : 2
      }
     ]
@@ -2182,14 +2279,14 @@
       ]
      }
     ],
-    "endline" : 270,
+    "endline" : 273,
     "endchar" : 1
    },
    {
     "name" : "initializeDocsDirecotry",
     "kind" : "function",
     "comment" : " Setup docs directory\n",
-    "line" : 276,
+    "line" : 279,
     "char" : 6,
     "deco" : "FAyaZv",
     "parameters" : [
@@ -2198,7 +2295,7 @@
       "deco" : "Aya"
      }
     ],
-    "endline" : 294,
+    "endline" : 297,
     "endchar" : 1
    }
   ]
@@ -2250,6 +2347,11 @@
     "name" : "expandMacro",
     "parameters" : [
      {
+      "name" : "keepUnmatched",
+      "kind" : "value",
+      "deco" : "b"
+     },
+     {
       "name" : "T",
       "kind" : "type"
      },
@@ -2291,6 +2393,11 @@
     "char" : 3,
     "name" : "expandMacro",
     "parameters" : [
+     {
+      "name" : "keepUnmatched",
+      "kind" : "value",
+      "deco" : "b"
+     },
      {
       "name" : "T",
       "kind" : "type"
@@ -2334,6 +2441,11 @@
     "name" : "expandMacro",
     "parameters" : [
      {
+      "name" : "keepUnmatched",
+      "kind" : "value",
+      "deco" : "b"
+     },
+     {
       "name" : "T",
       "kind" : "type"
      },
@@ -2369,9 +2481,16 @@
     ]
    },
    {
+    "name" : "expandMacro",
+    "kind" : "alias",
+    "comment" : "ditto\n",
+    "line" : 94,
+    "char" : 1
+   },
+   {
     "kind" : "template",
     "protection" : "private",
-    "line" : 94,
+    "line" : 98,
     "char" : 16,
     "name" : "searchEnd1",
     "parameters" : [
@@ -2384,7 +2503,7 @@
      {
       "name" : "searchEnd1",
       "kind" : "function",
-      "line" : 94,
+      "line" : 98,
       "char" : 16,
       "type" : "size_t(const(Ch)[] str)",
       "parameters" : [
@@ -2393,26 +2512,26 @@
         "type" : "const(Ch)[]"
        }
       ],
-      "endline" : 103,
+      "endline" : 107,
       "endchar" : 1
      }
     ]
    },
    {
-    "name" : "__unittest_L105_C9",
+    "name" : "__unittest_L109_C9",
     "kind" : "function",
-    "line" : 105,
+    "line" : 109,
     "char" : 9,
     "storageClass" : [
      "@system"
     ],
-    "endline" : 115,
+    "endline" : 119,
     "endchar" : 1
    },
    {
     "kind" : "template",
     "protection" : "private",
-    "line" : 115,
+    "line" : 119,
     "char" : 16,
     "name" : "searchEnd2",
     "parameters" : [
@@ -2425,7 +2544,7 @@
      {
       "name" : "searchEnd2",
       "kind" : "function",
-      "line" : 115,
+      "line" : 119,
       "char" : 16,
       "type" : "size_t(const(Ch)[] str, Ch ch)",
       "parameters" : [
@@ -2438,26 +2557,26 @@
         "type" : "Ch"
        }
       ],
-      "endline" : 165,
+      "endline" : 169,
       "endchar" : 1
      }
     ]
    },
    {
-    "name" : "__unittest_L166_C9",
+    "name" : "__unittest_L170_C9",
     "kind" : "function",
-    "line" : 166,
+    "line" : 170,
     "char" : 9,
     "storageClass" : [
      "@system"
     ],
-    "endline" : 176,
+    "endline" : 180,
     "endchar" : 1
    },
    {
     "kind" : "template",
     "protection" : "private",
-    "line" : 176,
+    "line" : 180,
     "char" : 11,
     "name" : "expandMacroImpl",
     "parameters" : [
@@ -2468,6 +2587,12 @@
      {
       "name" : "func",
       "kind" : "alias"
+     },
+     {
+      "name" : "keepUnmatched",
+      "kind" : "value",
+      "deco" : "b",
+      "defaultValue" : "false"
      }
     ],
     "constraint" : "isSomeString!T && isCallable!func && is(ReturnType!func : bool) && (ParameterTypeTuple!func.length == 3) && is(T : ParameterTypeTuple!func[0]) && is(MacroType : ParameterTypeTuple!func[1]) && is(bool : ParameterTypeTuple!func[2]) && ((ParameterStorageClassTuple!func[0] & ParameterStorageClass.ref_) == ParameterStorageClass.ref_)",
@@ -2475,7 +2600,7 @@
      {
       "name" : "expandMacroImpl",
       "kind" : "function",
-      "line" : 176,
+      "line" : 180,
       "char" : 11,
       "type" : "T(in T str)",
       "parameters" : [
@@ -2487,20 +2612,20 @@
         ]
        }
       ],
-      "endline" : 265,
+      "endline" : 266,
       "endchar" : 1
      }
     ]
    },
    {
-    "name" : "__unittest_L267_C9",
+    "name" : "__unittest_L268_C9",
     "kind" : "function",
-    "line" : 267,
+    "line" : 268,
     "char" : 9,
     "storageClass" : [
      "@system"
     ],
-    "endline" : 343,
+    "endline" : 351,
     "endchar" : 1
    }
   ]
@@ -2692,14 +2817,109 @@
       "deco" : "xFNbNdNiNfZb",
       "endline" : 72,
       "endchar" : 2
+     },
+     {
+      "name" : "dup",
+      "kind" : "function",
+      "comment" : "Duplicate\n",
+      "line" : 75,
+      "char" : 10,
+      "deco" : "xFNdNfZS6gendoc6modmgr7PkgInfo",
+      "endline" : 86,
+      "endchar" : 2
+     },
+     {
+      "name" : "append",
+      "kind" : "function",
+      "comment" : "Append other package information to this information\n",
+      "line" : 89,
+      "char" : 7,
+      "deco" : "FNfxAS6gendoc6modmgr7PkgInfoZv",
+      "originalType" : "@safe void(in PkgInfo[] pkgInfos)",
+      "parameters" : [
+       {
+        "name" : "pkgInfos",
+        "deco" : "xAS6gendoc6modmgr7PkgInfo"
+       }
+      ],
+      "endline" : 93,
+      "endchar" : 2
+     },
+     {
+      "name" : "append",
+      "kind" : "function",
+      "comment" : "ditto\n",
+      "line" : 95,
+      "char" : 7,
+      "deco" : "FNfKxS6gendoc6modmgr7PkgInfoZv",
+      "originalType" : "@safe void(ref PkgInfo pkgInfo)",
+      "parameters" : [
+       {
+        "name" : "pkgInfo",
+        "deco" : "xS6gendoc6modmgr7PkgInfo",
+        "storageClass" : [
+         "ref"
+        ]
+       }
+      ],
+      "endline" : 109,
+      "endchar" : 2
+     },
+     {
+      "name" : "append",
+      "kind" : "function",
+      "comment" : "ditto\n",
+      "line" : 112,
+      "char" : 7,
+      "deco" : "FNfxAS6gendoc6modmgr7ModInfoZv",
+      "originalType" : "@safe void(in ModInfo[] modInfos)",
+      "parameters" : [
+       {
+        "name" : "modInfos",
+        "deco" : "xAS6gendoc6modmgr7ModInfo"
+       }
+      ],
+      "endline" : 116,
+      "endchar" : 2
+     },
+     {
+      "name" : "append",
+      "kind" : "function",
+      "comment" : "\n",
+      "line" : 118,
+      "char" : 7,
+      "deco" : "FNfKxS6gendoc6modmgr7ModInfoZv",
+      "originalType" : "@safe void(ref ModInfo modInfo)",
+      "parameters" : [
+       {
+        "name" : "modInfo",
+        "deco" : "xS6gendoc6modmgr7ModInfo",
+        "storageClass" : [
+         "ref"
+        ]
+       }
+      ],
+      "endline" : 129,
+      "endchar" : 2
      }
     ]
+   },
+   {
+    "name" : "__unittest_L132_C7",
+    "kind" : "function",
+    "line" : 132,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 143,
+    "endchar" : 1
    },
    {
     "name" : "PackageAndModuleData",
     "kind" : "struct",
     "comment" : "\n",
-    "line" : 78,
+    "line" : 143,
     "char" : 1,
     "members" : [
      {
@@ -2707,7 +2927,7 @@
       "kind" : "variable",
       "protection" : "private",
       "comment" : "\n",
-      "line" : 82,
+      "line" : 147,
       "char" : 7,
       "deco" : "b",
       "offset" : 0
@@ -2717,7 +2937,7 @@
       "kind" : "variable",
       "protection" : "private",
       "comment" : "\n",
-      "line" : 86,
+      "line" : 151,
       "char" : 12,
       "deco" : "PS6gendoc6modmgr7PkgInfo",
       "offset" : 8
@@ -2727,7 +2947,7 @@
       "kind" : "variable",
       "protection" : "private",
       "comment" : "\n",
-      "line" : 88,
+      "line" : 153,
       "char" : 13,
       "deco" : "PS6gendoc6modmgr7ModInfo",
       "offset" : 8
@@ -2736,128 +2956,185 @@
       "name" : "this",
       "kind" : "constructor",
       "comment" : "\n",
-      "line" : 92,
+      "line" : 157,
       "char" : 2,
-      "deco" : "FNcNfNkKS6gendoc6modmgr7ModInfoZSQyQt20PackageAndModuleData",
-      "originalType" : "ref @safe (return ref ModInfo modInfo)",
+      "deco" : "FNcNfMNkKS6gendoc6modmgr7ModInfoZSQyQt20PackageAndModuleData",
+      "originalType" : "ref @safe (return ref scope ModInfo modInfo)",
       "parameters" : [
        {
         "name" : "modInfo",
         "deco" : "S6gendoc6modmgr7ModInfo",
         "storageClass" : [
+         "scope",
          "ref",
          "return"
         ]
        }
       ],
-      "endline" : 96,
+      "endline" : 161,
       "endchar" : 2
      },
      {
       "name" : "this",
       "kind" : "constructor",
       "comment" : "\n",
-      "line" : 99,
+      "line" : 164,
       "char" : 2,
-      "deco" : "FNcNfNkKS6gendoc6modmgr7PkgInfoZSQyQt20PackageAndModuleData",
-      "originalType" : "ref @safe (return ref PkgInfo d)",
+      "deco" : "FNcNfMNkKS6gendoc6modmgr7PkgInfoZSQyQt20PackageAndModuleData",
+      "originalType" : "ref @safe (return ref scope PkgInfo d)",
       "parameters" : [
        {
         "name" : "d",
         "deco" : "S6gendoc6modmgr7PkgInfo",
         "storageClass" : [
+         "scope",
          "ref",
          "return"
         ]
        }
       ],
-      "endline" : 103,
+      "endline" : 168,
+      "endchar" : 2
+     },
+     {
+      "name" : "this",
+      "kind" : "constructor",
+      "comment" : "\n",
+      "line" : 171,
+      "char" : 2,
+      "deco" : "xFNcNfMNkKxS6gendoc6modmgr7ModInfoZxSQzQu20PackageAndModuleData",
+      "originalType" : "const ref @safe (return ref scope const ModInfo modInfo)",
+      "parameters" : [
+       {
+        "name" : "modInfo",
+        "deco" : "xS6gendoc6modmgr7ModInfo",
+        "storageClass" : [
+         "scope",
+         "ref",
+         "return"
+        ]
+       }
+      ],
+      "endline" : 175,
+      "endchar" : 2
+     },
+     {
+      "name" : "this",
+      "kind" : "constructor",
+      "comment" : "\n",
+      "line" : 178,
+      "char" : 2,
+      "deco" : "xFNcNfMNkKxS6gendoc6modmgr7PkgInfoZxSQzQu20PackageAndModuleData",
+      "originalType" : "const ref @safe (return ref scope const PkgInfo d)",
+      "parameters" : [
+       {
+        "name" : "d",
+        "deco" : "xS6gendoc6modmgr7PkgInfo",
+        "storageClass" : [
+         "scope",
+         "ref",
+         "return"
+        ]
+       }
+      ],
+      "endline" : 182,
       "endchar" : 2
      },
      {
       "name" : "name",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 106,
+      "line" : 185,
       "char" : 9,
       "deco" : "xFNdNfZAya",
-      "endline" : 112,
+      "endline" : 191,
       "endchar" : 2
      },
      {
       "name" : "isPackage",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 115,
+      "line" : 194,
       "char" : 7,
       "deco" : "xFNdNfZb",
-      "endline" : 118,
+      "endline" : 197,
       "endchar" : 2
      },
      {
       "name" : "isModule",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 121,
+      "line" : 200,
       "char" : 7,
       "deco" : "xFNdNfZb",
-      "endline" : 124,
+      "endline" : 203,
       "endchar" : 2
      },
      {
       "name" : "isPackageModule",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 127,
+      "line" : 206,
       "char" : 7,
       "deco" : "xFNdNfZb",
-      "endline" : 130,
+      "endline" : 209,
       "endchar" : 2
      },
      {
       "name" : "packageInfo",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 133,
+      "line" : 212,
       "char" : 21,
       "deco" : "NgFNcNdNfZNgS6gendoc6modmgr7PkgInfo",
-      "endline" : 137,
+      "endline" : 216,
       "endchar" : 2
      },
      {
       "name" : "moduleInfo",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 140,
+      "line" : 219,
       "char" : 21,
       "deco" : "NgFNcNdNfZNgS6gendoc6modmgr7ModInfo",
-      "endline" : 146,
+      "endline" : 225,
       "endchar" : 2
      },
      {
       "name" : "children",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 149,
+      "line" : 228,
       "char" : 32,
       "deco" : "NgFNdNeZANgS6gendoc6modmgr20PackageAndModuleData",
-      "endline" : 161,
+      "endline" : 240,
       "endchar" : 2
      }
     ]
    },
    {
+    "name" : "__unittest_L243_C7",
+    "kind" : "function",
+    "line" : 243,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 256,
+    "endchar" : 1
+   },
+   {
     "name" : "PackageAndModuleRange",
     "kind" : "struct",
     "comment" : "\n",
-    "line" : 169,
+    "line" : 256,
     "char" : 1,
     "members" : [
      {
       "name" : "_datas",
       "kind" : "variable",
       "protection" : "private",
-      "line" : 172,
+      "line" : 259,
       "char" : 27,
       "deco" : "AAS6gendoc6modmgr20PackageAndModuleData",
       "offset" : 0
@@ -2866,7 +3143,7 @@
       "name" : "this",
       "kind" : "constructor",
       "comment" : "\n",
-      "line" : 178,
+      "line" : 265,
       "char" : 2,
       "deco" : "FNcAS6gendoc6modmgr20PackageAndModuleDataZSQBmQBi21PackageAndModuleRange",
       "originalType" : "ref (PackageAndModuleData[] pkgs)",
@@ -2876,14 +3153,14 @@
         "deco" : "AS6gendoc6modmgr20PackageAndModuleData"
        }
       ],
-      "endline" : 181,
+      "endline" : 268,
       "endchar" : 2
      },
      {
       "name" : "this",
       "kind" : "constructor",
       "comment" : "\n",
-      "line" : 185,
+      "line" : 272,
       "char" : 2,
       "deco" : "FNcAS6gendoc6modmgr7PkgInfoZSQyQt21PackageAndModuleRange",
       "originalType" : "ref (PkgInfo[] pkgs)",
@@ -2893,53 +3170,86 @@
         "deco" : "AS6gendoc6modmgr7PkgInfo"
        }
       ],
-      "endline" : 193,
+      "endline" : 280,
+      "endchar" : 2
+     },
+     {
+      "name" : "this",
+      "kind" : "constructor",
+      "comment" : "ditto\n",
+      "line" : 282,
+      "char" : 2,
+      "deco" : "xFNcNfMNkKxAS6gendoc6modmgr7PkgInfoZxSQzQu21PackageAndModuleRange",
+      "originalType" : "const ref @safe (return ref scope const PkgInfo[] pkgs)",
+      "parameters" : [
+       {
+        "name" : "pkgs",
+        "deco" : "xAS6gendoc6modmgr7PkgInfo",
+        "storageClass" : [
+         "scope",
+         "ref",
+         "return"
+        ]
+       }
+      ],
+      "endline" : 290,
       "endchar" : 2
      },
      {
       "name" : "front",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 196,
+      "line" : 294,
       "char" : 30,
       "deco" : "NgFNdZNgS6gendoc6modmgr20PackageAndModuleData",
-      "endline" : 199,
+      "endline" : 297,
       "endchar" : 2
      },
      {
       "name" : "popFront",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 201,
+      "line" : 299,
       "char" : 7,
       "deco" : "FZv",
-      "endline" : 219,
+      "endline" : 317,
       "endchar" : 2
      },
      {
       "name" : "empty",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 221,
+      "line" : 319,
       "char" : 7,
       "deco" : "xFNdZb",
-      "endline" : 224,
+      "endline" : 322,
       "endchar" : 2
      }
     ]
    },
    {
+    "name" : "__unittest_L325_C7",
+    "kind" : "function",
+    "line" : 325,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 335,
+    "endchar" : 1
+   },
+   {
     "name" : "DubPkgInfo",
     "kind" : "struct",
     "comment" : "\n",
-    "line" : 232,
+    "line" : 335,
     "char" : 1,
     "members" : [
      {
       "name" : "name",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 235,
+      "line" : 338,
       "char" : 11,
       "deco" : "Aya",
       "offset" : 0
@@ -2948,7 +3258,7 @@
       "name" : "packageVersion",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 237,
+      "line" : 340,
       "char" : 11,
       "deco" : "Aya",
       "offset" : 16
@@ -2957,7 +3267,7 @@
       "name" : "root",
       "kind" : "variable",
       "comment" : "$(LREF PkgInfo)\n",
-      "line" : 239,
+      "line" : 342,
       "char" : 11,
       "deco" : "S6gendoc6modmgr7PkgInfo",
       "offset" : 32
@@ -2966,7 +3276,7 @@
       "name" : "dir",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 241,
+      "line" : 344,
       "char" : 11,
       "deco" : "Aya",
       "offset" : 208
@@ -2975,7 +3285,7 @@
       "name" : "options",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 243,
+      "line" : 346,
       "char" : 11,
       "deco" : "AAya",
       "offset" : 224
@@ -2984,7 +3294,7 @@
       "name" : "this",
       "kind" : "constructor",
       "comment" : "\n",
-      "line" : 246,
+      "line" : 349,
       "char" : 2,
       "deco" : "FNcNfAyaQdQfAQiZS6gendoc6modmgr10DubPkgInfo",
       "originalType" : "ref @safe (string dubPkgName, string ver, string rootDir, string[] opts)",
@@ -3006,27 +3316,57 @@
         "deco" : "AAya"
        }
       ],
-      "endline" : 253,
+      "endline" : 356,
+      "endchar" : 2
+     },
+     {
+      "name" : "dup",
+      "kind" : "function",
+      "comment" : "Duplicate\n",
+      "line" : 359,
+      "char" : 13,
+      "deco" : "xFNdNfZS6gendoc6modmgr10DubPkgInfo",
+      "endline" : 368,
       "endchar" : 2
      },
      {
       "name" : "entries",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 256,
+      "line" : 371,
+      "char" : 24,
+      "deco" : "FNeZS6gendoc6modmgr21PackageAndModuleRange",
+      "endline" : 374,
+      "endchar" : 2
+     },
+     {
+      "name" : "entries",
+      "kind" : "function",
+      "comment" : "ditto\n",
+      "line" : 376,
       "char" : 31,
-      "deco" : "NgFNeZNgS6gendoc6modmgr21PackageAndModuleRange",
-      "endline" : 259,
+      "deco" : "xFNeZxS6gendoc6modmgr21PackageAndModuleRange",
+      "endline" : 380,
       "endchar" : 2
      },
      {
       "name" : "children",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 261,
+      "line" : 382,
+      "char" : 25,
+      "deco" : "FNeZAS6gendoc6modmgr20PackageAndModuleData",
+      "endline" : 385,
+      "endchar" : 2
+     },
+     {
+      "name" : "children",
+      "kind" : "function",
+      "comment" : "\n",
+      "line" : 387,
       "char" : 32,
-      "deco" : "NgFNeZANgS6gendoc6modmgr20PackageAndModuleData",
-      "endline" : 264,
+      "deco" : "xFNeZAxS6gendoc6modmgr20PackageAndModuleData",
+      "endline" : 390,
       "endchar" : 2
      }
     ]
@@ -3035,7 +3375,7 @@
     "name" : "moduleSort",
     "kind" : "function",
     "comment" : "\n",
-    "line" : 268,
+    "line" : 394,
     "char" : 6,
     "deco" : "FNfKAS6gendoc6modmgr20PackageAndModuleDataZv",
     "parameters" : [
@@ -3047,21 +3387,40 @@
       ]
      }
     ],
-    "endline" : 272,
+    "endline" : 398,
+    "endchar" : 1
+   },
+   {
+    "name" : "moduleSort",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 400,
+    "char" : 6,
+    "deco" : "FNeKAxS6gendoc6modmgr20PackageAndModuleDataZv",
+    "parameters" : [
+     {
+      "name" : "datas",
+      "deco" : "AxS6gendoc6modmgr20PackageAndModuleData",
+      "storageClass" : [
+       "ref"
+      ]
+     }
+    ],
+    "endline" : 406,
     "endchar" : 1
    },
    {
     "name" : "ModuleManager",
     "kind" : "struct",
     "comment" : "\n",
-    "line" : 277,
+    "line" : 411,
     "char" : 1,
     "members" : [
      {
       "name" : "_excludePaths",
       "kind" : "variable",
       "protection" : "private",
-      "line" : 280,
+      "line" : 414,
       "char" : 19,
       "deco" : "AAya",
       "offset" : 0
@@ -3070,7 +3429,7 @@
       "name" : "_excludePatterns",
       "kind" : "variable",
       "protection" : "private",
-      "line" : 281,
+      "line" : 415,
       "char" : 19,
       "deco" : "AS3std5regex8internal2ir__T5RegexTaZQj",
       "offset" : 16
@@ -3079,7 +3438,7 @@
       "name" : "_excludePackages",
       "kind" : "variable",
       "protection" : "private",
-      "line" : 282,
+      "line" : 416,
       "char" : 19,
       "deco" : "AAya",
       "offset" : 32
@@ -3088,7 +3447,7 @@
       "name" : "_excludePackagePatterns",
       "kind" : "variable",
       "protection" : "private",
-      "line" : 283,
+      "line" : 417,
       "char" : 19,
       "deco" : "AS3std5regex8internal2ir__T5RegexTaZQj",
       "offset" : 48
@@ -3097,7 +3456,7 @@
       "name" : "_target",
       "kind" : "variable",
       "protection" : "private",
-      "line" : 284,
+      "line" : 418,
       "char" : 19,
       "deco" : "Aya",
       "offset" : 64
@@ -3106,7 +3465,7 @@
       "name" : "_rootPackages",
       "kind" : "variable",
       "protection" : "private",
-      "line" : 285,
+      "line" : 419,
       "char" : 15,
       "deco" : "AS6gendoc6modmgr10DubPkgInfo",
       "offset" : 80
@@ -3115,7 +3474,7 @@
       "name" : "addRootPackage",
       "kind" : "function",
       "protection" : "private",
-      "line" : 287,
+      "line" : 421,
       "char" : 7,
       "deco" : "FNfAyaQdQfxAAyaZv",
       "originalType" : "@safe void(string pkgName, string pkgVer, string root, in string[] options)",
@@ -3137,14 +3496,14 @@
         "deco" : "xAAya"
        }
       ],
-      "endline" : 291,
+      "endline" : 425,
       "endchar" : 2
      },
      {
       "name" : "addModule",
       "kind" : "function",
       "protection" : "private",
-      "line" : 293,
+      "line" : 427,
       "char" : 7,
       "deco" : "FNfAyaQdS6gendoc6modmgr7ModInfoZv",
       "parameters" : [
@@ -3161,26 +3520,26 @@
         "deco" : "S6gendoc6modmgr7ModInfo"
        }
       ],
-      "endline" : 337,
+      "endline" : 471,
       "endchar" : 2
      },
      {
-      "name" : "__unittest_L338_C8",
+      "name" : "__unittest_L472_C8",
       "kind" : "function",
       "protection" : "private",
-      "line" : 338,
+      "line" : 472,
       "char" : 8,
       "storageClass" : [
        "@safe"
       ],
-      "endline" : 376,
+      "endline" : 514,
       "endchar" : 2
      },
      {
       "name" : "_isExclude",
       "kind" : "function",
       "protection" : "private",
-      "line" : 376,
+      "line" : 514,
       "char" : 7,
       "deco" : "FNfAyaZb",
       "parameters" : [
@@ -3189,14 +3548,14 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 386,
+      "endline" : 524,
       "endchar" : 2
      },
      {
       "name" : "_isExcludePackage",
       "kind" : "function",
       "protection" : "private",
-      "line" : 388,
+      "line" : 526,
       "char" : 7,
       "deco" : "FNfAyaZb",
       "parameters" : [
@@ -3205,14 +3564,14 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 392,
+      "endline" : 530,
       "endchar" : 2
      },
      {
       "name" : "addSources",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 396,
+      "line" : 534,
       "char" : 7,
       "deco" : "FNfAyaQdQfxAAyaxQfZv",
       "originalType" : "@safe void(string dubPkgName, string pkgVer, string root, in string[] files, in string[] options)",
@@ -3238,14 +3597,14 @@
         "deco" : "xAAya"
        }
       ],
-      "endline" : 442,
+      "endline" : 580,
       "endchar" : 2
      },
      {
       "name" : "hasPackage",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 445,
+      "line" : 583,
       "char" : 7,
       "deco" : "xFNfAyaZb",
       "parameters" : [
@@ -3254,14 +3613,14 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 448,
+      "endline" : 586,
       "endchar" : 2
      },
      {
       "name" : "getPackageInfo",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 451,
+      "line" : 589,
       "char" : 21,
       "deco" : "NgFNcNfAyaZNgS6gendoc6modmgr7PkgInfo",
       "parameters" : [
@@ -3270,14 +3629,14 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 456,
+      "endline" : 594,
       "endchar" : 2
      },
      {
       "name" : "getDubPackageInfo",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 458,
+      "line" : 596,
       "char" : 24,
       "deco" : "NgFNcNfAyaZNgS6gendoc6modmgr10DubPkgInfo",
       "parameters" : [
@@ -3286,35 +3645,35 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 463,
+      "endline" : 601,
       "endchar" : 2
      },
      {
-      "name" : "__unittest_L465_C10",
+      "name" : "__unittest_L603_C10",
       "kind" : "function",
-      "line" : 465,
+      "line" : 603,
       "char" : 10,
       "storageClass" : [
        "@system"
       ],
-      "endline" : 487,
+      "endline" : 625,
       "endchar" : 2
      },
      {
       "name" : "clearSources",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 487,
+      "line" : 625,
       "char" : 7,
       "deco" : "FNfZv",
-      "endline" : 490,
+      "endline" : 628,
       "endchar" : 2
      },
      {
       "name" : "target",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 494,
+      "line" : 632,
       "char" : 7,
       "deco" : "FNdNfAyaZv",
       "parameters" : [
@@ -3323,14 +3682,14 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 497,
+      "endline" : 635,
       "endchar" : 2
      },
      {
       "name" : "exclude",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 500,
+      "line" : 638,
       "char" : 7,
       "deco" : "FxAAyaxQfxQixQlZv",
       "originalType" : "void(in string[] packages, in string[] packagePatterns, in string[] paths, in string[] patterns)",
@@ -3352,16 +3711,16 @@
         "deco" : "xAAya"
        }
       ],
-      "endline" : 510,
+      "endline" : 648,
       "endchar" : 2
      },
      {
       "name" : "dubPackages",
       "kind" : "function",
-      "line" : 512,
+      "line" : 650,
       "char" : 22,
       "deco" : "NgFNdZANgS6gendoc6modmgr10DubPkgInfo",
-      "endline" : 515,
+      "endline" : 653,
       "endchar" : 2
      }
     ]

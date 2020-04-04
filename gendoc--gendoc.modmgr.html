@@ -128,16 +128,38 @@
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".PkgInfo.hasPackageD"></span><div class="quickindex" id="quickindex.PkgInfo.hasPackageD"></div>const nothrow @nogc @property @safe bool <code class="ddoc_psymbol">hasPackageD</code>();
 <br></div></dt>
 <dd><div class="ddoc_summary"><code class="ddoc_keyword">true</code> if package.d module exists</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PkgInfo.dup"></span><div class="quickindex" id="quickindex.PkgInfo.dup"></div>const @property @safe PkgInfo <code class="ddoc_psymbol">dup</code>();
+<br></div></dt>
+<dd><div class="ddoc_summary">Duplicate</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PkgInfo.append"></span><div class="quickindex" id="quickindex.PkgInfo.append"></div>@safe void <code class="ddoc_psymbol">append</code>(in PkgInfo[] <span class="ddoc_param">pkgInfos</span>);
+<br>
+@safe void <code class="ddoc_psymbol">append</code>(ref PkgInfo <span class="ddoc_param">pkgInfo</span>);
+<br>
+@safe void <code class="ddoc_psymbol">append</code>(in ModInfo[] <span class="ddoc_param">modInfos</span>);
+<br></div></dt>
+<dd><div class="ddoc_summary">Append other package information to this information</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PkgInfo.append.2"></span><div class="quickindex" id="quickindex.PkgInfo.append.2"></div>@safe void <code class="ddoc_psymbol">append</code>(ref ModInfo <span class="ddoc_param">modInfo</span>);
+<br></div></dt>
+<dd>
+</dd>
 </div></dl>
 </dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageAndModuleData"></span><div class="quickindex" id="quickindex.PackageAndModuleData"></div>struct <code class="ddoc_psymbol">PackageAndModuleData</code>;
 <br></div></dt>
 <dd>
-<dl class="ddoc_members"><div class="ddoc_struct_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageAndModuleData.this"></span><div class="quickindex" id="quickindex.PackageAndModuleData.this"></div>@safe this(return ref ModInfo <span class="ddoc_param">modInfo</span>);
+<dl class="ddoc_members"><div class="ddoc_struct_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageAndModuleData.this"></span><div class="quickindex" id="quickindex.PackageAndModuleData.this"></div>@safe this(return ref scope ModInfo <span class="ddoc_param">modInfo</span>);
 <br></div></dt>
 <dd>
 </dd>
-<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageAndModuleData.this.2"></span><div class="quickindex" id="quickindex.PackageAndModuleData.this.2"></div>@safe this(return ref PkgInfo <span class="ddoc_param">d</span>);
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageAndModuleData.this.2"></span><div class="quickindex" id="quickindex.PackageAndModuleData.this.2"></div>@safe this(return ref scope PkgInfo <span class="ddoc_param">d</span>);
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageAndModuleData.this.3"></span><div class="quickindex" id="quickindex.PackageAndModuleData.this.3"></div>const @safe this(return ref scope const ModInfo <span class="ddoc_param">modInfo</span>);
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageAndModuleData.this.4"></span><div class="quickindex" id="quickindex.PackageAndModuleData.this.4"></div>const @safe this(return ref scope const PkgInfo <span class="ddoc_param">d</span>);
 <br></div></dt>
 <dd>
 </dd>
@@ -179,6 +201,8 @@
 <dd>
 </dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".PackageAndModuleRange.this.2"></span><div class="quickindex" id="quickindex.PackageAndModuleRange.this.2"></div>this(PkgInfo[] <span class="ddoc_param">pkgs</span>);
+<br>
+const @safe this(return ref scope const PkgInfo[] <span class="ddoc_param">pkgs</span>);
 <br></div></dt>
 <dd>
 </dd>
@@ -222,17 +246,30 @@
 <br></div></dt>
 <dd>
 </dd>
-<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DubPkgInfo.entries"></span><div class="quickindex" id="quickindex.DubPkgInfo.entries"></div>inout @trusted inout(PackageAndModuleRange) <code class="ddoc_psymbol">entries</code>();
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DubPkgInfo.dup"></span><div class="quickindex" id="quickindex.DubPkgInfo.dup"></div>const @property @safe DubPkgInfo <code class="ddoc_psymbol">dup</code>();
+<br></div></dt>
+<dd><div class="ddoc_summary">Duplicate</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DubPkgInfo.entries"></span><div class="quickindex" id="quickindex.DubPkgInfo.entries"></div>@trusted PackageAndModuleRange <code class="ddoc_psymbol">entries</code>();
+<br>
+const @trusted const(PackageAndModuleRange) <code class="ddoc_psymbol">entries</code>();
 <br></div></dt>
 <dd>
 </dd>
-<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DubPkgInfo.children"></span><div class="quickindex" id="quickindex.DubPkgInfo.children"></div>inout @trusted inout(PackageAndModuleData)[] <code class="ddoc_psymbol">children</code>();
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DubPkgInfo.children"></span><div class="quickindex" id="quickindex.DubPkgInfo.children"></div>@trusted PackageAndModuleData[] <code class="ddoc_psymbol">children</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".DubPkgInfo.children.2"></span><div class="quickindex" id="quickindex.DubPkgInfo.children.2"></div>const @trusted const(PackageAndModuleData)[] <code class="ddoc_psymbol">children</code>();
 <br></div></dt>
 <dd>
 </dd>
 </div></dl>
 </dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".moduleSort"></span><div class="quickindex" id="quickindex.moduleSort"></div>@safe void <code class="ddoc_psymbol">moduleSort</code>(ref PackageAndModuleData[] <span class="ddoc_param">datas</span>);
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".moduleSort.2"></span><div class="quickindex" id="quickindex.moduleSort.2"></div>@trusted void <code class="ddoc_psymbol">moduleSort</code>(ref const(PackageAndModuleData)[] <span class="ddoc_param">datas</span>);
 <br></div></dt>
 <dd>
 </dd>
