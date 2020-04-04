@@ -86,13 +86,13 @@ struct PkgInfo
 	}
 	
 	/// Append other package information to this information
-	void append(in PkgInfo[] pkgInfos)
+	void append(in PkgInfo[] pkgInfos) @safe
 	{
 		foreach (info; pkgInfos)
 			append(info);
 	}
 	/// ditto
-	void append(in ref PkgInfo pkgInfo)
+	void append(in ref PkgInfo pkgInfo) @safe
 	{
 		foreach (ref pkg; packages)
 		{
@@ -109,13 +109,13 @@ struct PkgInfo
 	}
 	
 	/// ditto
-	void append(in ModInfo[] modInfos)
+	void append(in ModInfo[] modInfos) @safe
 	{
 		foreach (info; modInfos)
 			append(info);
 	}
 	///
-	void append(in ref ModInfo modInfo)
+	void append(in ref ModInfo modInfo) @safe
 	{
 		foreach (ref mod; modules)
 		{
@@ -127,6 +127,14 @@ struct PkgInfo
 		}
 		modules ~= modInfo;
 	}
+}
+
+@safe unittest
+{
+	auto pkgInfo = PkgInfo("Pkg");
+	auto modInfo = ModInfo("mod");
+	pkgInfo.append([modInfo]);
+	pkgInfo.append(modInfo);
 }
 
 /***************************************************************
@@ -232,7 +240,15 @@ public:
 	}
 }
 
-
+@safe unittest
+{
+	const PkgInfo pi;
+	const ModInfo mi;
+	auto pmDat1 = const(PackageAndModuleData)(pi);
+	auto pmDat2 = const(PackageAndModuleData)(mi);
+	auto ch = pmDat1.children;
+	ch.moduleSort();
+}
 
 /*******************************************************************************
  * 
@@ -306,6 +322,11 @@ public:
 	}
 }
 
+@safe unittest
+{
+	const(PkgInfo)[] pkgInfos;
+	auto pr = const PackageAndModuleRange(pkgInfos);
+}
 
 
 /*******************************************************************************
@@ -484,6 +505,10 @@ private:
 		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages[0].modules[1].src == "test2.d");
 		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages[1].modules.length == 0);
 		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages[1].packageD.src == "package.d");
+		const pkgs = modmgr._rootPackages;
+		auto children = pkgs[0].children;
+		auto entries = pkgs[0].entries;
+		children.moduleSort();
 	}
 	
 	bool _isExclude(string file) @safe
