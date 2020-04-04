@@ -211,9 +211,34 @@ struct GendocConfig
 	///
 	void fixPath(string dirPath)
 	{
-		import std.algorithm, std.path;
+		import std.algorithm, std.path, std.file, std.process;
+		import gendoc.misc;
 		ddocs      = ddocs.remove!(a => a.length == 0);
 		sourceDocs = sourceDocs.remove!(a => a.length == 0);
+		auto map = [
+			"GENDOC_DIR":  thisExePath.dirName.absolutePath,
+			"PROJECT_DIR": dirPath.absolutePath,
+			"WORK_DIR":    getcwd.absolutePath];
+		bool mapFunc(ref string arg, MacroType type)
+		{
+			if (auto val = map.get(arg, null))
+			{
+				arg = val;
+				return true;
+			}
+			if (auto val = environment.get(arg, null))
+			{
+				arg = val;
+				return true;
+			}
+			return false;
+		}
+		foreach (ref d; ddocs)
+			d = d.expandMacro(&mapFunc);
+		foreach (ref d; sourceDocs)
+			d = d.expandMacro(&mapFunc);
+		target = target.expandMacro(&mapFunc);
+		
 		foreach (ref d; ddocs)
 		{
 			if (!d.isAbsolute)
@@ -444,8 +469,12 @@ struct GendocConfig
 		// default settings
 		if (ddocs.length == 0 && root.buildPath("ddoc").exists)
 			ddocs = [root.buildPath("ddoc")];
+		if (ddocs.length == 0 && thisExePath.dirName.buildPath("ddoc").exists)
+			ddocs = [thisExePath.dirName.buildPath("ddoc")];
 		if (sourceDocs.length == 0 && root.buildPath("source_docs").exists)
 			sourceDocs = [root.buildPath("source_docs")];
+		if (sourceDocs.length == 0 && thisExePath.dirName.buildPath("source_docs").exists)
+			sourceDocs = [thisExePath.dirName.buildPath("source_docs")];
 		if (target.length == 0)
 			target = root.buildPath("docs");
 		

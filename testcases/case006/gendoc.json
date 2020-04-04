@@ -1,0 +1,4 @@
+{
+	"target": "${PROJECT_DIR}/docs",
+	"combinedDubPackagePatterns":{"subpkg": ["subpkg"]}
+}
