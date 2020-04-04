@@ -425,19 +425,30 @@ void integrationTest(string[] exDubOpts = null)
 		}
 		return false;
 	}
-	bool subPkgTest(string pkgName)
+	bool subPkgTest(string pkgName, string confName)
 	{
 		auto dubCommonArgs = [
 			"-a",         config.targetArch,
-			"--compiler", config.targetCompiler] ~ exDubOpts;
-		auto desc = cmd(["dub", "describe", ":" ~ pkgName, "--verror"] ~ dubCommonArgs, null, env).parseJSON();
+			"--compiler", config.targetCompiler,
+			"-b",         "cov"] ~ exDubOpts;
+		string descStr;
+		try
+		{
+			descStr = cmd(["dub", "describe", ":" ~ pkgName, "-c", confName, "--verror"] ~ dubCommonArgs, null, env);
+			dubCommonArgs ~= ["-c", confName];
+		}
+		catch (Exception)
+		{
+			descStr = cmd(["dub", "describe", ":" ~ pkgName, "--verror"] ~ dubCommonArgs, null, env);
+		}
+		auto desc = descStr.parseJSON();
 		if (desc["packages"][0]["targetType"].str != "executable")
 			return false;
 		auto targetExe = buildNormalizedPath(
 			desc["packages"][0]["path"].str,
 			desc["packages"][0]["targetPath"].str,
 			desc["packages"][0]["targetFileName"].str);
-		exec(["dub", "build", ":" ~ pkgName, "-b=cov"] ~ dubCommonArgs, null, env);
+		exec(["dub", "build", ":" ~ pkgName] ~ dubCommonArgs, null, env);
 		exec([targetExe], null, env);
 		return true;
 	}
@@ -475,7 +486,7 @@ void integrationTest(string[] exDubOpts = null)
 		{
 			auto res = Result(pkgName);
 			try
-				res.executed = subPkgTest(pkgName);
+				res.executed = subPkgTest(pkgName, "unittest");
 			catch (Exception e)
 				res.exception = e;
 			subpkgTests ~= res;

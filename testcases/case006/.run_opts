@@ -1,0 +1,22 @@
+[
+	{
+		"name": "normal",
+		"dubWorkDir": "${project_root}",
+		"dubArgs": [
+			"-c=unittest"
+		],
+		"workDir": "${test_dir}"
+	},
+	{
+		"name": "extra",
+		"dubWorkDir": "${project_root}",
+		"dubArgs": [
+			"-c=unittest"
+		],
+		"workDir": "${project_root}",
+		"args": [
+			"--root=${test_dir}"
+		],
+		"env": {"PJDIR": "${project_root}"}
+	}
+]

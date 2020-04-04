@@ -70,6 +70,71 @@ struct PkgInfo
 	{
 		return packageD.src.length > 0;
 	}
+	
+	/// Duplicate
+	PkgInfo dup() @safe const @property
+	{
+		import std.array;
+		PkgInfo ret;
+		ret.name       = name;
+		ret.dubPkgName = dubPkgName;
+		ret.pkgName    = pkgName;
+		ret.packageD   = packageD;
+		ret.modules    = modules.dup;
+		ret.packages   = packages.map!(a => a.dup).array;
+		return ret;
+	}
+	
+	/// Append other package information to this information
+	void append(in PkgInfo[] pkgInfos) @safe
+	{
+		foreach (info; pkgInfos)
+			append(info);
+	}
+	/// ditto
+	void append(in ref PkgInfo pkgInfo) @safe
+	{
+		foreach (ref pkg; packages)
+		{
+			if (pkg.pkgName == pkgInfo.pkgName)
+			{
+				pkg.append(pkgInfo.modules);
+				pkg.append(pkgInfo.packages);
+				if (pkg.packageD == ModInfo.init && pkgInfo.packageD != ModInfo.init)
+					pkg.packageD = pkgInfo.packageD;
+				return;
+			}
+		}
+		packages ~= pkgInfo.dup;
+	}
+	
+	/// ditto
+	void append(in ModInfo[] modInfos) @safe
+	{
+		foreach (info; modInfos)
+			append(info);
+	}
+	///
+	void append(in ref ModInfo modInfo) @safe
+	{
+		foreach (ref mod; modules)
+		{
+			if (mod.fullModuleName == modInfo.fullModuleName)
+			{
+				mod = modInfo;
+				return;
+			}
+		}
+		modules ~= modInfo;
+	}
+}
+
+@safe unittest
+{
+	auto pkgInfo = PkgInfo("Pkg");
+	auto modInfo = ModInfo("mod");
+	pkgInfo.append([modInfo]);
+	pkgInfo.append(modInfo);
 }
 
 /***************************************************************
@@ -89,17 +154,31 @@ private:
 	}
 public:
 	///
-	this(return ref ModInfo modInfo) @safe
+	this(ref return scope ModInfo modInfo) @safe
 	{
 		_isPackage = false;
 		() @trusted { _mod = &modInfo; }();
 	}
 	
 	///
-	this(return ref PkgInfo d) @safe
+	this(ref return scope PkgInfo d) @safe
 	{
 		_isPackage = true;
 		() @trusted { _pkg = &d; }();
+	}
+	
+	///
+	this(ref return scope const ModInfo modInfo) const @safe
+	{
+		_isPackage = false;
+		() @trusted const { *cast(const(ModInfo)**)&((cast(PackageAndModuleData*)&this)._mod) = &modInfo; }();
+	}
+	
+	///
+	this(ref return scope const PkgInfo d) const @safe
+	{
+		_isPackage = true;
+		() @trusted const { *cast(const(PkgInfo)**)&((cast(PackageAndModuleData*)&this)._pkg) = &d; }();
 	}
 	
 	///
@@ -161,7 +240,15 @@ public:
 	}
 }
 
-
+@safe unittest
+{
+	const PkgInfo pi;
+	const ModInfo mi;
+	auto pmDat1 = const(PackageAndModuleData)(pi);
+	auto pmDat2 = const(PackageAndModuleData)(mi);
+	auto ch = pmDat1.children;
+	ch.moduleSort();
+}
 
 /*******************************************************************************
  * 
@@ -191,6 +278,17 @@ public:
 		tmp.moduleSort();
 		_datas = [tmp];
 	}
+	/// ditto
+	this(ref return scope const PkgInfo[] pkgs) @safe const
+	{
+		const(PackageAndModuleData)[] tmp;
+		import std.algorithm;
+		foreach (ref pkg; pkgs)
+			tmp ~= const PackageAndModuleData(pkg);
+		tmp.moduleSort();
+		_datas = [tmp];
+	}
+	
 	
 	///
 	inout(PackageAndModuleData) front() inout @property
@@ -224,6 +322,11 @@ public:
 	}
 }
 
+@safe unittest
+{
+	const(PkgInfo)[] pkgInfos;
+	auto pr = const PackageAndModuleRange(pkgInfos);
+}
 
 
 /*******************************************************************************
@@ -252,15 +355,38 @@ struct DubPkgInfo
 		options        = opts;
 	}
 	
-	///
-	inout(PackageAndModuleRange) entries() inout @trusted
+	/// Duplicate
+	DubPkgInfo dup() @safe const @property
 	{
-		return cast(inout)PackageAndModuleRange(cast(PkgInfo[])[root]);
+		DubPkgInfo ret;
+		ret.name           = name;
+		ret.packageVersion = packageVersion;
+		ret.root           = root.dup;
+		ret.dir            = dir;
+		ret.options        = options.dup;
+		return ret;
+	}
+	
+	///
+	PackageAndModuleRange entries() @trusted
+	{
+		return PackageAndModuleRange((&root)[0..1]);
+	}
+	/// ditto
+	const(PackageAndModuleRange) entries() const @trusted
+	{
+		auto tmp = (&root)[0..1];
+		return const PackageAndModuleRange(tmp);
 	}
 	///
-	inout(PackageAndModuleData)[] children() inout @trusted
+	PackageAndModuleData[] children() @trusted
 	{
-		return cast(inout)PackageAndModuleData(*cast(PkgInfo*)&root).children;
+		return PackageAndModuleData(root).children;
+	}
+	///
+	const(PackageAndModuleData)[] children() const @trusted
+	{
+		return (const PackageAndModuleData(root)).children;
 	}
 }
 
@@ -269,6 +395,14 @@ void moduleSort(ref PackageAndModuleData[] datas) @safe
 {
 	import std.algorithm, std.string;
 	std.algorithm.sort!((a, b) => icmp(a.name, b.name) < 0)(datas);
+}
+/// 
+void moduleSort(ref const(PackageAndModuleData)[] datas) @trusted
+{
+	import std.algorithm, std.string;
+	auto tmp = (cast(PackageAndModuleData[])datas).dup;
+	std.algorithm.sort!((a, b) => icmp(a.name, b.name) < 0)(tmp);
+	datas = tmp;
 }
 
 /***************************************************************
@@ -371,6 +505,10 @@ private:
 		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages[0].modules[1].src == "test2.d");
 		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages[1].modules.length == 0);
 		assert(modmgr._rootPackages[0].root.packages[0].packages[0].packages[1].packageD.src == "package.d");
+		const pkgs = modmgr._rootPackages;
+		auto children = pkgs[0].children;
+		auto entries = pkgs[0].entries;
+		children.moduleSort();
 	}
 	
 	bool _isExclude(string file) @safe

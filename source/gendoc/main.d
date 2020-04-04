@@ -194,9 +194,12 @@ private void setupDocumentGenerator(
 	ref DocumentGenerator generator, const ref Config cfg, const ref ModuleManager modmgr)
 {
 	import std.stdio, std.path, std.string;
+	
+	generator.combinedDubPackagePatterns = cfg.gendocData.combinedDubPackagePatterns;
+	
 	if (!cfg.quiet)
 	{
-		generator.preGenerateCallback = (string pkgName, ModInfo[] modInfo, string[] args)
+		generator.preGenerateCallback = (string pkgName, in ModInfo[] modInfo, in string[] args)
 		{
 			if (cfg.varbose)
 			{
@@ -216,7 +219,7 @@ private void setupDocumentGenerator(
 			}
 		};
 		
-		generator.postGenerateCallback = (string pkgName, ModInfo[] modInfo, int status, string resMsg)
+		generator.postGenerateCallback = (string pkgName, in ModInfo[] modInfo, int status, string resMsg)
 		{
 			if (status == 0)
 			{

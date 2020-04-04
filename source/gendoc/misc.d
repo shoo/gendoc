@@ -21,7 +21,7 @@ enum MacroType
 /*******************************************************************************
  * Expands macro variables contained within a str
  */
-T expandMacro(T, Func)(in T str, Func mapFunc)
+T expandMacro(bool keepUnmatched, T, Func)(in T str, Func mapFunc)
 	if (isSomeString!T
 	&& isCallable!Func
 	&& is(ReturnType!Func: bool)
@@ -32,7 +32,7 @@ T expandMacro(T, Func)(in T str, Func mapFunc)
 	bool func(ref T arg, MacroType type, bool expandRecurse)
 	{
 		if (expandRecurse)
-			arg = arg.expandMacroImpl!(T, func)();
+			arg = arg.expandMacroImpl!(T, func, keepUnmatched)();
 		static if (ParameterTypeTuple!Func.length == 1)
 		{
 			return mapFunc(arg);
@@ -42,11 +42,11 @@ T expandMacro(T, Func)(in T str, Func mapFunc)
 			return mapFunc(arg, type);
 		}
 	}
-	return str.expandMacroImpl!(T, func)();
+	return str.expandMacroImpl!(T, func, keepUnmatched)();
 }
 
 /// ditto
-T expandMacro(T, Func)(in T str, Func mapFunc)
+T expandMacro(bool keepUnmatched, T, Func)(in T str, Func mapFunc)
 	if (isSomeString!T
 	&& isCallable!Func
 	&& is(ReturnType!Func: T)
@@ -56,7 +56,7 @@ T expandMacro(T, Func)(in T str, Func mapFunc)
 	bool func(ref T arg, MacroType type, bool expandRecurse)
 	{
 		if (expandRecurse)
-			arg = arg.expandMacroImpl!(T, func)();
+			arg = arg.expandMacroImpl!(T, func, keepUnmatched)();
 		static if (ParameterTypeTuple!Func.length == 1)
 		{
 			arg = mapFunc(arg);
@@ -68,18 +68,18 @@ T expandMacro(T, Func)(in T str, Func mapFunc)
 		return true;
 	}
 	
-	return str.expandMacroImpl!(T, func)();
+	return str.expandMacroImpl!(T, func, keepUnmatched)();
 }
 
 /// ditto
-T expandMacro(T, MAP)(in T str, MAP map)
+T expandMacro(bool keepUnmatched, T, MAP)(in T str, MAP map)
 	if (isSomeString!T
 	&& is(typeof({ auto p = T.init in map; T tmp = *p; })))
 {
 	bool func(ref T arg, MacroType type, bool expandRecurse)
 	{
 		if (expandRecurse)
-			arg = arg.expandMacroImpl!(T, func)();
+			arg = arg.expandMacroImpl!(T, func, keepUnmatched)();
 		if (auto p = arg in map)
 		{
 			arg = *p;
@@ -87,8 +87,12 @@ T expandMacro(T, MAP)(in T str, MAP map)
 		}
 		return false;
 	}
-	return str.expandMacroImpl!(T, func)();
+	return str.expandMacroImpl!(T, func, keepUnmatched)();
 }
+
+/// ditto
+alias expandMacro = (a, b) => expandMacro!false(a, b);
+
 
 
 private size_t searchEnd1(Ch)(const(Ch)[] str)
@@ -173,7 +177,7 @@ private size_t searchEnd2(Ch)(const(Ch)[] str, Ch ch)
 	assert(searchEnd2("abcde_${f}gh)xx", ')') == 12);
 }
 
-private T expandMacroImpl(T, alias func)(in T str)
+private T expandMacroImpl(T, alias func, bool keepUnmatched = false)(in T str)
 	if (isSomeString!T
 	&& isCallable!func
 	&& is(ReturnType!func: bool)
@@ -208,13 +212,12 @@ private T expandMacroImpl(T, alias func)(in T str)
 			if (func(tmp, MacroType.expr, true))
 			{
 				result ~= tmp;
-				rest    = rest[idxEnd+1..$];
 			}
-			else
+			else static if (keepUnmatched)
 			{
 				result ~= head ~ tmp ~ rest[idxEnd..idxEnd+1];
-				rest    = rest[idxEnd+1..$];
 			}
+			rest    = rest[idxEnd+1..$];
 		}
 		else if (rest[idxBegin+1] == '{')
 		{
@@ -228,13 +231,12 @@ private T expandMacroImpl(T, alias func)(in T str)
 			if (func(tmp, MacroType.str, true))
 			{
 				result ~= tmp;
-				rest    = rest[idxEnd+1..$];
 			}
-			else
+			else static if (keepUnmatched)
 			{
 				result ~= head ~ tmp ~ rest[idxEnd..idxEnd+1];
-				rest    = rest[idxEnd+1..$];
 			}
+			rest    = rest[idxEnd+1..$];
 		}
 		else if (rest[idxBegin+1] == '$')
 		{
@@ -252,13 +254,12 @@ private T expandMacroImpl(T, alias func)(in T str)
 			if (func(tmp, MacroType.str, false))
 			{
 				result ~= tmp;
-				rest    = rest[idxEnd..$];
 			}
-			else
+			else static if (keepUnmatched)
 			{
 				result ~= head ~ tmp;
-				rest    = rest[idxEnd..$];
 			}
+			rest    = rest[idxEnd..$];
 		}
 	}
 	assert(0);
@@ -267,12 +268,14 @@ private T expandMacroImpl(T, alias func)(in T str)
 @system unittest
 {
 	import std.meta;
-	assert("x${$(aaa)x}${$(aaa)y}".expandMacro(["aaa": "AAA", "AAAx": "BBB"]) == "xBBB${AAAy}");
+	assert("x${$(aaa)x}${$(aaa)y}".expandMacro(["aaa": "AAA", "AAAx": "BBB"]) == "xBBB");
+	assert("x${$(aaa)x}${$(aaa)y}".expandMacro!true(["aaa": "AAA", "AAAx": "BBB"]) == "xBBB${AAAy}");
 	static foreach (T; AliasSeq!(string, wstring, dstring))
 	{{
 		T str = "test$(xxx)${zzz}test$$${yyy}";
 		T[T] map = ["xxx": "XXX", "yyy": "YYY"];
-		assert(str.expandMacro(map) == "testXXX${zzz}test$YYY");
+		assert(str.expandMacro(map) == "testXXXtest$YYY");
+		assert(str.expandMacro!true(map) == "testXXX${zzz}test$YYY");
 		assert(expandMacro(cast(T)"test$(yyy", map) == "test$(yyy");
 		assert(expandMacro(cast(T)"test${zzz", map) == "test${zzz");
 		
@@ -300,10 +303,13 @@ private T expandMacroImpl(T, alias func)(in T str)
 			}
 			return false;
 		};
-		assert(expandMacro(cast(T)"xxx$yyy$(abc${xxx})", bar) == "xxx$yyyyyy");
-		assert(expandMacro(cast(T)"xxx$(aaa)", bar) == "xxx$(aaa)");
+		assert(expandMacro(cast(T)"xxx$yyy$(abc${xxx})", bar) == "xxxyyy");
+		assert(expandMacro!true(cast(T)"xxx$yyy$(abc${xxx})", bar) == "xxx$yyyyyy");
+		assert(expandMacro(cast(T)"xxx$(aaa)", bar) == "xxx");
+		assert(expandMacro!true(cast(T)"xxx$(aaa)", bar) == "xxx$(aaa)");
 		assert(expandMacro(cast(T)"xxx$$(aaa)", bar) == "xxx$(aaa)");
-		assert(expandMacro(cast(T)"xxx$(a$$aa)", bar) == "xxx$(a$aa)");
+		assert(expandMacro(cast(T)"xxx$(a$$aa)", bar) == "xxx");
+		assert(expandMacro!true(cast(T)"xxx$(a$$aa)", bar) == "xxx$(a$aa)");
 		assert(expandMacro(cast(T)"xxx$(a$(aa", bar) == "xxx$(a$(aa");
 		assert(expandMacro(cast(T)"xxx$(a$...", bar) == "xxx$(a$...");
 		assert(expandMacro(cast(T)"xxx$(a$", bar) == "xxx$(a$");
@@ -335,8 +341,10 @@ private T expandMacroImpl(T, alias func)(in T str)
 			}
 			return false;
 		};
-		assert(expandMacro(cast(T)"xxx$yyy$(abc${xxx})", bar2) == "xxx$yyyyyy2");
-		assert(expandMacro(cast(T)"xxx$yyy$(abc${xxx}", bar2) == "xxx$yyy$(abc${xxx}");
+		assert(expandMacro(cast(T)"xxx$yyy$(abc${xxx})", bar2) == "xxxyyy2");
+		assert(expandMacro!true(cast(T)"xxx$yyy$(abc${xxx})", bar2) == "xxx$yyyyyy2");
+		assert(expandMacro(cast(T)"xxx$yyy$(abc${xxx}", bar2) == "xxx$(abc${xxx}");
+		assert(expandMacro!true(cast(T)"xxx$yyy$(abc${xxx}", bar2) == "xxx$yyy$(abc${xxx}");
 	}}
 }
 
