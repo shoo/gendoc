@@ -217,7 +217,9 @@ jobs:
         with:
           compiler: ldc-latest
       - name: Install gcc-multilib
-        run: sudo apt-get install gcc-multilib
+        run: |
+          sudo apt update
+          sudo apt install gcc-multilib
       - name: Run unit tests
         run: rdmd ./.github/runner.d -a=x86 --mode=unit-test
       - name: Build tests
