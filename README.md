@@ -164,7 +164,15 @@ Example:
     "excludePackagePatterns": [
         "(?:(?<=[^:]+/)|^)_[^/]+$",
         ":docs?$"
-    ]
+    ],
+    
+    "//": "Specify pair of key and regex pattern that exactly matches the full dub package name.",
+    "//": "Matched dub packages are combinined into key name. The dub packages also includes sub-packages.",
+    "combinedDubPackagePatterns": {
+      "gendoc": [
+          "^gendoc(?::.+)?$"
+      ]
+    }
 }
 ```
 

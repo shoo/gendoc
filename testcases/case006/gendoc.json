@@ -1,4 +1,6 @@
 {
+	"ddocs": ["${PJDIR}/ddoc"],
+	"sourceDocs": ["${unmatched_macro}../../source_docs"],
 	"target": "${PROJECT_DIR}/docs",
 	"combinedDubPackagePatterns":{"subpkg": ["subpkg"]}
 }
