@@ -217,6 +217,16 @@ struct GendocConfig
 		sourceDocs = sourceDocs.remove!(a => a.length == 0);
 		auto map = [
 			"GENDOC_DIR":  thisExePath.dirName.absolutePath,
+			"GENDOC_SD_DIR": thisExePath.dirName.buildPath("source_docs").exists
+				? thisExePath.dirName.buildPath("source_docs")
+				: thisExePath.dirName.buildPath("../etc/.gendoc/docs").exists
+					? thisExePath.dirName.buildNormalizedPath("../etc/.gendoc/docs")
+					: thisExePath.dirName.absolutePath,
+			"GENDOC_DD_DIR": thisExePath.dirName.buildPath("ddoc").exists
+				? thisExePath.dirName.buildPath("source_docs")
+				: thisExePath.dirName.buildPath("../etc/.gendoc/ddoc").exists
+					? thisExePath.dirName.buildNormalizedPath("../etc/.gendoc/ddoc")
+					: thisExePath.dirName.absolutePath,
 			"PROJECT_DIR": dirPath.absolutePath,
 			"WORK_DIR":    getcwd.absolutePath];
 		bool mapFunc(ref string arg, MacroType type)
