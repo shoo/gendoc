@@ -100,7 +100,7 @@ int gendocMain(string[] args)
 			}
 		}
 		import std.algorithm: sort;
-		generator.ddocFiles.sort!((a, b) => filenameCmp(a, b));
+		generator.ddocFiles.sort!((a, b) => filenameCmp(a, b) < 0);
 		
 		foreach (pkg; modmgr.dubPackages)
 			generator.generate(pkg, cfg.singleFile);
