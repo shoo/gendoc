@@ -793,7 +793,7 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 254,
+      "endline" : 264,
       "endchar" : 2
      },
      {
@@ -801,7 +801,7 @@
       "kind" : "function",
       "protection" : "private",
       "comment" : "\n",
-      "line" : 257,
+      "line" : 267,
       "char" : 15,
       "deco" : "FAyaZb",
       "parameters" : [
@@ -810,7 +810,7 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 268,
+      "endline" : 278,
       "endchar" : 2
      },
      {
@@ -818,7 +818,7 @@
       "kind" : "function",
       "protection" : "private",
       "comment" : "\n",
-      "line" : 271,
+      "line" : 281,
       "char" : 15,
       "deco" : "FAyaZb",
       "parameters" : [
@@ -827,7 +827,7 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 275,
+      "endline" : 285,
       "endchar" : 2
      },
      {
@@ -835,7 +835,7 @@
       "kind" : "function",
       "protection" : "private",
       "comment" : "\n",
-      "line" : 278,
+      "line" : 288,
       "char" : 15,
       "deco" : "FAyabZb",
       "parameters" : [
@@ -848,14 +848,14 @@
         "deco" : "b"
        }
       ],
-      "endline" : 306,
+      "endline" : 316,
       "endchar" : 2
      },
      {
       "name" : "loadConfig",
       "kind" : "function",
       "comment" : " Load configuration from specifiered path\n\n",
-      "line" : 312,
+      "line" : 322,
       "char" : 7,
       "deco" : "FAyaZb",
       "parameters" : [
@@ -864,14 +864,14 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 333,
+      "endline" : 343,
       "endchar" : 2
      },
      {
       "name" : "loadDefaultConfig",
       "kind" : "function",
       "comment" : "ditto\n",
-      "line" : 336,
+      "line" : 346,
       "char" : 7,
       "deco" : "FAyaZb",
       "parameters" : [
@@ -880,14 +880,14 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 441,
+      "endline" : 451,
       "endchar" : 2
      },
      {
       "name" : "setup",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 444,
+      "line" : 454,
       "char" : 7,
       "deco" : "FAyaQdAQgQdQkZv",
       "parameters" : [
@@ -912,7 +912,7 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 494,
+      "endline" : 504,
       "endchar" : 2
      }
     ]
@@ -921,13 +921,13 @@
     "name" : "Config",
     "kind" : "struct",
     "comment" : "\n",
-    "line" : 502,
+    "line" : 512,
     "char" : 1,
     "members" : [
      {
       "name" : "std.getopt",
       "kind" : "import",
-      "line" : 504,
+      "line" : 514,
       "char" : 9,
       "protection" : "private"
      },
@@ -935,7 +935,7 @@
       "name" : "compiler",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 506,
+      "line" : 516,
       "char" : 9,
       "deco" : "Aya",
       "offset" : 0
@@ -944,7 +944,7 @@
       "name" : "packageData",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 508,
+      "line" : 518,
       "char" : 16,
       "deco" : "S6gendoc6config13PackageConfig",
       "offset" : 16
@@ -953,7 +953,7 @@
       "name" : "gendocData",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 510,
+      "line" : 520,
       "char" : 15,
       "deco" : "S6gendoc6config12GendocConfig",
       "offset" : 112
@@ -962,7 +962,7 @@
       "name" : "singleFile",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 512,
+      "line" : 522,
       "char" : 7,
       "deco" : "b",
       "offset" : 240
@@ -971,7 +971,7 @@
       "name" : "quiet",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 514,
+      "line" : 524,
       "char" : 7,
       "deco" : "b",
       "offset" : 241
@@ -980,7 +980,7 @@
       "name" : "varbose",
       "kind" : "variable",
       "comment" : "\n",
-      "line" : 516,
+      "line" : 526,
       "char" : 7,
       "deco" : "b",
       "offset" : 242
@@ -989,7 +989,7 @@
       "name" : "setup",
       "kind" : "function",
       "comment" : "\n",
-      "line" : 520,
+      "line" : 530,
       "char" : 15,
       "deco" : "FAAyaZS3std6getopt12GetoptResult",
       "parameters" : [
@@ -998,7 +998,7 @@
         "deco" : "AAya"
        }
       ],
-      "endline" : 558,
+      "endline" : 568,
       "endchar" : 2
      }
     ]
