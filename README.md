@@ -2,6 +2,8 @@
 
 [![GitHub tag](https://img.shields.io/github/tag/shoo/gendoc.svg?maxAge=86400)](#)
 [![CI Status](https://github.com/shoo/gendoc/workflows/master/badge.svg)](https://github.com/shoo/gendoc/actions?query=workflow%3A%22master%22)
+[![downloads](https://img.shields.io/dub/dt/gendoc.svg?cacheSeconds=3600)](https://code.dlang.org/packages/gendoc)
+[![BSL-1.0](http://img.shields.io/badge/license-BSL--1.0-blue.svg?style=flat)](./LICENSE)
 [![codecov](https://codecov.io/gh/shoo/gendoc/branch/master/graph/badge.svg)](https://codecov.io/gh/shoo/gendoc)
 
 gendoc is a tool for generating documents using the built-in document generation feature of D language compilers.
