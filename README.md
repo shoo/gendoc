@@ -137,7 +137,7 @@ Example:
     "//": "Same to --gendocTarget option. (Run-time arguments are preferred.)",
     "//": "Specify a directory path where the relative path from the root of dub package.",
     "//": "The resulting HTML is generated in this directory.",
-    "ddocs": "docs",
+    "target": "docs",
     
     "//": "Specify names there exactly match the path.",
     "//": "For the path, specify the relative path from the first one of the",
@@ -175,6 +175,16 @@ Example:
     }
 }
 ```
+
+For `ddocs`, `sourceDocs` and `target`, the following variables can be used:
+
+| Variables          | Descriptions                         |
+|:------------------:|:-------------------------------------|
+| `${GENDOC_DIR}`    | gendoc binary's parent directory.    |
+| `${GENDOC_SD_DIR}` | gendoc default source_docs directory. `${GENDOC_DIR}/source_docs` is checked first, then `${GENDOC_DIR}/../etc/.gendoc/docs` is checked, and the existing is selected. |
+| `${GENDOC_DD_DIR}` | gendoc default ddoc directory. `${GENDOC_DIR}/ddoc` is checked first, then `${GENDOC_DIR}/../etc/.gendoc/ddoc` is checked, and the existing is selected.|
+| `${PROJECT_DIR}`   | Project root directory (which has dub.json/dub.sdl) |
+| `${WORK_DIR}`      | Current working directory.           |
 
 # mustache
 You can use [mustache](http://mustache.github.io/) as a way to embed information that is difficult to manage manually, such as a list of modules, in a ddoc file.
