@@ -99,6 +99,8 @@ int gendocMain(string[] args)
 				generator.generateDdoc(modmgr.dubPackages, absDir, absFile.relativePath(absDir).stripExtension);
 			}
 		}
+		import std.algorithm: sort;
+		generator.ddocFiles.sort!((a, b) => filenameCmp(a, b));
 		
 		foreach (pkg; modmgr.dubPackages)
 			generator.generate(pkg, cfg.singleFile);
