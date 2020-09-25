@@ -5,8 +5,8 @@
 	"license": "BSL-1.0",
 	"name": "gendoc",
 	"dependencies": {
-		"dub":        "~>1.19.0",
-		"mustache-d": "~>0.1.4"
+		"dub":        "~>1.23.0",
+		"mustache-d": "~>0.1.5"
 	},
 	"subConfigurations": {
 		"dub": "library"
