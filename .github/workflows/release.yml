@@ -19,14 +19,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install D compiler
-        uses: mihails-strasuns/setup-dlang@v0.5.0
+        uses: dlang-community/setup-dlang@v1
         with:
           compiler: ldc-latest
       - name: Build binary
         run: dub build -a=x86 -b=release -c=default
       - name: Create archive
         id: create_archive
-        run: rdmd ./.github/runner.d -a=x86 --mode=create-archive
+        run: rdmd ./scripts/runner.d -a=x86 --mode=create-archive
       - name: Upload created archive
         uses: actions/upload-artifact@v1
         with:
@@ -41,14 +41,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install D compiler
-        uses: mihails-strasuns/setup-dlang@v0.5.0
+        uses: dlang-community/setup-dlang@v1
         with:
           compiler: ldc-latest
       - name: Build binary
         run: dub build -a=x86_64 -b=release -c=default
       - name: Create archive
         id: create_archive
-        run: rdmd ./.github/runner.d -a=x86_64 --mode=create-archive
+        run: rdmd ./scripts/runner.d -a=x86_64 --mode=create-archive
       - name: Upload created archive
         uses: actions/upload-artifact@v1
         with:
@@ -63,16 +63,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install D compiler
-        uses: mihails-strasuns/setup-dlang@v0.5.0
+        uses: dlang-community/setup-dlang@v1
         with:
           compiler: ldc-latest
       - name: Build bianry
         run: dub build -a=x86_64 -b=release -c=default
       - name: Create archive
         id: create_archive
-        run: rdmd ./.github/runner.d -a=x86_64 --mode=create-archive
+        run: rdmd ./scripts/runner.d -a=x86_64 --mode=create-archive
       - name: Generate document
-        run: rdmd ./.github/runner.d -a=x86_64 --mode=generate-document
+        run: rdmd ./scripts/runner.d -a=x86_64 --mode=generate-document
       - name: Upload created archive
         uses: actions/upload-artifact@v1
         with:
@@ -92,14 +92,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install D compiler
-        uses: mihails-strasuns/setup-dlang@v0.5.0
+        uses: dlang-community/setup-dlang@v1
         with:
           compiler: ldc-latest
       - name: Build binary
         run: dub build -a=x86_64 -b=release -c=default
       - name: Create archive
         id: create_archive
-        run: rdmd ./.github/runner.d -a=x86_64 --mode=create-archive
+        run: rdmd ./scripts/runner.d -a=x86_64 --mode=create-archive
       - name: Upload created archive
         uses: actions/upload-artifact@v1
         with:

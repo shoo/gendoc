@@ -10,11 +10,11 @@ static:
 	
 	/// テスト対象にするサブパッケージを指定します。
 	/// サブパッケージが追加されたらここにも追加してください。
-	immutable integrationTestCaseDir = "testcases";
+	immutable string integrationTestCaseDir = "testcases";
 	
 	/// テスト対象にするサブパッケージを指定します。
 	/// サブパッケージが追加されたらここにも追加してください。
-	immutable subPkgs = ["candydoc"];
+	immutable string[] subPkgs = ["candydoc"];
 }
 
 ///
@@ -42,6 +42,8 @@ struct Config
 	string projectName;
 	///
 	string refName;
+	///
+	string[] integrationTestTargets;
 }
 ///
 __gshared Config config;
@@ -83,16 +85,17 @@ int main(string[] args)
 	string[] exDubOpts;
 	
 	args.getopt(
-		"a|arch",          &config.arch,
-		"os",              &config.os,
-		"host-arch",       &tmpHostArch,
-		"target-arch",     &tmpTargetArch,
-		"c|compiler",      &config.compiler,
-		"host-compiler",   &tmpHostCompiler,
-		"target-compiler", &tmpTargetCompiler,
-		"archive-suffix",  &config.archiveSuffix,
-		"m|mode",          &mode,
-		"exdubopts",       &exDubOpts);
+		"a|arch",                     &config.arch,
+		"os",                         &config.os,
+		"host-arch",                  &tmpHostArch,
+		"target-arch",                &tmpTargetArch,
+		"c|compiler",                 &config.compiler,
+		"host-compiler",              &tmpHostCompiler,
+		"target-compiler",            &tmpTargetCompiler,
+		"archive-suffix",             &config.archiveSuffix,
+		"m|mode",                     &mode,
+		"t|integration-test-targets", &config.integrationTestTargets,
+		"exdubopts",                  &exDubOpts);
 	
 	config.hostArch = tmpHostArch ? tmpHostArch : config.arch;
 	config.targetArch = tmpTargetArch ? tmpTargetArch : config.arch;
@@ -108,7 +111,12 @@ int main(string[] args)
 		break;
 	case "integration-test":
 	case "integrationtest":
+	case "it":
 	case "tt":
+		integrationTest(exDubOpts);
+		break;
+	case "test":
+		unitTest(exDubOpts);
 		integrationTest(exDubOpts);
 		break;
 	case "create-release-build":
@@ -156,32 +164,30 @@ void unitTest(string[] exDubOpts = null)
 	auto covdir = config.scriptDir.buildNormalizedPath("../.cov");
 	if (!covdir.exists)
 		mkdirRecurse(covdir);
-	env["COVERAGE_DIR"]   = covdir.absolutePath();
-	env["COVERAGE_MERGE"] = "true";
-	// Win64の場合はlibcurl.dllの64bit版を使うため、dmdのbin64にパスを通す
-	if (config.os == "windows" && config.targetArch == "x86_64" && config.hostCompiler == "dmd")
-	{
-		auto bin64dir = searchDCompiler().dirName.buildPath("../bin64");
-		if (bin64dir.exists && bin64dir.isDir)
-			env.setPaths([bin64dir] ~ getPaths());
-	}
+	auto covopt = [
+		"--DRT-covopt=dstpath:" ~ covdir.absolutePath(),
+		"--DRT-covopt=srcpath:" ~ config.scriptDir.absolutePath().buildNormalizedPath(".."),
+		"--DRT-covopt=merge:1"];
+	env.addCurlPath();
 	writeln("#######################################");
 	writeln("## Unit Test                         ##");
 	writeln("#######################################");
 	exec(["dub",
 		"test",
-		"-a",              config.hostArch,
+		"-a", config.hostArch,
 		"--coverage",
-		"--compiler",      config.hostCompiler] ~ exDubOpts,
+		"--compiler", config.hostCompiler]
+		~ exDubOpts ~ ["--"] ~ covopt,
 		null, env);
 	foreach (pkgName; Defines.subPkgs)
 	{
 		exec(["dub",
 			"test",
 			":" ~ pkgName,
-			"-a",              config.hostArch,
+			"-a", config.hostArch,
 			"--coverage",
-			"--compiler",      config.hostCompiler] ~ exDubOpts,
+			"--compiler", config.hostCompiler]
+			~ exDubOpts ~ ["--"] ~ covopt,
 			null, env);
 	}
 }
@@ -190,13 +196,7 @@ void unitTest(string[] exDubOpts = null)
 void generateDocument()
 {
 	string[string] env;
-	// Win64の場合はlibcurl.dllの64bit版を使うため、dmdのbin64にパスを通す
-	if (config.os == "windows" && config.targetArch == "x86_64" && config.hostCompiler == "dmd")
-	{
-		auto bin64dir = searchDCompiler().dirName.buildPath("../bin64");
-		if (bin64dir.exists && bin64dir.isDir)
-			env.setPaths([bin64dir] ~ getPaths());
-	}
+	env.addCurlPath();
 	exec(["dub", "run", Defines.documentGenerator, "-y",
 		"--",
 		"-a=x86_64", "-b=release", "-c=default"], null, env);
@@ -217,20 +217,16 @@ void createReleaseBuild(string[] exDubOpts = null)
 ///
 void integrationTest(string[] exDubOpts = null)
 {
-	string[string] env = [null: null];
-	env.clear();
-	// Win64の場合はlibcurl.dllの64bit版を使うため、dmdのbin64にパスを通す
-	if (config.os == "windows" && config.targetArch == "x86_64" && config.hostCompiler == "dmd")
-	{
-		auto bin64dir = searchDCompiler().dirName.buildPath("../bin64");
-		if (bin64dir.exists && bin64dir.isDir)
-			env.setPaths([bin64dir] ~ getPaths());
-	}
+	string[string] env;
+	env.addCurlPath();
 	auto covdir = config.scriptDir.buildNormalizedPath("../.cov").absolutePath();
 	if (!covdir.exists)
 		mkdirRecurse(covdir);
-	env["COVERAGE_DIR"]   = covdir.absolutePath();
-	env["COVERAGE_MERGE"] = "true";
+	
+	auto covopt = [
+		"--DRT-covopt=dstpath:" ~ covdir.absolutePath(),
+		"--DRT-covopt=srcpath:" ~ config.scriptDir.absolutePath().buildNormalizedPath(".."),
+		"--DRT-covopt=merge:1"];
 	
 	bool dirTest(string entry)
 	{
@@ -238,7 +234,7 @@ void integrationTest(string[] exDubOpts = null)
 			"project_root": config.scriptDir.absolutePath().buildNormalizedPath(".."),
 			"test_dir": entry.absolutePath().buildNormalizedPath(),
 		];
-		auto getRunOpts()
+		auto getOpts(string defaultname, string optfile, string ignorefile)
 		{
 			struct Opt
 			{
@@ -249,16 +245,16 @@ void integrationTest(string[] exDubOpts = null)
 				string[] args;
 				string[string] env;
 			}
-			if (entry.buildPath(".no_run").exists)
+			if (entry.buildPath(ignorefile).exists)
 				return Opt[].init;
-			if (!entry.buildPath(".run_opts").exists)
+			if (!entry.buildPath(optfile).exists)
 				return [Opt("default", entry, [], entry, [], env)];
 			Opt[] ret;
 			import std.file: read;
-			auto jvRoot = parseJSON(cast(string)read(entry.buildPath(".run_opts")));
+			auto jvRoot = parseJSON(cast(string)read(entry.buildPath(optfile)));
 			foreach (i, jvOpt; jvRoot.array)
 			{
-				auto dat = Opt(text("run", i), entry, [], entry, [], env);
+				auto dat = Opt(text(defaultname, i), entry, [], entry, [], env);
 				if (auto str = jvOpt.getStr("name", expMap))
 					dat.name = str;
 				if (auto str = jvOpt.getStr("dubWorkDir", expMap))
@@ -273,97 +269,42 @@ void integrationTest(string[] exDubOpts = null)
 			}
 			return ret;
 		}
-		auto getBuildOpts()
-		{
-			struct Opt
-			{
-				string name;
-				string workDir;
-				string[] args;
-				string[string] env;
-			}
-			if (entry.buildPath(".no_build").exists)
-				return Opt[].init;
-			if (!entry.buildPath(".build_opts").exists)
-				return [Opt("default", entry, [], env)];
-			Opt[] ret;
-			import std.file: read;
-			auto jvRoot = parseJSON(cast(string)read(entry.buildPath(".build_opts")));
-			foreach (i, jvOpt; jvRoot.array)
-			{
-				auto dat = Opt(text("build", i), entry, [], env);
-				if (auto str = jvOpt.getStr("name", expMap))
-					dat.name = str;
-				if (auto str = jvOpt.getStr("workDir", expMap))
-					dat.workDir = str;
-				dat.args = jvOpt.getAry("args", expMap);
-				foreach (k, v; jvOpt.getObj("env", expMap))
-					dat.env[k] = v;
-				ret ~= dat;
-			}
-			return ret;
-		}
-		auto getTestOpts()
-		{
-			struct Opt
-			{
-				string name;
-				string workDir;
-				string[] args;
-				string[string] env;
-			}
-			if (entry.buildPath(".no_test").exists)
-				return Opt[].init;
-			if (!entry.buildPath(".test_opts").exists)
-				return [Opt("default", entry, [], env)];
-			Opt[] ret;
-			import std.file: read;
-			auto jvRoot = parseJSON(cast(string)read(entry.buildPath(".test_opts")));
-			foreach (i, jvOpt; jvRoot.array)
-			{
-				auto dat = Opt(text("test", i), entry, [], env);
-				if (auto str = jvOpt.getStr("name", expMap))
-					dat.name = str;
-				if (auto str = jvOpt.getStr("workDir", expMap))
-					dat.workDir = str;
-				dat.args = jvOpt.getAry("args", expMap);
-				foreach (k, v; jvOpt.getObj("env", expMap))
-					dat.env[k] = v;
-				ret ~= dat;
-			}
-			return ret;
-		}
 		if (entry.isDir)
 		{
-			auto buildOpts   = getBuildOpts();
-			auto testOpts    = getTestOpts();
-			auto runOpts     = getRunOpts();
+			auto buildOpts   = getOpts("build", ".build_opts", ".no_build");
+			auto testOpts    = getOpts("test", ".test_opts", ".no_test");
+			auto runOpts     = getOpts("run", ".run_opts", ".no_run");
 			auto no_coverage = entry.buildPath(".no_coverage").exists;
 			auto dubCommonArgs = [
 				"-a",         config.targetArch,
 				"--compiler", config.targetCompiler] ~ exDubOpts;
 			foreach (buildOpt; buildOpts)
 			{
-				auto dubArgs = (buildOpt.args.length > 0 ? dubCommonArgs ~ buildOpt.args : dubCommonArgs);
-				exec(["dub", "build", "-b=release"] ~ dubArgs, entry, env);
+				dispLog("INFO", entry.baseName, "build test for " ~ buildOpt.name);
+				auto dubArgs = (buildOpt.dubArgs.length > 0 ? dubCommonArgs ~ buildOpt.dubArgs : dubCommonArgs);
+				exec(["dub", "build", "-b=release", "--root=" ~ buildOpt.dubWorkDir] ~ dubArgs, null, env);
 			}
 			foreach (testOpt; testOpts)
 			{
-				auto dubArgs = (testOpt.args.length > 0 ? dubCommonArgs ~ testOpt.args : dubCommonArgs)
+				dispLog("INFO", entry.baseName, "unittest for " ~ testOpt.name);
+				auto dubArgs = (testOpt.dubArgs.length > 0 ? dubCommonArgs ~ testOpt.dubArgs : dubCommonArgs)
 				             ~ (!no_coverage ? ["--coverage"] : null);
-				exec(["dub", "test"]  ~ dubArgs, entry, env);
+				auto exeArgs = ["--"] ~ (!no_coverage ? covopt : null);
+				exec(["dub", "test", "--root=" ~ testOpt.dubWorkDir] ~ dubArgs ~ exeArgs, testOpt.workDir, env);
 			}
 			foreach (runOpt; runOpts)
 			{
+				dispLog("INFO", entry.baseName, "run test for " ~ runOpt.name);
 				auto dubArgs = (runOpt.dubArgs.length > 0 ? dubCommonArgs ~ runOpt.dubArgs : dubCommonArgs)
-				             ~ (!no_coverage ? ["-b=cov"] : ["-b=debug"]);
-				auto desc = cmd(["dub", "describe", "--verror"] ~ dubArgs, runOpt.dubWorkDir, runOpt.env).parseJSON();
+				             ~ (!no_coverage ? ["-b=cov"] : ["-b=debug"]) ~ ["--root=" ~ runOpt.dubWorkDir];
+				auto exeArgs = runOpt.args ~ (!no_coverage ? covopt : null);
+				auto desc = cmd(["dub", "describe", "--verror"] ~ dubArgs, null, runOpt.env).parseJSON();
 				auto targetExe = buildNormalizedPath(
 					desc["packages"][0]["path"].str,
 					desc["packages"][0]["targetPath"].str,
 					desc["packages"][0]["targetFileName"].str);
-				exec(["dub", "build"] ~ dubArgs, runOpt.dubWorkDir);
-				exec([targetExe] ~ runOpt.args, runOpt.workDir, runOpt.env);
+				exec(["dub", "build"] ~ dubArgs);
+				exec([targetExe] ~ exeArgs, runOpt.workDir, runOpt.env);
 			}
 			return !(buildOpts.length == 0 && testOpts.length == 0 && runOpts.length == 0);
 		}
@@ -371,17 +312,20 @@ void integrationTest(string[] exDubOpts = null)
 		{
 		case ".d":
 			// rdmd
+			dispLog("INFO", entry.baseName, "rdmd script test");
 			exec(["rdmd", entry], entry.dirName, env);
 			break;
 		case ".sh":
 			// $SHELLまたはbashがあれば
 			if (auto sh = environment.get("SHELL"))
 			{
+				dispLog("INFO", entry.baseName, "shell script test");
 				exec([sh, entry], entry.dirName, env);
 				return true;
 			}
 			if (auto sh = searchPath("bash"))
 			{
+				dispLog("INFO", entry.baseName, "bash shell script test");
 				exec([sh, entry], entry.dirName, env);
 				return true;
 			}
@@ -390,6 +334,7 @@ void integrationTest(string[] exDubOpts = null)
 			// %COMSPEC%があれば
 			if (auto sh = environment.get("COMSPEC"))
 			{
+				dispLog("INFO", entry.baseName, "commandline batch test");
 				exec([sh, entry], entry.dirName, env);
 				return true;
 			}
@@ -398,11 +343,13 @@ void integrationTest(string[] exDubOpts = null)
 			// pwsh || powershellがあれば
 			if (auto sh = searchPath("pwsh"))
 			{
+				dispLog("INFO", entry.baseName, "powershell script test");
 				exec([sh, entry], entry.dirName, env);
 				return true;
 			}
 			else if (auto sh = searchPath("powershell"))
 			{
+				dispLog("INFO", entry.baseName, "powershell script test");
 				exec([sh, entry], entry.dirName, env);
 				return true;
 			}
@@ -411,11 +358,13 @@ void integrationTest(string[] exDubOpts = null)
 			// python || python3があれば
 			if (auto sh = searchPath("python"))
 			{
+				dispLog("INFO", entry.baseName, "python script test");
 				exec([sh, entry], entry.dirName, env);
 				return true;
 			}
 			else if (auto sh = searchPath("python3"))
 			{
+				dispLog("INFO", entry.baseName, "python3 script test");
 				exec([sh, entry], entry.dirName, env);
 				return true;
 			}
@@ -469,11 +418,20 @@ void integrationTest(string[] exDubOpts = null)
 		writeln("#######################################");
 		foreach (de; dirEntries(Defines.integrationTestCaseDir, SpanMode.shallow))
 		{
+			// 隠しファイルはスキップする
+			if (de.name.baseName.startsWith("."))
+				continue;
+			// ターゲット指定がある場合は、ターゲット指定されている場合だけ実行
+			if (config.integrationTestTargets.length > 0
+				&& !config.integrationTestTargets.canFind(de.baseName.stripExtension))
+				continue;
 			auto res = Result(de.name.baseName);
+			dispLog("INFO", de.name.baseName, "Directory test start");
 			try
 				res.executed = dirTest(de.name);
 			catch (Exception e)
 				res.exception = e;
+			dispLog(res.exception ? "FAILED" : "SUCCESS", de.name.baseName);
 			dirTests ~= res;
 		}
 	}
@@ -484,11 +442,13 @@ void integrationTest(string[] exDubOpts = null)
 		writeln("#######################################");
 		foreach (pkgName; Defines.subPkgs)
 		{
+			dispLog("INFO", pkgName, "Subpackages test start");
 			auto res = Result(pkgName);
 			try
 				res.executed = subPkgTest(pkgName, "unittest");
 			catch (Exception e)
 				res.exception = e;
+			dispLog(res.exception ? "FAILED" : "SUCCESS", pkgName);
 			subpkgTests ~= res;
 		}
 	}
@@ -711,6 +671,23 @@ string searchPath(string name, string[] dirs = null)
 }
 
 ///
+void addCurlPath(ref string[string] env)
+{
+	if (config.os == "windows" && config.arch == "x86_64")
+	{
+		auto bin64dir = searchDCompiler().dirName.buildNormalizedPath("../bin64");
+		if (bin64dir.exists && bin64dir.isDir)
+			env["Path"] = bin64dir ~ ";" ~ environment.get("Path").chomp(";");
+	}
+	else if (config.os == "windows" && config.arch == "x86")
+	{
+		auto bin32dir = searchDCompiler().dirName.buildNormalizedPath("../bin");
+		if (bin32dir.exists && bin32dir.isDir)
+			env["Path"] = bin32dir ~ ";" ~ environment.get("Path").chomp(";");
+	}
+}
+
+///
 string searchDCompiler()
 {
 	auto compiler = config.compiler;
@@ -761,4 +738,30 @@ string[string] getObj(JSONValue jv, string name, string[string] map, string[stri
 	foreach (k, v; jv[name].object)
 		ret[k] = expandMacro(v.str, map);
 	return ret;
+}
+
+///
+void dispLog(string severity, string name, string text = null)
+{
+	uint colorcode;
+	switch (severity)
+	{
+	case "INFO":
+		colorcode = 33; // yellow
+		break;
+	case "ERROR":
+	case "FAILED":
+		colorcode = 31; // red
+		break;
+	case "SUCCESS":
+		colorcode = 36; // cyan
+		break;
+	default:
+		colorcode = 37; // white
+		break;
+	}
+	writefln("\u001b[%02dm[%s]%s\u001b[0m%s%s", colorcode, severity,
+		name.length > 0 ? " " ~ name : name,
+		name.length > 0 && text.length > 0 ? ":" : null,
+		text.length > 0 ? " " ~ text : null);
 }

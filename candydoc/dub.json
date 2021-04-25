@@ -38,8 +38,7 @@
 			"subConfigurations": {
 				"gendoc": "library"
 			},
-			"mainSourceFile": "source/app.d",
-			"sourceFiles": ["../.github/ut.d"]
+			"mainSourceFile": "source/app.d"
 		}
 	]
 }
