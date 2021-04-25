@@ -35,8 +35,7 @@
 			"targetType": "executable",
 			"targetPath": "build",
 			"versions": ["gendoc_app"],
-			"mainSourceFile": "source/app.d",
-			"sourceFiles": [".github/ut.d"]
+			"mainSourceFile": "source/app.d"
 		}
 	],
 	"subPackages": [
