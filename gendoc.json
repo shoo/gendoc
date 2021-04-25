@@ -15,6 +15,7 @@
    {
     "name" : "main",
     "kind" : "function",
+    "protection" : "public",
     "line" : 8,
     "char" : 25,
     "deco" : "FAAyaZi",
@@ -30,6 +31,7 @@
    {
     "name" : "_d_cmain!()",
     "kind" : "mixin",
+    "protection" : "public",
     "line" : 8,
     "char" : 25
    }
@@ -121,6 +123,7 @@
    {
     "name" : "CommandPipe",
     "kind" : "struct",
+    "protection" : "public",
     "comment" : " Communicate with the launched program through stdio pipes.\n\n gendoc responds to requests from the launched guest program.\n One request or response communicates via a JSON object without lines.\n Guest program requests are passed line by line to the standard error output.\n gendoc responds to requests with one line.\n The request starts with `::gendoc-request::`, followed by a JSON string.\n\n ```\n ::gendoc-request::{ \"type\": \"ReqEcho\", \"value\": {\"msg\": \"test\"} }\n ```\n\n The response type corresponds to the request type.\n\n | Request Type          | Response Type        |\n |:----------------------|:---------------------|\n | ReqEcho               | ResEcho, ResErr      |\n | ReqInfo               | ResInfo, ResErr      |\n\n Each piece of information is composed of a JSON object composed of `type` and `value` as follows,\n and the `value` includes a payload.\n The following examples include line breaks and indents for readability,\n but do not break lines in the data actually used.\n\n ```\n {\n  \"type\":  \"ReqInfo\",\n  \"value\": { }\n }\n ```\n",
     "line" : 47,
     "char" : 1,
@@ -207,6 +210,7 @@
      {
       "name" : "this",
       "kind" : "constructor",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 113,
       "char" : 2,
@@ -235,6 +239,7 @@
      {
       "name" : "run",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 119,
       "char" : 7,
@@ -262,6 +267,7 @@
      {
       "name" : "run",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "ditto\n",
       "line" : 124,
       "char" : 7,
@@ -289,6 +295,7 @@
      {
       "name" : "result",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 129,
       "char" : 7,
@@ -303,6 +310,7 @@
      {
       "name" : "stdout",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 135,
       "char" : 7,
@@ -317,6 +325,7 @@
      {
       "name" : "stderr",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 141,
       "char" : 7,
@@ -331,6 +340,7 @@
      {
       "name" : "status",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 147,
       "char" : 6,
@@ -343,6 +353,7 @@
    {
     "name" : "__unittest_L154_C9",
     "kind" : "function",
+    "protection" : "public",
     "comment" : "\n",
     "line" : 154,
     "char" : 9,
@@ -355,6 +366,7 @@
    {
     "name" : "ReqEcho",
     "kind" : "struct",
+    "protection" : "public",
     "comment" : " Test request to return the specified msg without processing.\n\n The main return value is ResEcho.\n ResErr will be returned if something goes wrong.\n\n Returns:\n - ResEcho\n - ResErr\n",
     "line" : 195,
     "char" : 1,
@@ -362,6 +374,7 @@
      {
       "name" : "msg",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 198,
       "char" : 9,
@@ -373,6 +386,7 @@
    {
     "name" : "ResEcho",
     "kind" : "struct",
+    "protection" : "public",
     "comment" : " Main return value of ReqEcho\n",
     "line" : 204,
     "char" : 1,
@@ -380,6 +394,7 @@
      {
       "name" : "msg",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 207,
       "char" : 9,
@@ -391,6 +406,7 @@
    {
     "name" : "ReqInfo",
     "kind" : "struct",
+    "protection" : "public",
     "comment" : " Request information that gendoc has.\n\n The main return value is ResInfo.\n ResErr will be returned if something goes wrong.\n\n Returns:\n - ResInfo\n - ResErr\n",
     "line" : 220,
     "char" : 1,
@@ -399,6 +415,7 @@
    {
     "name" : "ResInfo",
     "kind" : "struct",
+    "protection" : "public",
     "comment" : " Main return value of ReqInfo\n",
     "line" : 228,
     "char" : 1,
@@ -415,6 +432,7 @@
      {
       "name" : "config",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "$(REF Config, gendoc, _config)\n",
       "line" : 232,
       "char" : 9,
@@ -424,6 +442,7 @@
      {
       "name" : "dubPkgInfos",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "$(REF DubPkgInfo, gendoc, modmgr)\n",
       "line" : 234,
       "char" : 15,
@@ -463,6 +482,7 @@
    {
     "name" : "ResErr",
     "kind" : "struct",
+    "protection" : "public",
     "comment" : " Return-value when something wrong.\n",
     "line" : 246,
     "char" : 1,
@@ -470,6 +490,7 @@
      {
       "name" : "msg",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 249,
       "char" : 9,
@@ -545,6 +566,7 @@
    {
     "name" : "PackageConfig",
     "kind" : "struct",
+    "protection" : "public",
     "comment" : "\n",
     "line" : 15,
     "char" : 1,
@@ -552,6 +574,7 @@
      {
       "name" : "path",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 18,
       "char" : 11,
@@ -561,6 +584,7 @@
      {
       "name" : "name",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 20,
       "char" : 11,
@@ -570,6 +594,7 @@
      {
       "name" : "files",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 22,
       "char" : 11,
@@ -579,6 +604,7 @@
      {
       "name" : "options",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 24,
       "char" : 11,
@@ -588,6 +614,7 @@
      {
       "name" : "packageVersion",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 26,
       "char" : 11,
@@ -597,6 +624,7 @@
      {
       "name" : "subPackages",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 28,
       "char" : 18,
@@ -606,6 +634,7 @@
      {
       "name" : "loadPackage",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 33,
       "char" : 7,
@@ -642,6 +671,7 @@
      {
       "name" : "loadPackage",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "ditto\n",
       "line" : 106,
       "char" : 7,
@@ -677,6 +707,7 @@
      {
       "name" : "__unittest_L129_C10",
       "kind" : "function",
+      "protection" : "public",
       "line" : 129,
       "char" : 10,
       "storageClass" : [
@@ -700,6 +731,7 @@
    {
     "name" : "GendocConfig",
     "kind" : "struct",
+    "protection" : "public",
     "comment" : " Gendoc's configuration data structure\n",
     "line" : 175,
     "char" : 1,
@@ -707,6 +739,7 @@
      {
       "name" : "ddocs",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 179,
       "char" : 11,
@@ -716,6 +749,7 @@
      {
       "name" : "sourceDocs",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 182,
       "char" : 11,
@@ -725,6 +759,7 @@
      {
       "name" : "target",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 185,
       "char" : 11,
@@ -734,6 +769,7 @@
      {
       "name" : "excludePaths",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 188,
       "char" : 11,
@@ -743,6 +779,7 @@
      {
       "name" : "excludePatterns",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 191,
       "char" : 11,
@@ -753,6 +790,7 @@
      {
       "name" : "excludePackages",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 197,
       "char" : 11,
@@ -762,6 +800,7 @@
      {
       "name" : "combinedDubPackagePatterns",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "{\"keyName\": [\"dub_package_name_regex_pattern1\", \"dub_package_name_regex_pattern2\"]}\n",
       "line" : 200,
       "char" : 19,
@@ -771,6 +810,7 @@
      {
       "name" : "excludePackagePatterns",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 203,
       "char" : 11,
@@ -781,6 +821,7 @@
      {
       "name" : "enableGenerateJSON",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 209,
       "char" : 7,
@@ -791,6 +832,7 @@
      {
       "name" : "fixPath",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 212,
       "char" : 7,
@@ -862,6 +904,7 @@
      {
       "name" : "loadConfig",
       "kind" : "function",
+      "protection" : "public",
       "comment" : " Load configuration from specifiered path\n\n",
       "line" : 322,
       "char" : 7,
@@ -878,6 +921,7 @@
      {
       "name" : "loadDefaultConfig",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "ditto\n",
       "line" : 346,
       "char" : 7,
@@ -894,6 +938,7 @@
      {
       "name" : "setup",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 454,
       "char" : 7,
@@ -928,6 +973,7 @@
    {
     "name" : "Config",
     "kind" : "struct",
+    "protection" : "public",
     "comment" : "\n",
     "line" : 512,
     "char" : 1,
@@ -942,6 +988,7 @@
      {
       "name" : "compiler",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 516,
       "char" : 9,
@@ -951,6 +998,7 @@
      {
       "name" : "packageData",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 518,
       "char" : 16,
@@ -960,6 +1008,7 @@
      {
       "name" : "gendocData",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 520,
       "char" : 15,
@@ -969,6 +1018,7 @@
      {
       "name" : "singleFile",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 522,
       "char" : 7,
@@ -978,6 +1028,7 @@
      {
       "name" : "quiet",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 524,
       "char" : 7,
@@ -987,6 +1038,7 @@
      {
       "name" : "varbose",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 526,
       "char" : 7,
@@ -996,6 +1048,7 @@
      {
       "name" : "setup",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 530,
       "char" : 15,
@@ -1107,6 +1160,7 @@
      {
       "name" : "name",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 28,
       "char" : 9,
@@ -1116,6 +1170,7 @@
      {
       "name" : "file",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 30,
       "char" : 9,
@@ -1125,6 +1180,7 @@
      {
       "name" : "comment",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 33,
       "char" : 9,
@@ -1153,6 +1209,7 @@
    {
     "name" : "MustashImportOptions",
     "kind" : "struct",
+    "protection" : "public",
     "comment" : "\n",
     "line" : 51,
     "char" : 1,
@@ -1160,6 +1217,7 @@
      {
       "name" : "file",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 55,
       "char" : 17,
@@ -1169,6 +1227,7 @@
      {
       "name" : "imports",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 58,
       "char" : 17,
@@ -1178,6 +1237,7 @@
      {
       "name" : "contents",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 61,
       "char" : 17,
@@ -1187,6 +1247,7 @@
      {
       "name" : "map",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 64,
       "char" : 17,
@@ -1196,6 +1257,7 @@
      {
       "name" : "useSections",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 67,
       "char" : 17,
@@ -1258,6 +1320,7 @@
    {
     "name" : "MustashCommandOptions",
     "kind" : "struct",
+    "protection" : "public",
     "comment" : "\n",
     "line" : 136,
     "char" : 1,
@@ -1265,6 +1328,7 @@
      {
       "name" : "args",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 140,
       "char" : 17,
@@ -1274,6 +1338,7 @@
      {
       "name" : "env",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 143,
       "char" : 17,
@@ -1283,6 +1348,7 @@
      {
       "name" : "workDir",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 146,
       "char" : 17,
@@ -1328,6 +1394,7 @@
    {
     "name" : "DocumentGenerator",
     "kind" : "struct",
+    "protection" : "public",
     "comment" : "\n",
     "line" : 193,
     "char" : 1,
@@ -1773,6 +1840,7 @@
      {
       "name" : "compiler",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 579,
       "char" : 11,
@@ -1782,6 +1850,7 @@
      {
       "name" : "ddocFiles",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 581,
       "char" : 11,
@@ -1791,6 +1860,7 @@
      {
       "name" : "disableMarkdown",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 583,
       "char" : 11,
@@ -1800,6 +1870,7 @@
      {
       "name" : "targetDir",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 585,
       "char" : 11,
@@ -1809,6 +1880,7 @@
      {
       "name" : "rootDir",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 587,
       "char" : 11,
@@ -1818,6 +1890,7 @@
      {
       "name" : "preGenerateCallback",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 590,
       "char" : 72,
@@ -1827,6 +1900,7 @@
      {
       "name" : "postGenerateCallback",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 592,
       "char" : 84,
@@ -1836,6 +1910,7 @@
      {
       "name" : "postCopyCallback",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 594,
       "char" : 40,
@@ -1845,6 +1920,7 @@
      {
       "name" : "executeProcessor",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 596,
       "char" : 69,
@@ -1854,6 +1930,7 @@
      {
       "name" : "commandProcessor",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 598,
       "char" : 67,
@@ -1863,6 +1940,7 @@
      {
       "name" : "createTemporaryDir",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 601,
       "char" : 7,
@@ -1873,6 +1951,7 @@
      {
       "name" : "removeTemporaryDir",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 609,
       "char" : 7,
@@ -1883,6 +1962,7 @@
      {
       "name" : "temporaryDir",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 616,
       "char" : 9,
@@ -1893,6 +1973,7 @@
      {
       "name" : "combinedDubPackagePatterns",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 622,
       "char" : 7,
@@ -1912,6 +1993,7 @@
      {
       "name" : "convertFromMustache",
       "kind" : "function",
+      "protection" : "public",
       "comment" : " Convert from mustache file\n\n Returns:\n     Converted file contents\n",
       "line" : 637,
       "char" : 9,
@@ -1939,6 +2021,7 @@
      {
       "name" : "generateFromMustache",
       "kind" : "function",
+      "protection" : "public",
       "comment" : " Generate file from mustache file\n\n Returns:\n     File name of generated\n",
       "line" : 648,
       "char" : 9,
@@ -1966,6 +2049,7 @@
      {
       "name" : "generateDdoc",
       "kind" : "function",
+      "protection" : "public",
       "comment" : " Generate ddoc file from mustache file\n\n The generated ddoc file is added automatically\n",
       "line" : 661,
       "char" : 7,
@@ -1993,6 +2077,7 @@
      {
       "name" : "generateJson",
       "kind" : "function",
+      "protection" : "public",
       "comment" : " Generate JSON file from d source file through syntax compilation\n",
       "line" : 670,
       "char" : 7,
@@ -2012,6 +2097,7 @@
      {
       "name" : "generate",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 725,
       "char" : 7,
@@ -2036,6 +2122,7 @@
      {
       "name" : "generate",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "ditto\n",
       "line" : 743,
       "char" : 7,
@@ -2098,6 +2185,7 @@
    {
     "name" : "Config",
     "kind" : "alias",
+    "protection" : "public",
     "line" : 53,
     "char" : 1,
     "deco" : "S6gendoc6config6Config",
@@ -2106,6 +2194,7 @@
    {
     "name" : "gendocMain",
     "kind" : "function",
+    "protection" : "public",
     "comment" : " Main routine of gendoc\n",
     "line" : 58,
     "char" : 5,
@@ -2122,6 +2211,7 @@
    {
     "name" : "setup",
     "kind" : "function",
+    "protection" : "public",
     "comment" : " setup the module manager\n",
     "line" : 147,
     "char" : 6,
@@ -2149,6 +2239,7 @@
    {
     "name" : "setup",
     "kind" : "function",
+    "protection" : "public",
     "comment" : "ditto\n",
     "line" : 152,
     "char" : 6,
@@ -2199,6 +2290,7 @@
    {
     "name" : "setup",
     "kind" : "function",
+    "protection" : "public",
     "comment" : " setup the module manager\n",
     "line" : 184,
     "char" : 6,
@@ -2233,6 +2325,7 @@
    {
     "name" : "setup",
     "kind" : "function",
+    "protection" : "public",
     "comment" : "ditto\n",
     "line" : 189,
     "char" : 6,
@@ -2294,6 +2387,7 @@
    {
     "name" : "initializeDocsDirecotry",
     "kind" : "function",
+    "protection" : "public",
     "comment" : " Setup docs directory\n",
     "line" : 281,
     "char" : 6,
@@ -2325,6 +2419,7 @@
    {
     "name" : "MacroType",
     "kind" : "enum",
+    "protection" : "public",
     "comment" : "\n",
     "line" : 13,
     "char" : 1,
@@ -2333,6 +2428,7 @@
      {
       "name" : "str",
       "kind" : "enum member",
+      "protection" : "public",
       "value" : "0",
       "comment" : "$xxx, ${xxx}\n",
       "line" : 16,
@@ -2341,6 +2437,7 @@
      {
       "name" : "expr",
       "kind" : "enum member",
+      "protection" : "public",
       "value" : "1",
       "comment" : "$(DOLLAR)(xxx)\n",
       "line" : 18,
@@ -2350,6 +2447,7 @@
    },
    {
     "kind" : "template",
+    "protection" : "public",
     "comment" : " Expands macro variables contained within a str\n",
     "line" : 24,
     "char" : 3,
@@ -2397,6 +2495,7 @@
    },
    {
     "kind" : "template",
+    "protection" : "public",
     "comment" : "ditto\n",
     "line" : 49,
     "char" : 3,
@@ -2444,6 +2543,7 @@
    },
    {
     "kind" : "template",
+    "protection" : "public",
     "comment" : "ditto\n",
     "line" : 75,
     "char" : 3,
@@ -2492,6 +2592,7 @@
    {
     "name" : "expandMacro",
     "kind" : "alias",
+    "protection" : "public",
     "comment" : "ditto\n",
     "line" : 94,
     "char" : 1
@@ -2529,6 +2630,7 @@
    {
     "name" : "__unittest_L109_C9",
     "kind" : "function",
+    "protection" : "public",
     "line" : 109,
     "char" : 9,
     "storageClass" : [
@@ -2574,6 +2676,7 @@
    {
     "name" : "__unittest_L170_C9",
     "kind" : "function",
+    "protection" : "public",
     "line" : 170,
     "char" : 9,
     "storageClass" : [
@@ -2629,6 +2732,7 @@
    {
     "name" : "__unittest_L268_C9",
     "kind" : "function",
+    "protection" : "public",
     "line" : 268,
     "char" : 9,
     "storageClass" : [
@@ -2669,6 +2773,7 @@
    {
     "name" : "ModInfo",
     "kind" : "struct",
+    "protection" : "public",
     "comment" : " Source file (D's module) information\n",
     "line" : 18,
     "char" : 1,
@@ -2676,6 +2781,7 @@
      {
       "name" : "src",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "Source file with relative path from source root path, or absolute path as external files.\n",
       "line" : 21,
       "char" : 9,
@@ -2685,6 +2791,7 @@
      {
       "name" : "dst",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "Distination file with relative path from target.\n",
       "line" : 23,
       "char" : 9,
@@ -2694,6 +2801,7 @@
      {
       "name" : "dubPkgName",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "Dub package name\n",
       "line" : 25,
       "char" : 9,
@@ -2703,6 +2811,7 @@
      {
       "name" : "pkgName",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "(D's) Package name (eg.  `hoge/fuga/piyo.d` -> `hoge.fuga` )\n",
       "line" : 27,
       "char" : 9,
@@ -2712,6 +2821,7 @@
      {
       "name" : "modName",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "Module name ( `hoge/fuga/piyo.d` -> `piyo` )\n",
       "line" : 29,
       "char" : 9,
@@ -2721,6 +2831,7 @@
      {
       "name" : "title",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : " Title of module\n\n First line of documented module comment.\n Note that it is NOT strictly same from the DDoc's Sammery section.\n",
       "line" : 36,
       "char" : 9,
@@ -2730,6 +2841,7 @@
      {
       "name" : "fullModuleName",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "Concatinated package and module name (eg. `hoge/fuga/piyo.d` -> `hoge.fuga.piyo` )\n",
       "line" : 39,
       "char" : 9,
@@ -2740,6 +2852,7 @@
      {
       "name" : "this",
       "kind" : "constructor",
+      "protection" : "public",
       "comment" : "Constructor\n",
       "line" : 45,
       "char" : 2,
@@ -2759,6 +2872,7 @@
    {
     "name" : "PkgInfo",
     "kind" : "struct",
+    "protection" : "public",
     "comment" : " Source file (D's package) information\n",
     "line" : 54,
     "char" : 1,
@@ -2766,6 +2880,7 @@
      {
       "name" : "name",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "name of package (eg. `hoge/fuga/piyo.d` -> `fuga` )\n",
       "line" : 57,
       "char" : 12,
@@ -2775,6 +2890,7 @@
      {
       "name" : "dubPkgName",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "dub package name\n",
       "line" : 59,
       "char" : 12,
@@ -2784,6 +2900,7 @@
      {
       "name" : "pkgName",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "full package name (eg. `hoge/fuga/piyo.d` -> `hoge.fuga` )\n",
       "line" : 61,
       "char" : 12,
@@ -2793,6 +2910,7 @@
      {
       "name" : "packageD",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "package.d module information if exists. $(LREF ModInfo)\n",
       "line" : 63,
       "char" : 12,
@@ -2802,6 +2920,7 @@
      {
       "name" : "modules",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "module informations of package children. $(LREF ModInfo)\n",
       "line" : 65,
       "char" : 12,
@@ -2811,6 +2930,7 @@
      {
       "name" : "packages",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "package informations of package children.\n",
       "line" : 67,
       "char" : 12,
@@ -2820,6 +2940,7 @@
      {
       "name" : "hasPackageD",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "true if package.d module exists\n",
       "line" : 69,
       "char" : 7,
@@ -2830,6 +2951,7 @@
      {
       "name" : "dup",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "Duplicate\n",
       "line" : 75,
       "char" : 10,
@@ -2840,6 +2962,7 @@
      {
       "name" : "append",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "Append other package information to this information\n",
       "line" : 89,
       "char" : 7,
@@ -2859,6 +2982,7 @@
      {
       "name" : "append",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "ditto\n",
       "line" : 95,
       "char" : 7,
@@ -2879,6 +3003,7 @@
      {
       "name" : "append",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "ditto\n",
       "line" : 112,
       "char" : 7,
@@ -2898,6 +3023,7 @@
      {
       "name" : "append",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 118,
       "char" : 7,
@@ -2920,6 +3046,7 @@
    {
     "name" : "__unittest_L132_C7",
     "kind" : "function",
+    "protection" : "public",
     "line" : 132,
     "char" : 7,
     "storageClass" : [
@@ -2931,6 +3058,7 @@
    {
     "name" : "PackageAndModuleData",
     "kind" : "struct",
+    "protection" : "public",
     "comment" : "\n",
     "line" : 143,
     "char" : 1,
@@ -2968,6 +3096,7 @@
      {
       "name" : "this",
       "kind" : "constructor",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 157,
       "char" : 2,
@@ -2990,6 +3119,7 @@
      {
       "name" : "this",
       "kind" : "constructor",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 164,
       "char" : 2,
@@ -3012,6 +3142,7 @@
      {
       "name" : "this",
       "kind" : "constructor",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 171,
       "char" : 2,
@@ -3034,6 +3165,7 @@
      {
       "name" : "this",
       "kind" : "constructor",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 178,
       "char" : 2,
@@ -3056,6 +3188,7 @@
      {
       "name" : "name",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 185,
       "char" : 9,
@@ -3066,6 +3199,7 @@
      {
       "name" : "isPackage",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 194,
       "char" : 7,
@@ -3076,6 +3210,7 @@
      {
       "name" : "isModule",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 200,
       "char" : 7,
@@ -3086,6 +3221,7 @@
      {
       "name" : "isPackageModule",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 206,
       "char" : 7,
@@ -3096,6 +3232,7 @@
      {
       "name" : "packageInfo",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 212,
       "char" : 21,
@@ -3106,6 +3243,7 @@
      {
       "name" : "moduleInfo",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 219,
       "char" : 21,
@@ -3116,6 +3254,7 @@
      {
       "name" : "children",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 228,
       "char" : 32,
@@ -3128,6 +3267,7 @@
    {
     "name" : "__unittest_L243_C7",
     "kind" : "function",
+    "protection" : "public",
     "line" : 243,
     "char" : 7,
     "storageClass" : [
@@ -3139,6 +3279,7 @@
    {
     "name" : "PackageAndModuleRange",
     "kind" : "struct",
+    "protection" : "public",
     "comment" : "\n",
     "line" : 256,
     "char" : 1,
@@ -3155,6 +3296,7 @@
      {
       "name" : "this",
       "kind" : "constructor",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 265,
       "char" : 2,
@@ -3172,6 +3314,7 @@
      {
       "name" : "this",
       "kind" : "constructor",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 272,
       "char" : 2,
@@ -3189,6 +3332,7 @@
      {
       "name" : "this",
       "kind" : "constructor",
+      "protection" : "public",
       "comment" : "ditto\n",
       "line" : 282,
       "char" : 2,
@@ -3211,6 +3355,7 @@
      {
       "name" : "front",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 294,
       "char" : 30,
@@ -3221,6 +3366,7 @@
      {
       "name" : "popFront",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 299,
       "char" : 7,
@@ -3231,6 +3377,7 @@
      {
       "name" : "empty",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 319,
       "char" : 7,
@@ -3243,6 +3390,7 @@
    {
     "name" : "__unittest_L325_C7",
     "kind" : "function",
+    "protection" : "public",
     "line" : 325,
     "char" : 7,
     "storageClass" : [
@@ -3254,6 +3402,7 @@
    {
     "name" : "DubPkgInfo",
     "kind" : "struct",
+    "protection" : "public",
     "comment" : "\n",
     "line" : 335,
     "char" : 1,
@@ -3261,6 +3410,7 @@
      {
       "name" : "name",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 338,
       "char" : 11,
@@ -3270,6 +3420,7 @@
      {
       "name" : "packageVersion",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 340,
       "char" : 11,
@@ -3279,6 +3430,7 @@
      {
       "name" : "root",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "$(LREF PkgInfo)\n",
       "line" : 342,
       "char" : 11,
@@ -3288,6 +3440,7 @@
      {
       "name" : "dir",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 344,
       "char" : 11,
@@ -3297,6 +3450,7 @@
      {
       "name" : "options",
       "kind" : "variable",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 346,
       "char" : 11,
@@ -3306,6 +3460,7 @@
      {
       "name" : "this",
       "kind" : "constructor",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 349,
       "char" : 2,
@@ -3335,6 +3490,7 @@
      {
       "name" : "dup",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "Duplicate\n",
       "line" : 359,
       "char" : 13,
@@ -3345,6 +3501,7 @@
      {
       "name" : "entries",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 371,
       "char" : 24,
@@ -3355,6 +3512,7 @@
      {
       "name" : "entries",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "ditto\n",
       "line" : 376,
       "char" : 31,
@@ -3365,6 +3523,7 @@
      {
       "name" : "children",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 382,
       "char" : 25,
@@ -3375,6 +3534,7 @@
      {
       "name" : "children",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 387,
       "char" : 32,
@@ -3387,6 +3547,7 @@
    {
     "name" : "moduleSort",
     "kind" : "function",
+    "protection" : "public",
     "comment" : "\n",
     "line" : 394,
     "char" : 6,
@@ -3406,6 +3567,7 @@
    {
     "name" : "moduleSort",
     "kind" : "function",
+    "protection" : "public",
     "comment" : "\n",
     "line" : 400,
     "char" : 6,
@@ -3425,6 +3587,7 @@
    {
     "name" : "ModuleManager",
     "kind" : "struct",
+    "protection" : "public",
     "comment" : "\n",
     "line" : 411,
     "char" : 1,
@@ -3585,6 +3748,7 @@
      {
       "name" : "addSources",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 534,
       "char" : 7,
@@ -3623,6 +3787,7 @@
      {
       "name" : "hasPackage",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 583,
       "char" : 7,
@@ -3639,6 +3804,7 @@
      {
       "name" : "getPackageInfo",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 589,
       "char" : 21,
@@ -3655,6 +3821,7 @@
      {
       "name" : "getDubPackageInfo",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 596,
       "char" : 24,
@@ -3671,6 +3838,7 @@
      {
       "name" : "__unittest_L603_C10",
       "kind" : "function",
+      "protection" : "public",
       "line" : 603,
       "char" : 10,
       "storageClass" : [
@@ -3682,6 +3850,7 @@
      {
       "name" : "clearSources",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 625,
       "char" : 7,
@@ -3692,6 +3861,7 @@
      {
       "name" : "target",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 632,
       "char" : 7,
@@ -3708,6 +3878,7 @@
      {
       "name" : "exclude",
       "kind" : "function",
+      "protection" : "public",
       "comment" : "\n",
       "line" : 638,
       "char" : 7,
@@ -3748,6 +3919,7 @@
      {
       "name" : "dubPackages",
       "kind" : "function",
+      "protection" : "public",
       "line" : 650,
       "char" : 22,
       "deco" : "NgFNdZANgS6gendoc6modmgr10DubPkgInfo",
