@@ -2205,7 +2205,7 @@
       "deco" : "AAya"
      }
     ],
-    "endline" : 142,
+    "endline" : 145,
     "endchar" : 1
    },
    {
@@ -2213,7 +2213,7 @@
     "kind" : "function",
     "protection" : "public",
     "comment" : " setup the module manager\n",
-    "line" : 147,
+    "line" : 150,
     "char" : 6,
     "deco" : "FKS6gendoc6modmgr13ModuleManagerKxSQBg6config6ConfigZv",
     "originalType" : "void(ref ModuleManager modmgr, ref const Config cfg)",
@@ -2233,7 +2233,7 @@
       ]
      }
     ],
-    "endline" : 150,
+    "endline" : 153,
     "endchar" : 1
    },
    {
@@ -2241,7 +2241,7 @@
     "kind" : "function",
     "protection" : "public",
     "comment" : "ditto\n",
-    "line" : 152,
+    "line" : 155,
     "char" : 6,
     "deco" : "FKS6gendoc6modmgr13ModuleManagerSQBe6config6ConfigZv",
     "parameters" : [
@@ -2257,14 +2257,14 @@
       "deco" : "S6gendoc6config6Config"
      }
     ],
-    "endline" : 155,
+    "endline" : 158,
     "endchar" : 1
    },
    {
     "name" : "setupModuleManagerImpl",
     "kind" : "function",
     "protection" : "private",
-    "line" : 157,
+    "line" : 160,
     "char" : 14,
     "deco" : "FKS6gendoc6modmgr13ModuleManagerKxSQBg6config6ConfigZv",
     "originalType" : "void(ref ModuleManager modmgr, ref const Config cfg)",
@@ -2284,7 +2284,7 @@
       ]
      }
     ],
-    "endline" : 179,
+    "endline" : 182,
     "endchar" : 1
    },
    {
@@ -2292,7 +2292,7 @@
     "kind" : "function",
     "protection" : "public",
     "comment" : " setup the module manager\n",
-    "line" : 184,
+    "line" : 187,
     "char" : 6,
     "deco" : "FKS6gendoc9generator17DocumentGeneratorKxSQBn6config6ConfigKxSQCh6modmgr13ModuleManagerZv",
     "originalType" : "void(ref DocumentGenerator generator, ref const Config cfg, ref const ModuleManager modmgr)",
@@ -2319,7 +2319,7 @@
       ]
      }
     ],
-    "endline" : 187,
+    "endline" : 190,
     "endchar" : 1
    },
    {
@@ -2327,7 +2327,7 @@
     "kind" : "function",
     "protection" : "public",
     "comment" : "ditto\n",
-    "line" : 189,
+    "line" : 192,
     "char" : 6,
     "deco" : "FKS6gendoc9generator17DocumentGeneratorSQBl6config6ConfigSQCd6modmgr13ModuleManagerZv",
     "parameters" : [
@@ -2347,14 +2347,14 @@
       "deco" : "S6gendoc6modmgr13ModuleManager"
      }
     ],
-    "endline" : 192,
+    "endline" : 195,
     "endchar" : 1
    },
    {
     "name" : "setupDocumentGenerator",
     "kind" : "function",
     "protection" : "private",
-    "line" : 195,
+    "line" : 198,
     "char" : 14,
     "deco" : "FKS6gendoc9generator17DocumentGeneratorKxSQBn6config6ConfigKxSQCh6modmgr13ModuleManagerZv",
     "originalType" : "void(ref DocumentGenerator generator, ref const Config cfg, ref const ModuleManager modmgr)",
@@ -2381,7 +2381,7 @@
       ]
      }
     ],
-    "endline" : 275,
+    "endline" : 278,
     "endchar" : 1
    },
    {
@@ -2389,7 +2389,7 @@
     "kind" : "function",
     "protection" : "public",
     "comment" : " Setup docs directory\n",
-    "line" : 281,
+    "line" : 284,
     "char" : 6,
     "deco" : "FAyaZv",
     "parameters" : [
@@ -2398,7 +2398,7 @@
       "deco" : "Aya"
      }
     ],
-    "endline" : 299,
+    "endline" : 302,
     "endchar" : 1
    }
   ]
