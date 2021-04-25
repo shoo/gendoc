@@ -282,7 +282,8 @@ void integrationTest(string[] exDubOpts = null)
 			{
 				dispLog("INFO", entry.baseName, "build test for " ~ buildOpt.name);
 				auto dubArgs = (buildOpt.dubArgs.length > 0 ? dubCommonArgs ~ buildOpt.dubArgs : dubCommonArgs);
-				exec(["dub", "build", "-b=release", "--root=" ~ buildOpt.dubWorkDir] ~ dubArgs, null, env);
+				exec(["dub", "build", "-b=release", "--root=" ~ buildOpt.dubWorkDir] ~ dubArgs,
+					buildOpt.workDir, buildOpt.env);
 			}
 			foreach (testOpt; testOpts)
 			{
@@ -290,7 +291,8 @@ void integrationTest(string[] exDubOpts = null)
 				auto dubArgs = (testOpt.dubArgs.length > 0 ? dubCommonArgs ~ testOpt.dubArgs : dubCommonArgs)
 				             ~ (!no_coverage ? ["--coverage"] : null);
 				auto exeArgs = ["--"] ~ (!no_coverage ? covopt : null);
-				exec(["dub", "test", "--root=" ~ testOpt.dubWorkDir] ~ dubArgs ~ exeArgs, testOpt.workDir, env);
+				exec(["dub", "test", "--root=" ~ testOpt.dubWorkDir] ~ dubArgs ~ exeArgs,
+					testOpt.workDir, testOpt.env);
 			}
 			foreach (runOpt; runOpts)
 			{
@@ -673,6 +675,8 @@ string searchPath(string name, string[] dirs = null)
 ///
 void addCurlPath(ref string[string] env)
 {
+	env[null] = null;
+	env.remove(null);
 	if (config.os == "windows" && config.arch == "x86_64")
 	{
 		auto bin64dir = searchDCompiler().dirName.buildNormalizedPath("../bin64");
