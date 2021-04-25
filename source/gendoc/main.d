@@ -90,17 +90,20 @@ int gendocMain(string[] args)
 		// set *.ddoc
 		foreach (dir; cfg.gendocData.ddocs)
 		{
+			string[] ddocFiles;
 			foreach (de; dir.dirEntries("*.ddoc", SpanMode.shallow))
-				generator.ddocFiles ~= de.name;
+				ddocFiles ~= de.name;
 			foreach (de; dir.dirEntries("*.ddoc.mustache", SpanMode.shallow))
 			{
 				auto absDir = dir.absolutePath.buildNormalizedPath();
 				auto absFile = de.name.absolutePath.buildNormalizedPath();
-				generator.generateDdoc(modmgr.dubPackages, absDir, absFile.relativePath(absDir).stripExtension);
+				ddocFiles ~= generator.generateFromMustache(
+					modmgr.dubPackages, absDir, absFile.relativePath(absDir).stripExtension);
 			}
+			import std.algorithm: sort;
+			ddocFiles.sort!((a, b) => filenameCmp(a, b) < 0);
+			generator.ddocFiles ~= ddocFiles;
 		}
-		import std.algorithm: sort;
-		generator.ddocFiles.sort!((a, b) => filenameCmp(a, b) < 0);
 		
 		foreach (pkg; modmgr.dubPackages)
 			generator.generate(pkg, cfg.singleFile);
