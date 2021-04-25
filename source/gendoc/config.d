@@ -223,7 +223,7 @@ struct GendocConfig
 					? thisExePath.dirName.buildNormalizedPath("../etc/.gendoc/docs")
 					: thisExePath.dirName.absolutePath,
 			"GENDOC_DD_DIR": thisExePath.dirName.buildPath("ddoc").exists
-				? thisExePath.dirName.buildPath("source_docs")
+				? thisExePath.dirName.buildPath("ddoc")
 				: thisExePath.dirName.buildPath("../etc/.gendoc/ddoc").exists
 					? thisExePath.dirName.buildNormalizedPath("../etc/.gendoc/ddoc")
 					: thisExePath.dirName.absolutePath,
