@@ -97,7 +97,7 @@ jobs:
         with:
           compiler: dmd-latest
       - name: Run unit tests
-        run: rdmd ./scripts/runner.d -a=x86 --mode=unit-test --exdubopts=--build-mode=singleFile
+        run: rdmd ./scripts/runner.d -a=x86 --mode=unit-test --exdubopts=--build-mode=singleFile --exdubopts=--combined
 
   # No. OS      ARCH    COMPILER   UT  TT  BLD DOC COV
   #  2. Windows x86     ldc        x   o   O   x   x
