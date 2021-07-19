@@ -1,0 +1,21 @@
+{
+	"name": "issue30",
+	"targetType": "none",
+	"subPackages": [
+		{
+			"name": "foo",
+			"targetType": "library",
+			"importPaths": ["source/foo"],
+			"sourcePaths": ["source/foo"]
+		},
+		{
+			"name": "bar",
+			"targetType": "library",
+			"importPaths": ["source/bar"],
+			"sourcePaths": ["source/bar"],
+			"dependencies": {
+				"issue30:foo" : "*"
+			}
+		}
+	]
+}

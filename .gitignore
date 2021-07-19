@@ -12,6 +12,11 @@ build/
 gendoc-test-*
 /gendoc
 /candydoc/gendoc_candydoc
+/testcases/*/*
+!/testcases/*/dub.json
+!/testcases/*/source
+!/testcases/*/.no_*
+!/testcases/*/.*_opts
 *.exe
 *.o
 *.obj
