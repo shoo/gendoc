@@ -1,0 +1,11 @@
+[
+	{
+		"name": "normal",
+		"dubWorkDir": "${project_root}",
+		"workDir": "${test_dir}",
+		"args": [
+			"--config=valid",
+			"--root=${test_dir}"
+		]
+	}
+]

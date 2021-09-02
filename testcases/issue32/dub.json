@@ -1,0 +1,13 @@
+{
+	"name": "issue32",
+	"configurations": [
+		{
+			"name": "default",
+			"versions": ["Hoge"]
+		},
+		{
+			"name": "valid",
+			"versions": ["Foo"]
+		}
+	]
+}
