@@ -1,5 +1,8 @@
 {
 	"name": "issue32",
+	"subPackages": [
+		"subpkg"
+	],
 	"configurations": [
 		{
 			"name": "default",
@@ -8,6 +11,10 @@
 		{
 			"name": "valid",
 			"versions": ["Foo"]
+		},
+		{
+			"name": "gendoc",
+			"versions": ["Bar"]
 		}
 	]
 }
