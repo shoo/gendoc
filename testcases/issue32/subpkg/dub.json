@@ -1,0 +1,19 @@
+{
+	"name": "subpkg",
+	"configurations": [
+		{
+			"name": "default",
+			"versions": ["Hoge"]
+		},
+		{
+			"name": "valid",
+			"versions": ["Foo"],
+			"sourcePaths": ["source", "source_foo"]
+		},
+		{
+			"name": "gendoc",
+			"versions": ["Bar"],
+			"sourcePaths": ["source", "source_bar"]
+		}
+	]
+}

@@ -27,6 +27,21 @@ struct PackageConfig
 	///
 	PackageConfig[] subPackages;
 	
+	private static string determineConfigName(Package pkg, BuildPlatform platform, string configName)
+	{
+		import std.algorithm: canFind;
+		import std.exception: enforce;
+		auto allCfgs = pkg.getPlatformConfigurations(platform, true);
+		if (configName.length > 0)
+		{
+			enforce(allCfgs.canFind(configName), "Cannot found configuration: " ~ configName);
+			return configName;
+		}
+		if (allCfgs.canFind("gendoc"))
+			return "gendoc";
+		return pkg.getDefaultConfiguration(platform, true);
+	}
+	
 	/***************************************************************************
 	 * 
 	 */
@@ -54,10 +69,7 @@ struct PackageConfig
 		auto buildPlatform = compilerData.determinePlatform(buildSettings, compiler, archType);
 		
 		GeneratorSettings settings;
-		if (pkg)
-			settings.config = pkg.getDefaultConfiguration(buildPlatform);
-		else
-			settings.config = dub.project.getDefaultConfiguration(buildPlatform);
+		settings.config    = determineConfigName(pkg ? pkg : dub.project.rootPackage, buildPlatform, configName);
 		settings.force     = true;
 		settings.buildType = buildType;
 		settings.compiler  = compilerData;
@@ -136,6 +148,33 @@ struct PackageConfig
 			PackageConfig cfg;
 			string compiler;
 			cfg.loadPackage("testcases/case002", "x86_64", "debug", null, compiler);
+		}
+	}
+	
+	@system unittest
+	{
+		import std.file;
+		import std.path;
+		import std.algorithm;
+		import std.array;
+		if ("testcases/issue32".exists)
+		{
+			PackageConfig cfg;
+			string compiler;
+			cfg.loadPackage("testcases/issue32", "x86_64", "debug", "valid", compiler);
+			assert(cfg.files.length == 1);
+			assert(cfg.subPackages.length == 1);
+			assert(cfg.subPackages[0].name == "issue32:subpkg");
+			assert(cfg.subPackages[0].files.length == 2);
+			assert(cfg.subPackages[0].files.map!(a => a.baseName).array.sort().equal(["foo.d", "lib.d"]));
+			
+			cfg = PackageConfig.init;
+			cfg.loadPackage("testcases/issue32", "x86_64", "debug", null, compiler);
+			assert(cfg.files.length == 1);
+			assert(cfg.subPackages.length == 1);
+			assert(cfg.subPackages[0].name == "issue32:subpkg");
+			assert(cfg.subPackages[0].files.length == 2);
+			assert(cfg.subPackages[0].files.map!(a => a.baseName).array.sort().equal(["bar.d", "lib.d"]));
 		}
 	}
 }

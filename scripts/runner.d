@@ -444,6 +444,10 @@ void integrationTest(string[] exDubOpts = null)
 		writeln("#######################################");
 		foreach (pkgName; Defines.subPkgs)
 		{
+			// ターゲット指定がある場合は、ターゲット指定されている場合だけ実行
+			if (config.integrationTestTargets.length > 0
+				&& !config.integrationTestTargets.canFind("::" ~ pkgName))
+				continue;
 			dispLog("INFO", pkgName, "Subpackages test start");
 			auto res = Result(pkgName);
 			try
