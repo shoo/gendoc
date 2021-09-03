@@ -31,7 +31,7 @@ struct PackageConfig
 	{
 		import std.algorithm: canFind;
 		import std.exception: enforce;
-		auto allCfgs = pkg.getPlatformConfigurations(platform);
+		auto allCfgs = pkg.getPlatformConfigurations(platform, true);
 		if (configName.length > 0)
 		{
 			enforce(allCfgs.canFind(configName), "Cannot found configuration: " ~ configName);
@@ -39,7 +39,7 @@ struct PackageConfig
 		}
 		if (allCfgs.canFind("gendoc"))
 			return "gendoc";
-		return pkg.getDefaultConfiguration(platform);
+		return pkg.getDefaultConfiguration(platform, true);
 	}
 	
 	/***************************************************************************
