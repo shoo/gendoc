@@ -632,11 +632,38 @@
       "offset" : 80
      },
      {
+      "name" : "determineConfigName",
+      "kind" : "function",
+      "protection" : "private",
+      "line" : 30,
+      "char" : 24,
+      "storageClass" : [
+       "static"
+      ],
+      "deco" : "FC3dub8package_7PackageSQw8platform13BuildPlatformAyaZQe",
+      "parameters" : [
+       {
+        "name" : "pkg",
+        "deco" : "C3dub8package_7Package"
+       },
+       {
+        "name" : "platform",
+        "deco" : "S3dub8platform13BuildPlatform"
+       },
+       {
+        "name" : "configName",
+        "deco" : "Aya"
+       }
+      ],
+      "endline" : 43,
+      "endchar" : 2
+     },
+     {
       "name" : "loadPackage",
       "kind" : "function",
       "protection" : "public",
       "comment" : "\n",
-      "line" : 33,
+      "line" : 48,
       "char" : 7,
       "deco" : "FC3dubQe3DubCQl8package_7PackageAyaQdQfQhZv",
       "parameters" : [
@@ -665,7 +692,7 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 105,
+      "endline" : 117,
       "endchar" : 2
      },
      {
@@ -673,7 +700,7 @@
       "kind" : "function",
       "protection" : "public",
       "comment" : "ditto\n",
-      "line" : 108,
+      "line" : 120,
       "char" : 7,
       "deco" : "FAyaQdQfQhKQkZv",
       "parameters" : [
@@ -701,19 +728,31 @@
         ]
        }
       ],
-      "endline" : 129,
+      "endline" : 141,
       "endchar" : 2
      },
      {
-      "name" : "__unittest_L131_C10",
+      "name" : "__unittest_L143_C10",
       "kind" : "function",
       "protection" : "public",
-      "line" : 131,
+      "line" : 143,
       "char" : 10,
       "storageClass" : [
        "@system"
       ],
-      "endline" : 141,
+      "endline" : 154,
+      "endchar" : 2
+     },
+     {
+      "name" : "__unittest_L154_C10",
+      "kind" : "function",
+      "protection" : "public",
+      "line" : 154,
+      "char" : 10,
+      "storageClass" : [
+       "@system"
+      ],
+      "endline" : 180,
       "endchar" : 1
      }
     ]
@@ -722,10 +761,10 @@
     "name" : "_getHomeDirectory",
     "kind" : "function",
     "protection" : "private",
-    "line" : 143,
+    "line" : 182,
     "char" : 16,
     "deco" : "FZAya",
-    "endline" : 172,
+    "endline" : 211,
     "endchar" : 1
    },
    {
@@ -733,7 +772,7 @@
     "kind" : "struct",
     "protection" : "public",
     "comment" : " Gendoc's configuration data structure\n",
-    "line" : 177,
+    "line" : 216,
     "char" : 1,
     "members" : [
      {
@@ -741,7 +780,7 @@
       "kind" : "variable",
       "protection" : "public",
       "comment" : "\n",
-      "line" : 181,
+      "line" : 220,
       "char" : 11,
       "deco" : "AAya",
       "offset" : 0
@@ -751,7 +790,7 @@
       "kind" : "variable",
       "protection" : "public",
       "comment" : "\n",
-      "line" : 184,
+      "line" : 223,
       "char" : 11,
       "deco" : "AAya",
       "offset" : 16
@@ -761,7 +800,7 @@
       "kind" : "variable",
       "protection" : "public",
       "comment" : "\n",
-      "line" : 187,
+      "line" : 226,
       "char" : 11,
       "deco" : "Aya",
       "offset" : 32
@@ -771,7 +810,7 @@
       "kind" : "variable",
       "protection" : "public",
       "comment" : "\n",
-      "line" : 190,
+      "line" : 229,
       "char" : 11,
       "deco" : "AAya",
       "offset" : 48
@@ -781,7 +820,7 @@
       "kind" : "variable",
       "protection" : "public",
       "comment" : "\n",
-      "line" : 193,
+      "line" : 232,
       "char" : 11,
       "deco" : "AAya",
       "init" : "[\"(?:(?<=/)|^)\\\\.[^/.]+$\", \"(?:(?<=[^/]+/)|^)_[^/]+$\", \"(?:(?<=[^/]+/)|^)internal(?:\\\\.d)?$\"]",
@@ -792,7 +831,7 @@
       "kind" : "variable",
       "protection" : "public",
       "comment" : "\n",
-      "line" : 199,
+      "line" : 238,
       "char" : 11,
       "deco" : "AAya",
       "offset" : 80
@@ -802,7 +841,7 @@
       "kind" : "variable",
       "protection" : "public",
       "comment" : "{\"keyName\": [\"dub_package_name_regex_pattern1\", \"dub_package_name_regex_pattern2\"]}\n",
-      "line" : 202,
+      "line" : 241,
       "char" : 19,
       "deco" : "HAyaAQe",
       "offset" : 96
@@ -812,7 +851,7 @@
       "kind" : "variable",
       "protection" : "public",
       "comment" : "\n",
-      "line" : 205,
+      "line" : 244,
       "char" : 11,
       "deco" : "AAya",
       "init" : "[\"(?:(?<=[^:]+/)|^)_[^/]+$\", \":docs?$\"]",
@@ -823,7 +862,7 @@
       "kind" : "variable",
       "protection" : "public",
       "comment" : "\n",
-      "line" : 211,
+      "line" : 250,
       "char" : 7,
       "deco" : "b",
       "init" : "true",
@@ -834,7 +873,7 @@
       "kind" : "function",
       "protection" : "public",
       "comment" : "\n",
-      "line" : 214,
+      "line" : 253,
       "char" : 7,
       "deco" : "FAyaZv",
       "parameters" : [
@@ -843,7 +882,7 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 266,
+      "endline" : 305,
       "endchar" : 2
      },
      {
@@ -851,7 +890,7 @@
       "kind" : "function",
       "protection" : "private",
       "comment" : "\n",
-      "line" : 269,
+      "line" : 308,
       "char" : 15,
       "deco" : "FAyaZb",
       "parameters" : [
@@ -860,7 +899,7 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 280,
+      "endline" : 319,
       "endchar" : 2
      },
      {
@@ -868,7 +907,7 @@
       "kind" : "function",
       "protection" : "private",
       "comment" : "\n",
-      "line" : 283,
+      "line" : 322,
       "char" : 15,
       "deco" : "FAyaZb",
       "parameters" : [
@@ -877,7 +916,7 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 287,
+      "endline" : 326,
       "endchar" : 2
      },
      {
@@ -885,7 +924,7 @@
       "kind" : "function",
       "protection" : "private",
       "comment" : "\n",
-      "line" : 290,
+      "line" : 329,
       "char" : 15,
       "deco" : "FAyabZb",
       "parameters" : [
@@ -898,7 +937,7 @@
         "deco" : "b"
        }
       ],
-      "endline" : 318,
+      "endline" : 357,
       "endchar" : 2
      },
      {
@@ -906,7 +945,7 @@
       "kind" : "function",
       "protection" : "public",
       "comment" : " Load configuration from specifiered path\n\n",
-      "line" : 324,
+      "line" : 363,
       "char" : 7,
       "deco" : "FAyaZb",
       "parameters" : [
@@ -915,7 +954,7 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 345,
+      "endline" : 384,
       "endchar" : 2
      },
      {
@@ -923,7 +962,7 @@
       "kind" : "function",
       "protection" : "public",
       "comment" : "ditto\n",
-      "line" : 348,
+      "line" : 387,
       "char" : 7,
       "deco" : "FAyaZb",
       "parameters" : [
@@ -932,7 +971,7 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 453,
+      "endline" : 492,
       "endchar" : 2
      },
      {
@@ -940,7 +979,7 @@
       "kind" : "function",
       "protection" : "public",
       "comment" : "\n",
-      "line" : 456,
+      "line" : 495,
       "char" : 7,
       "deco" : "FAyaQdAQgQdQkZv",
       "parameters" : [
@@ -965,7 +1004,7 @@
         "deco" : "Aya"
        }
       ],
-      "endline" : 506,
+      "endline" : 545,
       "endchar" : 2
      }
     ]
@@ -975,13 +1014,13 @@
     "kind" : "struct",
     "protection" : "public",
     "comment" : "\n",
-    "line" : 514,
+    "line" : 553,
     "char" : 1,
     "members" : [
      {
       "name" : "std.getopt",
       "kind" : "import",
-      "line" : 516,
+      "line" : 555,
       "char" : 9,
       "protection" : "private"
      },
@@ -990,7 +1029,7 @@
       "kind" : "variable",
       "protection" : "public",
       "comment" : "\n",
-      "line" : 518,
+      "line" : 557,
       "char" : 9,
       "deco" : "Aya",
       "offset" : 0
@@ -1000,7 +1039,7 @@
       "kind" : "variable",
       "protection" : "public",
       "comment" : "\n",
-      "line" : 520,
+      "line" : 559,
       "char" : 16,
       "deco" : "S6gendoc6config13PackageConfig",
       "offset" : 16
@@ -1010,7 +1049,7 @@
       "kind" : "variable",
       "protection" : "public",
       "comment" : "\n",
-      "line" : 522,
+      "line" : 561,
       "char" : 15,
       "deco" : "S6gendoc6config12GendocConfig",
       "offset" : 112
@@ -1020,7 +1059,7 @@
       "kind" : "variable",
       "protection" : "public",
       "comment" : "\n",
-      "line" : 524,
+      "line" : 563,
       "char" : 7,
       "deco" : "b",
       "offset" : 240
@@ -1030,7 +1069,7 @@
       "kind" : "variable",
       "protection" : "public",
       "comment" : "\n",
-      "line" : 526,
+      "line" : 565,
       "char" : 7,
       "deco" : "b",
       "offset" : 241
@@ -1040,7 +1079,7 @@
       "kind" : "variable",
       "protection" : "public",
       "comment" : "\n",
-      "line" : 528,
+      "line" : 567,
       "char" : 7,
       "deco" : "b",
       "offset" : 242
@@ -1050,7 +1089,7 @@
       "kind" : "function",
       "protection" : "public",
       "comment" : "\n",
-      "line" : 532,
+      "line" : 571,
       "char" : 15,
       "deco" : "FAAyaZS3std6getopt12GetoptResult",
       "parameters" : [
@@ -1059,7 +1098,7 @@
         "deco" : "AAya"
        }
       ],
-      "endline" : 570,
+      "endline" : 609,
       "endchar" : 2
      }
     ]

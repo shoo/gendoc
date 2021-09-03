@@ -1,0 +1,38 @@
+[
+ {
+  "kind" : "module",
+  "file" : "/home/runner/work/gendoc/gendoc/candydoc/source/app.d",
+  "members" : [
+   {
+    "name" : "gendoc.main",
+    "kind" : "import",
+    "line" : 1,
+    "char" : 8,
+    "protection" : "private"
+   },
+   {
+    "name" : "main",
+    "kind" : "function",
+    "protection" : "public",
+    "line" : 3,
+    "char" : 5,
+    "deco" : "FAAyaZi",
+    "parameters" : [
+     {
+      "name" : "args",
+      "deco" : "AAya"
+     }
+    ],
+    "endline" : 6,
+    "endchar" : 1
+   },
+   {
+    "name" : "_d_cmain!()",
+    "kind" : "mixin",
+    "protection" : "public",
+    "line" : 3,
+    "char" : 5
+   }
+  ]
+ }
+]
