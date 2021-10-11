@@ -2255,7 +2255,7 @@
     "line" : 150,
     "char" : 6,
     "deco" : "FKS6gendoc6modmgr13ModuleManagerKxSQBg6config6ConfigZv",
-    "originalType" : "void(ref ModuleManager modmgr, ref const Config cfg)",
+    "originalType" : "void(ref ModuleManager modmgr, const ref Config cfg)",
     "parameters" : [
      {
       "name" : "modmgr",
@@ -2306,7 +2306,7 @@
     "line" : 160,
     "char" : 14,
     "deco" : "FKS6gendoc6modmgr13ModuleManagerKxSQBg6config6ConfigZv",
-    "originalType" : "void(ref ModuleManager modmgr, ref const Config cfg)",
+    "originalType" : "void(ref ModuleManager modmgr, const ref Config cfg)",
     "parameters" : [
      {
       "name" : "modmgr",
@@ -2334,7 +2334,7 @@
     "line" : 187,
     "char" : 6,
     "deco" : "FKS6gendoc9generator17DocumentGeneratorKxSQBn6config6ConfigKxSQCh6modmgr13ModuleManagerZv",
-    "originalType" : "void(ref DocumentGenerator generator, ref const Config cfg, ref const ModuleManager modmgr)",
+    "originalType" : "void(ref DocumentGenerator generator, const ref Config cfg, const ref ModuleManager modmgr)",
     "parameters" : [
      {
       "name" : "generator",
@@ -2396,7 +2396,7 @@
     "line" : 198,
     "char" : 14,
     "deco" : "FKS6gendoc9generator17DocumentGeneratorKxSQBn6config6ConfigKxSQCh6modmgr13ModuleManagerZv",
-    "originalType" : "void(ref DocumentGenerator generator, ref const Config cfg, ref const ModuleManager modmgr)",
+    "originalType" : "void(ref DocumentGenerator generator, const ref Config cfg, const ref ModuleManager modmgr)",
     "parameters" : [
      {
       "name" : "generator",
