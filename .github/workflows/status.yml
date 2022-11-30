@@ -367,6 +367,8 @@ jobs:
     name: deploy-pages
     needs: [test-windows-x86-dmd-latest, test-windows-x86-ldc-latest, test-windows-x86_64-dmd-latest, test-windows-x86_64-ldc-latest, test-windows-x86_64-ldc-master, test-linux-x86-ldc-latest, test-linux-x86_64-dmd-latest, test-linux-x86_64-ldc-latest, test-linux-x86_64-dmd-master, test-osx-x86_64-dmd-latest, test-osx-x86_64-ldc-latest]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Download generated pages
         uses: actions/download-artifact@v2
