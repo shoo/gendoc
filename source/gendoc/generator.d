@@ -480,8 +480,8 @@ private:
 		auto args = [compiler, "-o-"];
 		args ~= options;
 		args ~= ["-Df" ~ target, source] ~ ddocFiles;
-		if (!disableMarkdown)
-			args ~= "-preview=markdown";
+		if (disableMarkdown)
+			args ~= "-revert=markdown";
 		ModInfo modInfo;
 		modInfo.src = source.relativePath(rootDir);
 		modInfo.dst = target.relativePath(targetDir);
@@ -511,8 +511,8 @@ private:
 		argsApp ~= options;
 		argsApp ~= ddocFiles;
 		argsApp ~= tmpSrcs;
-		if (!disableMarkdown)
-			argsApp ~= "-preview=markdown";
+		if (disableMarkdown)
+			argsApp ~= "-revert=markdown";
 		
 		if (preGenerateCallback !is null)
 			preGenerateCallback(dubPkgName, files, argsApp.data);
@@ -541,8 +541,8 @@ private:
 		argsApp ~= options;
 		argsApp ~= ddocFiles;
 		argsApp ~= srcfiles;
-		if (!disableMarkdown)
-			argsApp ~= "-preview=markdown";
+		if (disableMarkdown)
+			argsApp ~= "-revert=markdown";
 		
 		if (preGenerateCallback !is null)
 			preGenerateCallback(dubPkgName, files, argsApp.data);
@@ -697,8 +697,8 @@ public:
 		}
 		argsApp ~= dubpkg.options;
 		argsApp ~= srcfiles;
-		if (!disableMarkdown)
-			argsApp ~= "-preview=markdown";
+		if (disableMarkdown)
+			argsApp ~= "-revert=markdown";
 		
 		auto result = execute(argsApp.data);
 		enforce(result.status == 0, format!"Generate json failed: %-(%-s %) -> %s"(argsApp.data, result.output));
