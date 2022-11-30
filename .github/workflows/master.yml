@@ -427,6 +427,8 @@ jobs:
     name: deploy-pages
     needs: upload-codecov
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Download generated pages
         uses: actions/download-artifact@v1
