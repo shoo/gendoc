@@ -9,6 +9,7 @@ build/
 *.dll
 *.a
 *.lib
+*.pdb
 gendoc-test-*
 /gendoc
 /candydoc/gendoc_candydoc
