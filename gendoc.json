@@ -300,7 +300,8 @@
       "line" : 129,
       "char" : 7,
       "storageClass" : [
-       "auto"
+       "auto",
+       "return"
       ],
       "deco" : "xFNaNbNdNiNfZAxAya",
       "originalType" : "const @property ()",
@@ -315,7 +316,8 @@
       "line" : 135,
       "char" : 7,
       "storageClass" : [
-       "auto"
+       "auto",
+       "return"
       ],
       "deco" : "xFNaNbNdNiNfZAxAya",
       "originalType" : "const @property ()",
@@ -330,7 +332,8 @@
       "line" : 141,
       "char" : 7,
       "storageClass" : [
-       "auto"
+       "auto",
+       "return"
       ],
       "deco" : "xFNaNbNdNiNfZAxAya",
       "originalType" : "const @property ()",
@@ -543,7 +546,14 @@
     "protection" : "private"
    },
    {
-    "name" : "dub.internal.vibecompat.core.log",
+    "name" : "dub.dependency",
+    "kind" : "import",
+    "line" : 9,
+    "char" : 94,
+    "protection" : "private"
+   },
+   {
+    "name" : "dub.internal.logging",
     "kind" : "import",
     "line" : 10,
     "char" : 8,
@@ -553,14 +563,14 @@
     "name" : "dub.internal.vibecompat.data.json",
     "kind" : "import",
     "line" : 10,
-    "char" : 42,
+    "char" : 30,
     "protection" : "private"
    },
    {
     "name" : "dub.internal.vibecompat.inet.path",
     "kind" : "import",
     "line" : 10,
-    "char" : 77,
+    "char" : 65,
     "protection" : "private"
    },
    {
@@ -3139,8 +3149,8 @@
       "comment" : "\n",
       "line" : 157,
       "char" : 2,
-      "deco" : "FNcNfMNkKS6gendoc6modmgr7ModInfoZSQyQt20PackageAndModuleData",
-      "originalType" : "ref @safe (return ref scope ModInfo modInfo)",
+      "deco" : "FNcNfNkMKS6gendoc6modmgr7ModInfoZSQyQt20PackageAndModuleData",
+      "originalType" : "ref @safe (ref return scope ModInfo modInfo)",
       "parameters" : [
        {
         "name" : "modInfo",
@@ -3162,8 +3172,8 @@
       "comment" : "\n",
       "line" : 164,
       "char" : 2,
-      "deco" : "FNcNfMNkKS6gendoc6modmgr7PkgInfoZSQyQt20PackageAndModuleData",
-      "originalType" : "ref @safe (return ref scope PkgInfo d)",
+      "deco" : "FNcNfNkMKS6gendoc6modmgr7PkgInfoZSQyQt20PackageAndModuleData",
+      "originalType" : "ref @safe (ref return scope PkgInfo d)",
       "parameters" : [
        {
         "name" : "d",
@@ -3185,8 +3195,8 @@
       "comment" : "\n",
       "line" : 171,
       "char" : 2,
-      "deco" : "xFNcNfMNkKxS6gendoc6modmgr7ModInfoZxSQzQu20PackageAndModuleData",
-      "originalType" : "const ref @safe (return ref scope const ModInfo modInfo)",
+      "deco" : "xFNcNfNkMKxS6gendoc6modmgr7ModInfoZxSQzQu20PackageAndModuleData",
+      "originalType" : "const ref @safe (ref return scope const ModInfo modInfo)",
       "parameters" : [
        {
         "name" : "modInfo",
@@ -3208,8 +3218,8 @@
       "comment" : "\n",
       "line" : 178,
       "char" : 2,
-      "deco" : "xFNcNfMNkKxS6gendoc6modmgr7PkgInfoZxSQzQu20PackageAndModuleData",
-      "originalType" : "const ref @safe (return ref scope const PkgInfo d)",
+      "deco" : "xFNcNfNkMKxS6gendoc6modmgr7PkgInfoZxSQzQu20PackageAndModuleData",
+      "originalType" : "const ref @safe (ref return scope const PkgInfo d)",
       "parameters" : [
        {
         "name" : "d",
@@ -3375,8 +3385,8 @@
       "comment" : "ditto\n",
       "line" : 282,
       "char" : 2,
-      "deco" : "xFNcNfMNkKxAS6gendoc6modmgr7PkgInfoZxSQzQu21PackageAndModuleRange",
-      "originalType" : "const ref @safe (return ref scope const PkgInfo[] pkgs)",
+      "deco" : "xFNcNfNkMKxAS6gendoc6modmgr7PkgInfoZxSQzQu21PackageAndModuleRange",
+      "originalType" : "const ref @safe (ref return scope const PkgInfo[] pkgs)",
       "parameters" : [
        {
         "name" : "pkgs",
