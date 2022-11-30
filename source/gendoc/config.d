@@ -6,8 +6,8 @@
  */
 module gendoc.config;
 
-import dub.dub, dub.project, dub.package_, dub.generators.generator, dub.compilers.compiler;
-import dub.internal.vibecompat.core.log, dub.internal.vibecompat.data.json, dub.internal.vibecompat.inet.path;
+import dub.dub, dub.project, dub.package_, dub.generators.generator, dub.compilers.compiler, dub.dependency;
+import dub.internal.logging, dub.internal.vibecompat.data.json, dub.internal.vibecompat.inet.path;
 
 /*******************************************************************************
  * 
@@ -99,8 +99,8 @@ struct PackageConfig
 			if (spkg.recipe.name.length > 0)
 			{
 				auto basepkg = packageVersion.length > 0
-					? dub.packageManager.getPackage(name, packageVersion)
-					: dub.packageManager.getLatestPackage(name);
+					? dub.packageManager.getPackage(name, Version(packageVersion))
+					: dub.packageManager.getBestPackage(name);
 				auto subpkg = dub.packageManager.getSubPackage(basepkg, spkg.recipe.name, false);
 				pkgcfg.loadPackage(dub, subpkg,
 					archType, buildType, configName, compiler);
