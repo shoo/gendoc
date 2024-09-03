@@ -118,22 +118,22 @@ jobs:
           echo ::set-output name=TAGNAME::${GITHUB_REF#refs/tags/}
           echo ::set-output name=PROJNAME::${GITHUB_REPOSITORY#$GITHUB_ACTOR/}
       - name: Download windows-x86-binary
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4.1.7
         with:
           name: windows-x86-binary
           path: ./
       - name: Download windows-x86_64-binary
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4.1.7
         with:
           name: windows-x86_64-binary
           path: ./
       - name: Download linux-x86_64-binary
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4.1.7
         with:
           name: linux-x86_64-binary
           path: ./
       - name: Download osx-x86_64-binary
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4.1.7
         with:
           name: osx-x86_64-binary
           path: ./

@@ -398,21 +398,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Download coverage result
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4.1.7
         with:
           name: coverage-windows
           path: coverage-windows
       - name: Upload coverage to Codecov
         run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }} -s coverage-windows
       - name: Download coverage result
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4.1.7
         with:
           name: coverage-linux
           path: coverage-linux
       - name: Upload coverage to Codecov
         run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }} -s coverage-linux
       - name: Download coverage result
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4.1.7
         with:
           name: coverage-osx
           path: coverage-osx
