@@ -74,6 +74,7 @@ struct PackageConfig
 		settings.buildType = buildType;
 		settings.compiler  = compilerData;
 		settings.platform  = buildPlatform;
+		settings.cache     = NativePath(".");
 		name    = pkg ? pkg.name : dub.project.rootPackage.name;
 		if (dub.project.rootPackage.getBuildSettings(settings.config).targetType != TargetType.none)
 		{
