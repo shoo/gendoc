@@ -17,9 +17,9 @@ jobs:
     name: create-windows-x86
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install D compiler
-        uses: dlang-community/setup-dlang@v1
+        uses: dlang-community/setup-dlang@v2
         with:
           compiler: ldc-latest
       - name: Build binary
@@ -28,7 +28,7 @@ jobs:
         id: create_archive
         run: rdmd ./scripts/runner.d -a=x86 --mode=create-archive
       - name: Upload created archive
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: windows-x86-binary
           path: ${{ steps.create_archive.outputs.ARCNAME }}
@@ -39,9 +39,9 @@ jobs:
     name: create-windows-x86_64
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install D compiler
-        uses: dlang-community/setup-dlang@v1
+        uses: dlang-community/setup-dlang@v2
         with:
           compiler: ldc-latest
       - name: Build binary
@@ -50,7 +50,7 @@ jobs:
         id: create_archive
         run: rdmd ./scripts/runner.d -a=x86_64 --mode=create-archive
       - name: Upload created archive
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: windows-x86_64-binary
           path: ${{ steps.create_archive.outputs.ARCNAME }}
@@ -61,9 +61,9 @@ jobs:
     name: create-linux-x86_64
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install D compiler
-        uses: dlang-community/setup-dlang@v1
+        uses: dlang-community/setup-dlang@v2
         with:
           compiler: ldc-latest
       - name: Build bianry
@@ -74,25 +74,25 @@ jobs:
       - name: Generate document
         run: rdmd ./scripts/runner.d -a=x86_64 --mode=generate-document
       - name: Upload created archive
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: linux-x86_64-binary
           path: ${{ steps.create_archive.outputs.ARCNAME }}
       - name: Upload generated pages
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-pages-artifact@v3
+        id: deployment
         with:
-          name: docs
           path: docs
 
   # No. OS      ARCH    COMPILER
   # 22. macOS   x86_64  ldc
   create-osx-x86_64:
     name: create-osx-x86_64
-    runs-on: macos-latest
+    runs-on: macos-13
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install D compiler
-        uses: dlang-community/setup-dlang@v1
+        uses: dlang-community/setup-dlang@v2
         with:
           compiler: ldc-latest
       - name: Build binary
@@ -101,7 +101,7 @@ jobs:
         id: create_archive
         run: rdmd ./scripts/runner.d -a=x86_64 --mode=create-archive
       - name: Upload created archive
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: osx-x86_64-binary
           path: ${{ steps.create_archive.outputs.ARCNAME }}
@@ -118,22 +118,22 @@ jobs:
           echo ::set-output name=TAGNAME::${GITHUB_REF#refs/tags/}
           echo ::set-output name=PROJNAME::${GITHUB_REPOSITORY#$GITHUB_ACTOR/}
       - name: Download windows-x86-binary
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4
         with:
           name: windows-x86-binary
           path: ./
       - name: Download windows-x86_64-binary
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4
         with:
           name: windows-x86_64-binary
           path: ./
       - name: Download linux-x86_64-binary
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4
         with:
           name: linux-x86_64-binary
           path: ./
       - name: Download osx-x86_64-binary
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4
         with:
           name: osx-x86_64-binary
           path: ./
