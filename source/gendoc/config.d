@@ -99,8 +99,8 @@ struct PackageConfig
 			if (spkg.recipe.name.length > 0)
 			{
 				auto basepkg = packageVersion.length > 0
-					? dub.packageManager.getPackage(name, Version(packageVersion))
-					: dub.packageManager.getBestPackage(name);
+					? dub.packageManager.getPackage(PackageName(name), Version(packageVersion))
+					: dub.packageManager.getBestPackage(PackageName(name));
 				auto subpkg = dub.packageManager.getSubPackage(basepkg, spkg.recipe.name, false);
 				pkgcfg.loadPackage(dub, subpkg,
 					archType, buildType, configName, compiler);

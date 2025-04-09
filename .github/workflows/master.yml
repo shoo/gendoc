@@ -45,9 +45,9 @@ jobs:
   #  name: test-${OS}-${ARCH}-${COMPILER}
   #  runs-on: ${OS}
   #  steps:
-  #    - uses: actions/checkout@v2
+  #    - uses: actions/checkout@v4
   #    - name: Install D compiler
-  #      uses: dlang-community/setup-dlang@v1
+  #      uses: dlang-community/setup-dlang@v2
   #      with:
   #        compiler: ${COMPILER}
   #    # UT:テストをする場合は以下を実行
@@ -68,22 +68,23 @@ jobs:
   #      run: rdmd ./scripts/runner.d -a=${ARCH} --mode=generate-document
   #    # BLD:ビルド結果のアーカイブを記録する場合は以下を実行
   #    - name: Upload generated archive
-  #      uses: actions/upload-artifact@v1
+  #      uses: actions/upload-artifact@v4
   #      with:
   #        name: ${OS}-${ARCH}-bainary
   #        path: ${{ steps.create_archive.outputs.ARCNAME }}
   #    # DOC:ドキュメントを記録する場合は以下を実行(Artifactに6か月保管されます)
   #    - name: Upload generated pages
-  #      uses: actions/upload-artifact@v1
+  #      uses: actions/upload-artifact@v4
   #      with:
   #        name: docs
   #        path: docs
   #    # COV:カバレッジを記録する場合は以下を実行(Artifactに6か月保管されます)
   #    - name: Upload coverage result
-  #      uses: actions/upload-artifact@v1
+  #      uses: actions/upload-artifact@v4
   #      with:
   #        name: coverage-${OS}
   #        path: .cov
+  #        include-hidden-files: true
 
   # No. OS      ARCH    COMPILER   UT  TT  BLD DOC COV
   #  1. Windows x86     dmd        o   x   x   x   x
@@ -91,9 +92,9 @@ jobs:
     name: test-windows-x86-dmd-latest
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install D compiler
-        uses: dlang-community/setup-dlang@v1
+        uses: dlang-community/setup-dlang@v2
         with:
           compiler: dmd-latest
       - name: Run unit tests
@@ -105,9 +106,9 @@ jobs:
     name: test-windows-x86-ldc-latest
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install D compiler
-        uses: dlang-community/setup-dlang@v1
+        uses: dlang-community/setup-dlang@v2
         with:
           compiler: ldc-latest
       - name: Run integration tests
@@ -118,7 +119,7 @@ jobs:
         id: create_archive
         run: rdmd ./scripts/runner.d -a=x86 --mode=create-archive
       - name: Upload generated archive
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: windows-x86-binary
           path: ${{ steps.create_archive.outputs.ARCNAME }}
@@ -137,9 +138,9 @@ jobs:
     name: test-windows-x86_64-dmd-latest
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install D compiler
-        uses: dlang-community/setup-dlang@v1
+        uses: dlang-community/setup-dlang@v2
         with:
           compiler: dmd-latest
       - name: Run unit tests
@@ -147,10 +148,11 @@ jobs:
       - name: Run integration tests
         run: rdmd ./scripts/runner.d -a=x86_64 --mode=integration-test
       - name: Upload coverage result
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-windows
           path: .cov
+          include-hidden-files: true
 
   # No. OS      ARCH    COMPILER   UT  TT  BLD DOC COV
   #  6. Windows x86_64  ldc        o   x   O   o   x
@@ -158,9 +160,9 @@ jobs:
     name: test-windows-x86_64-ldc-latest
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install D compiler
-        uses: dlang-community/setup-dlang@v1
+        uses: dlang-community/setup-dlang@v2
         with:
           compiler: ldc-latest
       - name: Run unit tests
@@ -172,11 +174,11 @@ jobs:
         run: rdmd ./scripts/runner.d -a=x86_64 --mode=create-archive
       - name: Generate document tests
         run: rdmd ./scripts/runner.d -a=x86_64 --mode=generate-document
-      - name: Upload generated archive
-        uses: actions/upload-artifact@v1
+      - name: Upload generated pages
+        uses: actions/upload-pages-artifact@v3
+        id: deployment
         with:
-          name: windows-x86_64-binary
-          path: ${{ steps.create_archive.outputs.ARCNAME }}
+          path: docs
 
   # No. OS      ARCH    COMPILER   UT  TT  BLD DOC COV
   #  7. Windows x86_64  dmd-master x   x   x   x   x
@@ -188,9 +190,9 @@ jobs:
     name: test-windows-x86_64-ldc-master
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install D compiler
-        uses: dlang-community/setup-dlang@v1
+        uses: dlang-community/setup-dlang@v2
         with:
           compiler: ldc-master
           gh_token: ${{ secrets.GITHUB_TOKEN }}
@@ -214,9 +216,9 @@ jobs:
     name: test-linux-x86-ldc-latest
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install D compiler
-        uses: dlang-community/setup-dlang@v1
+        uses: dlang-community/setup-dlang@v2
         with:
           compiler: ldc-latest
       - name: Install gcc-multilib
@@ -245,9 +247,9 @@ jobs:
     name: test-linux-x86_64-dmd-latest
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install D compiler
-        uses: dlang-community/setup-dlang@v1
+        uses: dlang-community/setup-dlang@v2
         with:
           compiler: dmd-latest
       - name: Run unit tests
@@ -260,7 +262,7 @@ jobs:
       - name: Generate document tests
         run: rdmd ./scripts/runner.d -a=x86_64 --mode=generate-document
       - name: Upload generated pages
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: docs
           path: docs
@@ -271,9 +273,9 @@ jobs:
     name: test-linux-x86_64-ldc-latest
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install D compiler
-        uses: dlang-community/setup-dlang@v1
+        uses: dlang-community/setup-dlang@v2
         with:
           compiler: ldc-latest
       - name: Run unit tests
@@ -286,12 +288,13 @@ jobs:
         id: create_archive
         run: rdmd ./scripts/runner.d -a=x86_64 --mode=create-archive
       - name: Upload coverage result
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-linux
           path: .cov
+          include-hidden-files: true
       - name: Upload generated archive
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: linux-x86_64-binary
           path: ${{ steps.create_archive.outputs.ARCNAME }}
@@ -302,9 +305,9 @@ jobs:
     name: test-linux-x86_64-dmd-master
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install D compiler
-        uses: dlang-community/setup-dlang@v1
+        uses: dlang-community/setup-dlang@v2
         with:
           compiler: dmd-master
       - name: Run unit tests
@@ -339,13 +342,13 @@ jobs:
 
   # No. OS      ARCH    COMPILER   UT  TT  BLD DOC COV
   # 21. macOS   x86_64  dmd        o   o   x   x   o
-  test-osx-x86_64-dmd-latest:
-    name: test-osx-x86_64-dmd-latest
-    runs-on: macos-latest
+  test-macos-x86_64-dmd-latest:
+    name: test-macos-x86_64-dmd-latest
+    runs-on: macos-13
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install D compiler
-        uses: dlang-community/setup-dlang@v1
+        uses: dlang-community/setup-dlang@v2
         with:
           compiler: dmd-latest
       - name: Run unit tests
@@ -353,21 +356,22 @@ jobs:
       - name: Run integration tests
         run: rdmd ./scripts/runner.d -a=x86_64 --mode=integration-test
       - name: Upload coverage result
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-osx
           path: .cov
+          include-hidden-files: true
 
 
   # No. OS      ARCH    COMPILER   UT  TT  BLD DOC COV
   # 22. macOS   x86_64  ldc        o   x   O   o   x
-  test-osx-x86_64-ldc-latest:
-    name: test-osx-x86_64-ldc-latest
-    runs-on: macos-latest
+  test-macos-x86_64-ldc-latest:
+    name: test-macos-x86_64-ldc-latest
+    runs-on: macos-13
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install D compiler
-        uses: dlang-community/setup-dlang@v1
+        uses: dlang-community/setup-dlang@v2
         with:
           compiler: ldc-latest
       - name: Run unit tests
@@ -380,7 +384,7 @@ jobs:
       - name: Generate document tests
         run: rdmd ./scripts/runner.d -a=x86_64 --mode=generate-document
       - name: Upload generated archive
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: osx-x86_64-bainary
           path: ${{ steps.create_archive.outputs.ARCNAME }}
@@ -396,26 +400,26 @@ jobs:
   # Upload coverage to Codecov
   upload-codecov:
     name: upload-codecov
-    needs: [test-windows-x86-dmd-latest, test-windows-x86-ldc-latest, test-windows-x86_64-dmd-latest, test-windows-x86_64-ldc-latest, test-windows-x86_64-ldc-master, test-linux-x86-ldc-latest, test-linux-x86_64-dmd-latest, test-linux-x86_64-ldc-latest, test-linux-x86_64-dmd-master, test-osx-x86_64-dmd-latest, test-osx-x86_64-ldc-latest]
+    needs: [test-windows-x86-dmd-latest, test-windows-x86-ldc-latest, test-windows-x86_64-dmd-latest, test-windows-x86_64-ldc-latest, test-windows-x86_64-ldc-master, test-linux-x86-ldc-latest, test-linux-x86_64-dmd-latest, test-linux-x86_64-ldc-latest, test-linux-x86_64-dmd-master, test-macos-x86_64-dmd-latest, test-macos-x86_64-ldc-latest]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Download coverage result
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4
         with:
           name: coverage-windows
           path: coverage-windows
       - name: Upload coverage to Codecov
         run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }} -s coverage-windows
       - name: Download coverage result
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4
         with:
           name: coverage-linux
           path: coverage-linux
       - name: Upload coverage to Codecov
         run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }} -s coverage-linux
       - name: Download coverage result
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4
         with:
           name: coverage-osx
           path: coverage-osx
@@ -427,19 +431,12 @@ jobs:
     name: deploy-pages
     needs: upload-codecov
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     permissions:
-      contents: write
+      pages: write
+      id-token: write
     steps:
-      - name: Download generated pages
-        uses: actions/download-artifact@v1
-        with:
-          name: docs
       - name: Deploy pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          allow_empty_commit: false
-          publish_dir: docs
-          publish_branch: gh-pages
-          user_name: GitHub Actions Bot
-          user_email: <>
+        uses: actions/deploy-pages@v4
