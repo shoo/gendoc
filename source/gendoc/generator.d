@@ -683,17 +683,19 @@ public:
 		rootDir = dubpkg.dir;
 		auto target = targetDir.buildPath(dubpkg.name.replace(":", "-") ~ ".json");
 		auto srcfiles = files.map!(a => _fixAbs(rootDir, a.src).buildNormalizedPath()).array;
-		argsApp ~= [compiler, "-o-", "-X", "-Xf" ~ target, "-D"];
+		argsApp ~= [compiler, "-o-", "-X", "-oq", "-D"];
 		
 		if (compiler.endsWith("ldc2", "ldc2.exe", "ldc") > 0)
 		{
 			auto dummyHtml = _tempDir.buildPath(target.baseName ~ ".html");
 			argsApp ~= ("-Dd" ~ dummyHtml);
+			argsApp ~= ("--Xf" ~ target);
 		}
 		else
 		{
 			auto dummyHtml = _tempDir.buildPath(target.baseName ~ ".html");
 			argsApp ~= ("-Df" ~ dummyHtml);
+			argsApp ~= ("-Xf" ~ target);
 		}
 		argsApp ~= dubpkg.options;
 		argsApp ~= srcfiles;
