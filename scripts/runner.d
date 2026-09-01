@@ -57,7 +57,7 @@ int main(string[] args)
 	
 	version (Windows)      {config.os = "windows";}
 	else version (linux)   {config.os = "linux";}
-	else version (OSX)     {config.os = "osx";}
+	else version (OSX)     {config.os = "macos";}
 	else static assert(0, "Unsupported OS");
 	
 	version (Windows)      {config.archiveSuffix = ".zip";}
@@ -381,7 +381,7 @@ void integrationTest(string[] exDubOpts = null)
 		auto dubCommonArgs = [
 			"-a",         config.targetArch,
 			"--compiler", config.targetCompiler,
-			"-b",         "cov"] ~ exDubOpts;
+			"-b",         confName == "unittest" ? "unittest-cov" : "cov"] ~ exDubOpts;
 		string descStr;
 		try
 		{

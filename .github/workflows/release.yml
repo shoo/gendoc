@@ -86,9 +86,9 @@ jobs:
 
   # No. OS      ARCH    COMPILER
   # 22. macOS   x86_64  ldc
-  create-osx-x86_64:
-    name: create-osx-x86_64
-    runs-on: macos-13
+  create-macos-x86_64:
+    name: create-macos-x86_64
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       - name: Install D compiler
@@ -103,13 +103,13 @@ jobs:
       - name: Upload created archive
         uses: actions/upload-artifact@v4
         with:
-          name: osx-x86_64-binary
+          name: macos-x86_64-binary
           path: ${{ steps.create_archive.outputs.ARCNAME }}
 
   # Deploy Pages
   create-release:
     name: create-release
-    needs: [create-windows-x86, create-windows-x86_64, create-linux-x86_64, create-osx-x86_64]
+    needs: [create-windows-x86, create-windows-x86_64, create-linux-x86_64, create-macos-x86_64]
     runs-on: ubuntu-latest
     steps:
       - name: Get Names
@@ -132,10 +132,10 @@ jobs:
         with:
           name: linux-x86_64-binary
           path: ./
-      - name: Download osx-x86_64-binary
+      - name: Download macos-x86_64-binary
         uses: actions/download-artifact@v4
         with:
-          name: osx-x86_64-binary
+          name: macos-x86_64-binary
           path: ./
       - name: Create Release
         id: create_release
@@ -178,12 +178,12 @@ jobs:
           asset_name: ${{ steps.get_names.outputs.PROJNAME }}-${{ steps.get_names.outputs.TAGNAME }}-linux-x86_64.tar.gz
           asset_content_type: application/x-gzip
       - name: Upload Release Asset OSX
-        id: upload-release-asset-osx
+        id: upload-release-asset-macos
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.get_names.outputs.PROJNAME }}-${{ steps.get_names.outputs.TAGNAME }}-osx-x86_64.tar.gz
-          asset_name: ${{ steps.get_names.outputs.PROJNAME }}-${{ steps.get_names.outputs.TAGNAME }}-osx-x86_64.tar.gz
+          asset_path: ${{ steps.get_names.outputs.PROJNAME }}-${{ steps.get_names.outputs.TAGNAME }}-macos-x86_64.tar.gz
+          asset_name: ${{ steps.get_names.outputs.PROJNAME }}-${{ steps.get_names.outputs.TAGNAME }}-macos-x86_64.tar.gz
           asset_content_type: application/x-gzip

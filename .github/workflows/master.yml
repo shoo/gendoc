@@ -224,7 +224,7 @@ jobs:
       - name: Install gcc-multilib
         run: |
           sudo apt update
-          sudo apt install gcc-multilib
+          sudo apt install -y gcc-multilib
       - name: Run unit tests
         run: rdmd ./scripts/runner.d -a=x86 --mode=unit-test
       - name: Build tests
@@ -344,7 +344,7 @@ jobs:
   # 21. macOS   x86_64  dmd        o   o   x   x   o
   test-macos-x86_64-dmd-latest:
     name: test-macos-x86_64-dmd-latest
-    runs-on: macos-13
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       - name: Install D compiler
@@ -358,7 +358,7 @@ jobs:
       - name: Upload coverage result
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-osx
+          name: coverage-macos
           path: .cov
           include-hidden-files: true
 
@@ -367,7 +367,7 @@ jobs:
   # 22. macOS   x86_64  ldc        o   x   O   o   x
   test-macos-x86_64-ldc-latest:
     name: test-macos-x86_64-ldc-latest
-    runs-on: macos-13
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       - name: Install D compiler
@@ -421,10 +421,10 @@ jobs:
       - name: Download coverage result
         uses: actions/download-artifact@v4
         with:
-          name: coverage-osx
-          path: coverage-osx
+          name: coverage-macos
+          path: coverage-macos
       - name: Upload coverage to Codecov
-        run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }} -s coverage-osx
+        run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }} -s coverage-macos
 
   # Deploy Pages
   deproy-pages:

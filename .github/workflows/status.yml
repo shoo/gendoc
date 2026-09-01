@@ -76,6 +76,7 @@ jobs:
   #      with:
   #        name: coverage-${OS}
   #        path: .cov
+  #        include-hidden-files: true
 
   # No. OS      ARCH    COMPILER   UT  TT  BLD DOC COV
   #  1. Windows x86     dmd        o   x   x   x   x
@@ -208,7 +209,7 @@ jobs:
       - name: Install gcc-multilib
         run: |
           sudo apt update
-          sudo apt install gcc-multilib
+          sudo apt install -y gcc-multilib
       - name: Run unit tests
         run: rdmd ./scripts/runner.d -a=x86 --mode=unit-test
       - name: Build tests
@@ -283,8 +284,7 @@ jobs:
       - name: Install D compiler
         uses: dlang-community/setup-dlang@v2
         with:
-          #compiler: dmd-master ... change to beta tempolarily
-          compiler: dmd-beta
+          compiler: dmd-master
       - name: Run unit tests
         run: rdmd ./scripts/runner.d -a=x86_64 --mode=unit-test
       - name: Run integration tests
@@ -316,7 +316,7 @@ jobs:
   # 21. macOS   x86_64  dmd        o   o   x   x   o
   test-macos-x86_64-dmd-latest:
     name: test-macos-x86_64-dmd-latest
-    runs-on: macos-13
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -332,7 +332,7 @@ jobs:
       - name: Upload coverage result
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-osx
+          name: coverage-macos
           path: .cov
           include-hidden-files: true
 
@@ -341,7 +341,7 @@ jobs:
   # 22. macOS   x86_64  ldc        o   x   o   o   x
   test-macos-x86_64-ldc-latest:
     name: test-macos-x86_64-ldc-latest
-    runs-on: macos-13
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -366,16 +366,16 @@ jobs:
   # do-nothing
 
   # Deploy Pages
-  deproy-pages:
-    name: deploy-pages
-    needs: upload-codecov
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    permissions:
-      pages: write
-      id-token: write
-    steps:
-      - name: Deploy pages
-        uses: actions/deploy-pages@v4
+  #deproy-pages:
+  #  name: deploy-pages
+  #  needs: upload-codecov
+  #  runs-on: ubuntu-latest
+  #  environment:
+  #    name: github-pages
+  #    url: ${{ steps.deployment.outputs.page_url }}
+  #  permissions:
+  #    pages: write
+  #    id-token: write
+  #  steps:
+  #    - name: Deploy pages
+  #      uses: actions/deploy-pages@v4
