@@ -88,7 +88,8 @@ struct PackageConfig
 			path    = importDirs.empty
 				? pkg ? pkg.path.toNativeString() : dub.project.rootPackage.path.toNativeString()
 				: importDirs.front[2..$];
-			options = lists[0].reduce!((a, b) => a.canFind(b) ? a : a ~ [b])(lists[1..6].join);
+			// -w以外のオプションを取り込み。警告のためにドキュメント生成は止めない。
+			options = lists[0].reduce!((a, b) => a.canFind(b) ? a : a ~ [b])(lists[1..6].join).remove!(a => a == "-w");
 			files   = lists[6].filter!(a => a.exists && canFind([".d", ".dd", ".di"], a.extension)).array;
 			packageVersion = pkg
 				? pkg.version_.toString()
@@ -108,8 +109,44 @@ struct PackageConfig
 			}
 			else
 			{
-				auto tmppkgpath = dub.rootPath ~ NativePath(spkg.path);
-				auto subpkg = dub.packageManager.getOrLoadPackage(tmppkgpath, NativePath.init, true);
+				// パス指定によるサブパッケージ(例: "subPackages": ["subpkg"])の場合、
+				// spkg.recipe.name は空文字列になる。
+				//
+				// dub.project.rootPackage が最初にロードされた際、dub内部の
+				// PackageManager.addPackages() によって、このサブパッケージは
+				// 「親(=dub.project.rootPackage)を正しく設定した状態」で
+				// 既にロード・登録済みになっている。Package.name は
+				// 親が設定されていて初めて "親名:サブ名"(例: "issue32:subpkg")
+				// を返す実装になっているため、ここで改めて
+				// getOrLoadPackage() に空の PackageName を渡して読み込み直すと、
+				// 親を持たない「孤立した」Packageが新規に生成されてしまい、
+				// name が単なる "subpkg" になってしまう
+				// (= assert(cfg.subPackages[0].name == "issue32:subpkg") が失敗する原因)。
+				//
+				// そのため、まずは登録済みの(親が正しく設定された)インスタンスを
+				// パスと親パッケージの一致で検索して取得する。
+				auto curPkg = dub.project.rootPackage;
+				auto relPath = NativePath(spkg.path);
+				relPath.normalize();
+				auto tmppkgpath = curPkg.path ~ relPath;
+				tmppkgpath.endsWithSlash = true;
+				
+				Package subpkg;
+				foreach (p; dub.packageManager.getPackageIterator())
+				{
+					if (p.parentPackage is curPkg && p.path == tmppkgpath)
+					{
+						subpkg = p;
+						break;
+					}
+				}
+				if (subpkg is null)
+				{
+					// 想定外だが見つからなかった場合のフォールバック。
+					// (親は設定されないため name は "サブ名" のみになる)
+					subpkg = dub.packageManager.getOrLoadPackage(tmppkgpath, NativePath.init,
+						PackageName.init);
+				}
 				pkgcfg.loadPackage(dub, subpkg,
 					archType, buildType, configName, compiler);
 			}
